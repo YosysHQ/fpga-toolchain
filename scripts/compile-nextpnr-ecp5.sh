@@ -71,6 +71,7 @@ then
         -DBOOST_ROOT=/tmp/nextpnr \
         -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3 \
+        -DCURRENT_GIT_VERSION=$prjtrellis_commit \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
