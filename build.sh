@@ -43,10 +43,10 @@ mkdir -p $PACKAGES_DIR
 mkdir -p $UPSTREAM_DIR
 
 # -- Directory for compiling the tools
-BUILD_DIR=$BUILDS_DIR/build_$ARCH
+export BUILD_DIR=$BUILDS_DIR/build_$ARCH
 
 # -- Directory for installation the target files
-PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
+export PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
 
 # -- Create the build dir
 mkdir -p $BUILD_DIR
