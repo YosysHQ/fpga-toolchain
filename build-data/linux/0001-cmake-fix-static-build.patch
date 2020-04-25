@@ -1,0 +1,52 @@
+From 01a808f88c916b8804a31dbb9f351a1eef08e6de Mon Sep 17 00:00:00 2001
+From: Sean Cross <sean@xobs.io>
+Date: Sun, 18 Aug 2019 16:16:43 +0800
+Subject: [PATCH] cmake: fix static build
+
+Hack to do a static build on Linux, with staticly-linked python.
+
+Signed-off-by: Sean Cross <sean@xobs.io>
+---
+ CMakeLists.txt | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9ec078e..d889287 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,9 +15,12 @@ option(SERIALIZE_CHIPDB "Never build chipdb in parallel to reduce peak memory us
+ set(link_param "")
+ if (STATIC_BUILD)
+     set(Boost_USE_STATIC_LIBS   ON)
+-    if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+-        set(link_param "-static")
+-    endif()
++    set(Python_USE_STATIC_LIBS   ON)
++    add_definitions(-DBOOST_PYTHON_STATIC_LIB)
++#    set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
++#    if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
++#        set(link_param "-static")
++#    endif()
+ endif()
+ 
+ if (EXTERNAL_CHIPDB)
+@@ -270,7 +273,16 @@ foreach (family ${ARCH})
+             target_link_libraries(${target} LINK_PUBLIC gui_${family} ${GUI_LIBRARY_FILES_${ufamily}})
+         endif()
+         if (BUILD_PYTHON)
++            if(STATIC_BUILD)
++                string(REGEX REPLACE ".so$" ".a" PYTHON_LIBRARIES ${PYTHON_LIBRARIES})
++            endif()
++            MESSAGE(Python Libraries: ${PYTHON_LIBRARIES})
+             target_link_libraries(${target} LINK_PUBLIC ${PYTHON_LIBRARIES})
++            if(STATIC_BUILD)
++                target_link_libraries(${target} LINK_PUBLIC "/usr/lib/x86_64-linux-gnu/libexpat.a")
++                target_link_libraries(${target} LINK_PUBLIC "/usr/lib/x86_64-linux-gnu/libz.a")
++                target_link_libraries(${target} LINK_PUBLIC "-lpthread -lc -lutil -lpthread -ldl")
++            endif()
+         endif()
+     endforeach (target)
+ endforeach (family)
+-- 
+2.7.4
+

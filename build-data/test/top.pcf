@@ -1,0 +1,5 @@
+set_io clk48 44
+set_io usb_d_p 34
+set_io usb_d_n 37
+set_io usb_pullup 35
+set_io usb_pulldown 36
