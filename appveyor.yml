@@ -1,0 +1,133 @@
+image:
+  - Visual Studio 2017
+
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  NEXTPNR_COMMIT: 371d33146fcfda9a1c568f46fd1f5775cd4fb1be
+  NEXTPNR_URI: https://github.com/YosysHQ/nextpnr.git
+  # Every time you update this, regenerate the chipdb files!
+  PRJTRELLIS_COMMIT: 88e28f5ebba8a31c0aea74c2b7fddd43846f9a56
+  PRJTRELLIS_URI: https://github.com/SymbiFlow/prjtrellis.git
+  VCPKG_COMMIT: 8900146533f8e38266ef89766a2bbacffcb67836
+  PYTHON_URI: https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip
+  matrix:
+    # MSVC
+    - TARGET: x86_64-pc-windows-msvc
+
+install:
+  - ps: |
+      Function DeGZip-File{
+          Param(
+              $infile,
+              $outfile = ($infile -replace '\.gz$','')
+              )
+
+          $input = New-Object System.IO.FileStream $inFile, ([IO.FileMode]::Open), ([IO.FileAccess]::Read), ([IO.FileShare]::Read)
+          $output = New-Object System.IO.FileStream $outFile, ([IO.FileMode]::Create), ([IO.FileAccess]::Write), ([IO.FileShare]::None)
+          $gzipStream = New-Object System.IO.Compression.GzipStream $input, ([IO.Compression.CompressionMode]::Decompress)
+
+          $buffer = New-Object byte[](1024)
+          while($true){
+              $read = $gzipstream.Read($buffer, 0, 1024)
+              if ($read -le 0){break}
+              $output.Write($buffer, 0, $read)
+              }
+
+          $gzipStream.Close()
+          $output.Close()
+          $input.Close()
+      }
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+      $stage_temp = [System.Guid]::NewGuid().ToString()
+      $stage = "$($ENV:Temp)\$($stage_temp)"
+
+      cd C:\tools\vcpkg
+      git rev-parse HEAD
+      git checkout $env:VCPKG_COMMIT
+      vcpkg integrate install
+      vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows eigen3:x64-windows boost-dll:x64-windows
+      cd C:\tools
+      Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
+      $env:PATH = "C:\tools\python\;" + $env:PATH
+      Remove-Item -Path C:\Tools\python\python37._pth -Force
+      python -c 'import sys; print(sys.path)'
+
+      cd $env:APPVEYOR_BUILD_FOLDER\chipdb
+      DeGZip-File "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-25k.bba.gz" "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-25k.bba"
+      DeGZip-File "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-45k.bba.gz" "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-45k.bba"
+      DeGZip-File "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-85k.bba.gz" "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-85k.bba"
+
+      cd $env:APPVEYOR_BUILD_FOLDER
+      git clone $env:PRJTRELLIS_URI prjtrellis
+      echo ""
+      git -C prjtrellis checkout $env:PRJTRELLIS_COMMIT
+      git -C prjtrellis submodule init
+      git -C prjtrellis submodule update
+      git -C prjtrellis log -1
+
+      git clone $env:NEXTPNR_URI nextpnr
+      echo ""
+      git -C nextpnr checkout $env:NEXTPNR_COMMIT
+      git -C nextpnr log -1
+
+      cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF "-DCMAKE_INSTALL_PREFIX=$stage" .
+      cmake --build . --target install --config Release
+
+      cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
+      $chipdb = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/ecp5"
+      $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
+      $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
+      $chipdb = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/chipdb"
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" "-DPREGENERATED_BBA_PATH=$chipdb" -DUSE_OPENMP=ON -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
+      cmake --build . --config Release
+
+      $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
+      $libtrellis_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\prjtrellis\libtrellis"
+      Set-Location $ENV:Temp
+      New-Item -Type Directory -Name $stage_temp
+      Set-Location $stage
+      New-Item -Type Directory -Name bin
+      $zip = "$src_dir\nextpnr-ecp5-windows_amd64-$($ENV:APPVEYOR_REPO_TAG_NAME).zip"
+      Copy-Item "$nextpnr_src_dir\Release\*.dll" '.\bin'
+      Copy-Item "$nextpnr_src_dir\Release\nextpnr-ecp5.exe" '.\bin'
+      Copy-Item "$libtrellis_src_dir\Release\*.dll" '.\bin'
+      Copy-Item "$libtrellis_src_dir\Release\*.exe" '.\bin'
+      $libdir = "$($stage)\bin\Lib"
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
+      [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
+      Push-AppveyorArtifact "$zip"
+      Set-Location $ENV:APPVEYOR_BUILD_FOLDER
+      Remove-Item -recurse -force $stage
+
+# deploy:
+#   artifact: /.*\.zip/
+#   auth_token:
+#     secure: ''
+#   description: 'Automated release'
+#   on:
+#     appveyor_repo_tag: true
+#   provider: GitHub
+
+cache:
+  - c:\tools\vcpkg\installed\
+
+branches:
+  only:
+    # Release tags
+    - /^v\d+\.\d+/
+    - master
+
+# notifications:
+#   - provider: Email
+#     to:
+#       - sean@xobs.io
+#     on_build_status_changed: true
+#     on_build_success: false
+
+# Building is done in the test phase, so we disable Appveyor's build phase.
+build: false

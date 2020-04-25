@@ -43,4 +43,4 @@ And also built on subsequent work by [fomu-toolchain](https://github.com/im-tomu
 
 ## License
 
-Licensed under a GPL v2 and [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+Licensed under a GPL v3 and [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).

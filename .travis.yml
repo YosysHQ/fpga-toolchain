@@ -3,36 +3,55 @@ dist: bionic
 language: cpp
 matrix:
   include:
-  - os: osx
-    env: TARGET=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
-  - os: linux
-    env: TARGET=linux_x86_64 EXT=tar.gz
-  - os: linux
-    env: TARGET=linux_i686 EXT=tar.gz
-  - os: linux
-    env: TARGET=linux_armv7l EXT=tar.gz
-  - os: linux
-    env: TARGET=linux_aarch64 EXT=tar.gz
-  - os: linux
-    env: TARGET=windows_x86 EXT=zip
-  - os: linux
-    env: TARGET=windows_amd64 EXT=zip
+    - os: osx
+      env: TARGET=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
+      addons:
+        homebrew:
+          packages:
+            - bison
+            - flex
+            - gawk
+            - cmake
+            - git
+            - pkg-config
+            - gnu-sed
+            - wget
+            - eigen
+    - os: linux
+      env: TARGET=linux_x86_64 EXT=tar.gz
+    - os: linux
+      env: TARGET=linux_i686 EXT=tar.gz
+    - os: linux
+      env: TARGET=linux_armv7l EXT=tar.gz
+    - os: linux
+      env: TARGET=linux_aarch64 EXT=tar.gz
+    - os: linux
+      env: TARGET=windows_x86 EXT=zip
+    - os: linux
+      env: TARGET=windows_amd64 EXT=zip
+
+before_script:
+  - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
+  - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
+  - if [[ "$ARCH" == "linux_armv7l" ]]; then sudo dpkg --add-architecture armhf; fi
+  - if [[ "$ARCH" == "linux_aarch64" ]]; then sudo dpkg --add-architecture arm64; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -y -qq; fi
 script:
-- bash build.sh $TARGET
-- openssl sha1 _packages/**/*.$EXT
-deploy:
-  provider: releases
-  api_key:
-    secure: hTEfeonUWH8XQLe8iC0jwL493Fold/Xy/CUIrPoCdyV2jpja4sL8TN4Pm70rXdmyHe/ROoutfpRZxDGrwECuw/uMkjbIhMzSjjrj5eTsS3jul11WiprjAnQN14SRyQf/PlVA0lA5kEfZKsIo+On2nDNTiZPP7BggfkYbtVUEmEJrN3LZluEcQnL2Hd6Ej+We9oBeHA4rJEb5GOJrlm6/8ZXPlgAs2iW8vO6vg3Zzazin2+jqIgbXSYnwmkhTQQHKSfrogYabznqfEpPT6W8zMDS6Vu/+OQOOFNBhsviuP5/Fzg76thTbdZmjMuG9MR3tEeyFHGsGLxSPoCFA3TANu0AVk1MsOptXNXVq3nKoxuVy/68+/AYVlmE8rdgJuIzH5H+KB6y3xNsZqnXxcpLKlxdHemjBEq2nHPSlaiUi9wYNB4/TRSHNEtyZra3yrDHCq3WUNryozvuNoc0p8Ot1FbSFCOG4+hsDzw5lRUZj23p0MX7gIz2rs9l3/vU9ecBExr3S1JgYFMhPGPJnOt0IxXxiaoe6hvYfcYxiJA9apGA3nERSRjJ2U9ab0KlhnLKu20V/PIQ6/7hrXh/16y7dy9LiCXgOcLwOlhbj24n5byfjksgJ7Cw8Z34FWQ+fx+aGtF4CnzD802NMdRvrwSPiYu3YlueaN7419kwhFmPhjec=
-  file:
-    - _packages/**/*.tar.gz
-    - _packages/**/*.zip
-  file_glob: true
-  skip_cleanup: true
-  on:
-    repo: xobs/toolchain-icestorm
-    all_branches: true
-    tags: true
+  - bash build.sh $TARGET
+  - openssl sha1 _packages/**/*.$EXT
+# deploy:
+#   provider: releases
+#   api_key:
+#     secure: <>
+#   file:
+#     - _packages/**/*.tar.gz
+#     - _packages/**/*.zip
+#   file_glob: true
+#   skip_cleanup: true
+#   on:
+#     repo: open-tool-forge/fpga-toolchain
+#     all_branches: true
+#     tags: true
 branches:
   only:
     # Release tags

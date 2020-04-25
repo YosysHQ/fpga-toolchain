@@ -13,13 +13,15 @@ ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
 
 # -- Toolchain name
-NAME=toolchain-icestorm
+NAME=fpga-toolchain
 
 # -- Debug flags
 INSTALL_DEPS=1
 COMPILE_DFU_UTIL=1
 COMPILE_ICESTORM=1
 COMPILE_YOSYS=1
+COMPILE_NEXTPNR_ICE40=1
+COMPILE_NEXTPNR_ECP5=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -90,35 +92,39 @@ fi
 echo ""
 echo ">>> ARCHITECTURE \"$ARCH\""
 
-# --------- Install dependencies ------------------------------------
 if [ $INSTALL_DEPS == "1" ]; then
   print ">> Install dependencies"
   . $WORK_DIR/scripts/install_dependencies.sh
 fi
 
-# --------- Install dependencies ------------------------------------
 print ">> Set build flags"
 . $WORK_DIR/scripts/build_setup.sh
 
-# --------- Compile dfu-utils ------------------------------------------
+if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
+  print ">> Compile nextpnr-ecp5"
+  $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
+fi
+
 if [ $COMPILE_DFU_UTIL == "1" ]; then
   print ">> Compile dfu-utils"
   . $WORK_DIR/scripts/compile_dfu_util.sh
 fi
 
-# --------- Compile yosys ------------------------------------------
 if [ $COMPILE_YOSYS == "1" ]; then
   print ">> Compile yosys"
   . $WORK_DIR/scripts/compile_yosys.sh
 fi
 
-# --------- Compile icestorm ---------------------------------------
 if [ $COMPILE_ICESTORM == "1" ]; then
   print ">> Compile icestorm"
   . $WORK_DIR/scripts/compile_icestorm.sh
 fi
 
-# --------- Create the package -------------------------------------
+if [ $COMPILE_NEXTPNR_ICE40 == "1" ]; then
+  print ">> Compile nextpnr-ice40"
+  . $WORK_DIR/scripts/compile_nextpnr-ice40.sh
+fi
+
 if [ $CREATE_PACKAGE == "1" ]; then
   print ">> Create package"
   . $WORK_DIR/scripts/create_package.sh
