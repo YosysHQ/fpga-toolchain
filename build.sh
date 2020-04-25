@@ -8,14 +8,14 @@ set -e
 # Set english language for propper pattern matching
 export LC_ALL=C
 
-VERSION="${TRAVIS_TAG}"
+export VERSION="${TRAVIS_TAG}"
 
 # -- Target architectures
-ARCH=$1
+export ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
 
 # -- Toolchain name
-NAME=fpga-toolchain
+export NAME=fpga-toolchain
 
 # -- Debug flags
 INSTALL_DEPS=1
@@ -27,13 +27,13 @@ COMPILE_NEXTPNR_ECP5=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
-WORK_DIR=$PWD
+export WORK_DIR=$PWD
 # -- Folder for building the source code
-BUILDS_DIR=$WORK_DIR/_builds
+export BUILDS_DIR=$WORK_DIR/_builds
 # -- Folder for storing the generated packages
-PACKAGES_DIR=$WORK_DIR/_packages
+export PACKAGES_DIR=$WORK_DIR/_packages
 # --  Folder for storing the source code from github
-UPSTREAM_DIR=$WORK_DIR/_upstream
+export UPSTREAM_DIR=$WORK_DIR/_upstream
 
 # -- Create the build directory
 mkdir -p $BUILDS_DIR
