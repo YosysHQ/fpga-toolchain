@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -e
+
 prog_name="$1"
 if [ -z $prog_name ]
 then

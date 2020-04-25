@@ -1,6 +1,8 @@
 #!/bin/bash
 # -- Compile Icestorm script
 
+set -e
+
 ICESTORM=icestorm
 COMMIT=95949315364f8d9b0c693386aefadf44b28e2cf6
 GIT_ICESTORM=https://github.com/cliffordwolf/icestorm.git

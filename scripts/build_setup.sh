@@ -1,4 +1,7 @@
+#!/bin/bash
 # Build setup script
+
+set -e
 
 if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"

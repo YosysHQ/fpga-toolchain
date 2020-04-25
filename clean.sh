@@ -1,7 +1,9 @@
 #!/bin/bash
 ##################################
-#   Icestorm toolchain cleaner   #
+#   FPGA toolchain cleaner       #
 ##################################
+
+set -e
 
 # -- Target architectures
 ARCH=$1

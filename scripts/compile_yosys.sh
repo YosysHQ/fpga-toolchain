@@ -1,6 +1,8 @@
 #!/bin/bash -x
 # -- Compile Yosys script
 
+set -e
+
 REL=0 # 1: load from release tag. 0: load from source code
 
 VER=1dbc70172830c57cda22e4bc82d2db57a2067203

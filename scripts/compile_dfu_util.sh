@@ -1,6 +1,8 @@
 #!/bin/bash
 # -- Compile dfu-util script
 
+set -e
+
 dfu_util=dfu-util
 commit=0c621882e4fd73cda323e739c6a48b3ddcbcb8ad
 git_dfu_util=https://git.code.sf.net/p/dfu-util/dfu-util

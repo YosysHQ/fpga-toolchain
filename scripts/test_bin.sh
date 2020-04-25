@@ -1,6 +1,7 @@
 #!/bin/bash
-
 # Test script
+
+set -e
 
 FILE=$1
 

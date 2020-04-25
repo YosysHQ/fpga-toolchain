@@ -1,4 +1,7 @@
+#!/bin/bash
 # -- Compile nextpnr-ice40 script
+
+set -e
 
 nextpnr_dir=nextpnr
 nextpnr_commit=a3ede0293a50c910e7d96319b2084d50f2501a6b

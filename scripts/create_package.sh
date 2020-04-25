@@ -1,4 +1,7 @@
+#!/bin/bash
 # -- Create package script
+
+set -e
 
 ## --Create a tar.gz package
 
