@@ -1,0 +1,8 @@
+.sconsign.dblite
+*.out
+*.vcd
+*.tar.gz
+libftdi.a
+_builds/
+_packages/
+_upstream/
