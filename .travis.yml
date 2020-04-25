@@ -4,7 +4,7 @@ language: cpp
 matrix:
   include:
     - os: osx
-      env: TARGET=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
+      env: ARCH=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
       addons:
         homebrew:
           packages:
@@ -18,26 +18,26 @@ matrix:
             - wget
             - eigen
     - os: linux
-      env: TARGET=linux_x86_64 EXT=tar.gz
+      env: ARCH=linux_x86_64 EXT=tar.gz
     - os: linux
-      env: TARGET=linux_i686 EXT=tar.gz
+      env: ARCH=linux_i686 EXT=tar.gz
     - os: linux
-      env: TARGET=linux_armv7l EXT=tar.gz
+      env: ARCH=linux_armv7l EXT=tar.gz
     - os: linux
-      env: TARGET=linux_aarch64 EXT=tar.gz
+      env: ARCH=linux_aarch64 EXT=tar.gz
     - os: linux
-      env: TARGET=windows_x86 EXT=zip
+      env: ARCH=windows_x86 EXT=zip
     - os: linux
-      env: TARGET=windows_amd64 EXT=zip
+      env: ARCH=windows_amd64 EXT=zip
 
 before_script:
-  - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
+  - if [[ ${ARCH:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
   - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
   - if [[ "$ARCH" == "linux_armv7l" ]]; then sudo dpkg --add-architecture armhf; fi
   - if [[ "$ARCH" == "linux_aarch64" ]]; then sudo dpkg --add-architecture arm64; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -y -qq; fi
 script:
-  - bash build.sh $TARGET
+  - bash build.sh $ARCH
   - openssl sha1 _packages/**/*.$EXT
 # deploy:
 #   provider: releases

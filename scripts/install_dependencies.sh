@@ -19,17 +19,13 @@ for b in $cross_x64; do
 done
 
 if [ $ARCH == "linux_x86_64" ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
-    sudo apt-get install -y $base_packages $cross_x64
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_x64
     gcc --version
     g++ --version
 fi
 
 if [ $ARCH == "linux_i686" ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
-    sudo apt-get install -y $base_packages $cross_i386 \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_i386 \
                             gcc-multilib g++-multilib
     sudo ln -s /usr/include/asm-generic /usr/include/asm
     gcc --version
@@ -37,10 +33,8 @@ if [ $ARCH == "linux_i686" ]; then
 fi
 
 if [ $ARCH == "linux_armv7l" ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
     # TODO(edbordin): do we need gcc-7 specifically still?
-    sudo apt-get install -y $base_packages $cross_armhf \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_armhf \
                             gcc-arm-linux-gnueabihf \
                             g++-arm-linux-gnueabihf \
                             binfmt-support \
@@ -52,9 +46,7 @@ if [ $ARCH == "linux_armv7l" ]; then
 fi
 
 if [ $ARCH == "linux_aarch64" ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
-    sudo apt-get install -y $base_packages $cross_arm64 \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_arm64 \
                             gcc-aarch64-linux-gnu \
                             g++-aarch64-linux-gnu  \
                             binfmt-support qemu-user-static
@@ -64,9 +56,7 @@ if [ $ARCH == "linux_aarch64" ]; then
 fi
 
 if [ $ARCH == "windows_x86" ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
-    sudo apt-get install -y $base_packages \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
                             mingw-w64 mingw-w64-tools mingw-w64-i686-dev \
                             zip
 
@@ -90,9 +80,7 @@ if [ $ARCH == "windows_x86" ]; then
 fi
 
 if [ $ARCH == "windows_amd64" ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
-    sudo apt-get install -y $base_packages \
+    sudo DEBIAN_FRONTEND=noninteractiveapt-get install -y $base_packages \
                             mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev \
                             zip
 
