@@ -32,11 +32,11 @@ rm -f CMakeCache.txt
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
   cmake -DARCH=ice40 \
-    -DBOOST_ROOT=/tmp/nextpnr \
+    -DBOOST_ROOT=/tmp/conda \
     -DBoost_USE_STATIC_LIBS=ON \
-    -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
-    -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
-    -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
+    -DPYTHON_EXECUTABLE=/tmp/conda/bin/python \
+    -DPYTHON_LIBRARY=/tmp/conda/lib/libpython3.7m.a \
+    -DEigen3_DIR=/tmp/conda/share/eigen3/cmake \
     -DBUILD_GUI=OFF \
     -DBUILD_HEAP=ON \
     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
