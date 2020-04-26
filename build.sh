@@ -9,8 +9,7 @@ set -e
 export LC_ALL=C
 
 # export VERSION="${TRAVIS_TAG}"
-printf -v VERSION 'nightly-%(%Y%m%d)T' -1
-export VERSION
+export VERSION="nightly-$(date +%Y%m%d | tr -d '\n')"
 
 # -- Target architectures
 export ARCH=$1

@@ -25,13 +25,13 @@ matrix:
       env: ARCH=linux_armv7l EXT=tar.gz
     - os: linux
       env: ARCH=linux_aarch64 EXT=tar.gz
-    - os: linux
-      env: ARCH=windows_x86 EXT=zip
-    - os: linux
-      env: ARCH=windows_amd64 EXT=zip
+    # - os: linux
+    #   env: ARCH=windows_x86 EXT=zip
+    # - os: linux
+    #   env: ARCH=windows_amd64 EXT=zip
 
 before_script:
-  - if [[ ${ARCH:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
+#   - if [[ ${ARCH:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
   - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
   - if [[ "$ARCH" == "linux_armv7l" ]]; then sudo dpkg --add-architecture armhf; fi
   - if [[ "$ARCH" == "linux_aarch64" ]]; then sudo dpkg --add-architecture arm64; fi
