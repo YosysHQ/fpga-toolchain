@@ -8,7 +8,9 @@ set -e
 # Set english language for propper pattern matching
 export LC_ALL=C
 
-export VERSION="${TRAVIS_TAG}"
+# export VERSION="${TRAVIS_TAG}"
+printf -v VERSION 'nightly-%(%Y%m%d)T' -1
+export VERSION
 
 # -- Target architectures
 export ARCH=$1

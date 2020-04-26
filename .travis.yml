@@ -35,7 +35,7 @@ before_script:
   - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
   - if [[ "$ARCH" == "linux_armv7l" ]]; then sudo dpkg --add-architecture armhf; fi
   - if [[ "$ARCH" == "linux_aarch64" ]]; then sudo dpkg --add-architecture arm64; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -y -qq; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -y; fi
 script:
   - bash build.sh $ARCH
   - openssl sha1 _packages/**/*.$EXT

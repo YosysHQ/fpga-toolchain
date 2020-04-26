@@ -3,7 +3,7 @@
 
 set -e
 
-nextpnr_dir=nextpnr
+nextpnr_dir=nextpnr-ice40
 nextpnr_commit=a3ede0293a50c910e7d96319b2084d50f2501a6b
 nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
 
@@ -40,28 +40,28 @@ if [ $ARCH == "darwin" ]; then
     -DBUILD_GUI=OFF \
     -DBUILD_HEAP=ON \
     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-    -DICEBOX_ROOT="$WORK_DIR/icebox" \
+    -DICEBOX_ROOT=$PACKAGE_DIR/$NAME/share/icebox \
     -DSTATIC_BUILD=ON \
     .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 elif [ ${ARCH:0:7} == "windows" ]; then
     cmake \
     -DARCH=ice40 \
-    -DICEBOX_ROOT="$WORK_DIR/icebox" \
     -DBUILD_HEAP=ON \
     -DCMAKE_SYSTEM_NAME=Windows \
     -DBUILD_GUI=OFF \
     -DSTATIC_BUILD=ON \
+    -DICEBOX_ROOT=$PACKAGE_DIR/$NAME/share/icebox \
     -DBoost_USE_STATIC_LIBS=ON \
     .
     make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 else
     cmake \
         -DARCH=ice40 \
-        -DICEBOX_ROOT="$WORK_DIR/icebox" \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DSTATIC_BUILD=ON \
+        -DICEBOX_ROOT=$PACKAGE_DIR/$NAME/share/icebox \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX"
@@ -73,7 +73,7 @@ else
     for pkg in $(ls -1 ${WORK_DIR}/build-data/$ARCH/*.deb)
     do
         echo "Extracting $pkg..."
-        ar p $pkg data.tar.xz | tar xvJ
+        ar p $pkg data.tar.xz | tar xJ
     done
     mkdir -p $PACKAGE_DIR/$NAME
     mv usr/* $PACKAGE_DIR/$NAME

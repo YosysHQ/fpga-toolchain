@@ -3,7 +3,7 @@
 
 set -e
 
-nextpnr_dir=nextpnr
+nextpnr_dir=nextpnr-ecp5
 nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
 nextpnr_commit=371d33146fcfda9a1c568f46fd1f5775cd4fb1be
 

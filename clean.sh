@@ -16,6 +16,8 @@ BUILDS_DIR=$WORK_DIR/_builds
 # -- Folder for storing the generated packages
 PACKAGES_DIR=$WORK_DIR/_packages
 
+UPSTREAM_DIR=$WORK_DIR/_upstream
+
 # -- Check ARCH
 if [[ $# > 1 ]]; then
   echo ""
@@ -55,6 +57,8 @@ case "$RESP" in
 
       # -- Remove the build dir
       rm -r -f $BUILD_DIR
+
+      rm -r -f $UPSTREAM_DIR
 
       echo ""
       echo ">> CLEAN"
