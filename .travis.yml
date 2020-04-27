@@ -39,19 +39,20 @@ before_script:
 script:
   - bash build.sh $ARCH
   - openssl sha1 _packages/**/*.$EXT
-# deploy:
-#   provider: releases
-#   api_key:
-#     secure: <>
-#   file:
-#     - _packages/**/*.tar.gz
-#     - _packages/**/*.zip
-#   file_glob: true
-#   skip_cleanup: true
-#   on:
-#     repo: open-tool-forge/fpga-toolchain
-#     all_branches: true
-#     tags: true
+deploy:
+  provider: releases
+  api_key:
+    secure: U41HO65iSXqwqMu/QxBA/+5tqnD+ojjjBYEjW0xFc7tDR60uBSxJE88VErdvOBM1/t8TLHw+X5KvJ5MbGEZ0YoK2aMQO/1UcWEHrZwr3rZTQxeurTSq9L/xs/F9TOLmucbUMkmZPu8ablA6NjT34Num8IYT7sipO+YehuW/JYt4XIUwMSkNZESB9GQovwEzXqIU0nhN1JZY6XsE9FuRIemVwiBL0pfYju+v/eizxzahiCK82jQwyL+yYwq4GbBuUVXBt+K/21Ov0saLZ0c8w+dAWc9nfd0+ShKhUM0nnjUQf+fyAKCIhn809arOwy7f26JqH7NnTVkRSN+6PsuJBi1VcCZGuxnKvPlt/39+jA9AB3QPMcUWehh+XajxtT8UwIBmNZcLmC7dvpcKtvsC26WK400XmX4LCaYUev7pVlUkayvITIToIXRbkgHyufhBjWmNfbWQ3AnDzsr0JXtModYBmuEeiTAZvu31bQbo1bPfwxdjIXM5XczsaUUg2dLeJ23BZPAK1UXo3oIq3i3agy4TaXxwHnJgv+41WXqPJxbN5rkGvNSbe8/seA1kon5YQ2m6xtQ4GU6k6l2Utn5g2n/+gH8fxa/ZPUMKWkLLlSSMIqEM1cM4050gl2C8L56+Ilzo6/Pw++b/RlTa/oEOv2kcD7tQN9Imz8g0DRzdMjg8=
+  file:
+    - _packages/**/*.tar.gz
+    - _packages/**/*.zip
+  file_glob: true
+  skip_cleanup: true
+  on:
+    repo: open-tool-forge/fpga-toolchain
+    all_branches: true
+    tags: true
+
 branches:
   only:
     # Release tags
