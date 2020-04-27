@@ -8,7 +8,7 @@ environment:
   # Every time you update this, regenerate the chipdb files!
   PRJTRELLIS_COMMIT: 88e28f5ebba8a31c0aea74c2b7fddd43846f9a56
   PRJTRELLIS_URI: https://github.com/SymbiFlow/prjtrellis.git
-  VCPKG_COMMIT: 8900146533f8e38266ef89766a2bbacffcb67836
+  VCPKG_COMMIT: 2020.04
   PYTHON_URI: https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip
   matrix:
     # MSVC
@@ -45,7 +45,6 @@ install:
       cd C:\tools\vcpkg
       git rev-parse HEAD
       git checkout $env:VCPKG_COMMIT
-      vcpkg update
       vcpkg integrate install
       vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows eigen3:x64-windows boost-dll:x64-windows
       cd C:\tools
