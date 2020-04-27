@@ -44,6 +44,8 @@ install:
 
       cd C:\tools\vcpkg
       git rev-parse HEAD
+      git fetch
+      git fetch --tags
       git checkout $env:VCPKG_COMMIT
       vcpkg integrate install
       vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows eigen3:x64-windows boost-dll:x64-windows
