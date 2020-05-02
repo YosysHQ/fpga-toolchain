@@ -3,22 +3,22 @@ dist: bionic
 language: cpp
 matrix:
   include:
-    - os: osx
-      env: ARCH=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
-      addons:
-        homebrew:
-          packages:
-           - cmake
-           - git
-           - pkg-config
-           - gnu-sed
-           - wget
+    # - os: osx
+    #   env: ARCH=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
+    #   addons:
+    #     homebrew:
+    #       packages:
+    #        - cmake
+    #        - git
+    #        - pkg-config
+    #        - gnu-sed
+    #        - wget
     #         - bison
     #         - flex
     #         - gawk
     #         - eigen
-    # - os: linux
-    #   env: ARCH=linux_x86_64 EXT=tar.gz
+    - os: linux
+      env: ARCH=linux_x86_64 EXT=tar.gz
     # - os: linux
     #   env: ARCH=linux_i686 EXT=tar.gz
     # - os: linux

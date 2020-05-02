@@ -116,13 +116,13 @@ else
 
     # The first run of the build produces the Python shared library
     # (Disabled since we now use PREGENERATED_BBA_PATH)
-    # cmake \
-    #     -DBUILD_SHARED=ON \
-    #     -DSTATIC_BUILD=OFF \
-    #     -DBUILD_PYTHON=ON \
-    #     .
-    # make -j$J CXX="$CXX"
-    # rm -rf CMakeCache.txt
+    cmake \
+        -DBUILD_SHARED=ON \
+        -DSTATIC_BUILD=OFF \
+        -DBUILD_PYTHON=ON \
+        .
+    make -j$J CXX="$CXX"
+    rm -rf CMakeCache.txt
 
     # The second run builds the static libraries we'll use in the final release
     cmake \
@@ -138,11 +138,11 @@ else
     make install
 
     cd $BUILD_DIR/$nextpnr_dir
+            # -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb
     cmake \
         -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
