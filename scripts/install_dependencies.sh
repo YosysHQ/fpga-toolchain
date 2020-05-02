@@ -106,7 +106,7 @@ if [ $ARCH == "darwin" ]; then
     wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.2-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda
     source /tmp/conda/bin/activate
-    conda env update -f $WORK_DIR/build-data/darwin/environment.yml
+    conda env update -n base -f $WORK_DIR/build-data/darwin/environment.yml
     # export PATH=/tmp/conda/bin:$PATH
 
     # for dep in $(ls -1 $WORK_DIR/build-data/darwin/*.bz2)
