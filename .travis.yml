@@ -50,8 +50,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: open-tool-forge/fpga-toolchain
-    all_branches: true
-    tags: true
+    branch: master
 
 branches:
   only:
