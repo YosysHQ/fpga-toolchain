@@ -3,22 +3,22 @@ dist: bionic
 language: cpp
 matrix:
   include:
-    # - os: osx
-    #   env: ARCH=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
-    #   addons:
-    #     homebrew:
-    #       packages:
+    - os: osx
+      env: ARCH=darwin EXT=tar.gz MACOSX_DEPLOYMENT_TARGET=10.10
+      addons:
+        homebrew:
+          packages:
+           - cmake
+           - git
+           - pkg-config
+           - gnu-sed
+           - wget
     #         - bison
     #         - flex
     #         - gawk
-    #         - cmake
-    #         - git
-    #         - pkg-config
-    #         - gnu-sed
-    #         - wget
     #         - eigen
-    - os: linux
-      env: ARCH=linux_x86_64 EXT=tar.gz
+    # - os: linux
+    #   env: ARCH=linux_x86_64 EXT=tar.gz
     # - os: linux
     #   env: ARCH=linux_i686 EXT=tar.gz
     # - os: linux
@@ -39,6 +39,11 @@ before_script:
 script:
   - bash build.sh $ARCH
   - openssl sha1 _packages/**/*.$EXT
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "edbordin"
+  - git config --local user.email "edbordin@gmail.com"
+  - git tag nightly-$(date +'%Y%m%d')
 deploy:
   provider: releases
   api_key:

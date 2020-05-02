@@ -103,23 +103,29 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
-    export PATH=/tmp/conda/bin:$PATH
-    for dep in $(ls -1 $WORK_DIR/build-data/darwin/*.bz2)
-    do
-        mkdir -p /tmp/conda
-        pushd /tmp/conda
-        echo "Extracting $dep..."
-        tar xjf $dep
-        if [ -e info/has_prefix ]
-        then
-            python3 $WORK_DIR/build-data/darwin/convert.py /tmp/conda
-            rm -f info/has_prefix
-        fi
-        popd
-    done
-    echo copying libftdi1 to libftdi
-    cp /tmp/conda/lib/libftdi1.a /tmp/conda/lib/libftdi.a
-    cp /tmp/conda/lib/libftdi1.dylib /tmp/conda/lib/libftdi.dylib
+    # wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.2-MacOSX-x86_64.sh -O miniconda.sh
+    wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.2-Linux-x86_64.sh -O miniconda.sh
+    bash miniconda.sh -b -p /tmp/conda
+    source /tmp/conda/bin/activate
+    conda env update -f $WORK_DIR/build-data/darwin/environment.yml
+    # export PATH=/tmp/conda/bin:$PATH
+
+    # for dep in $(ls -1 $WORK_DIR/build-data/darwin/*.bz2)
+    # do
+    #     mkdir -p /tmp/conda
+    #     pushd /tmp/conda
+    #     echo "Extracting $dep..."
+    #     tar xjf $dep
+    #     if [ -e info/has_prefix ]
+    #     then
+    #         python3 $WORK_DIR/build-data/darwin/convert.py /tmp/conda
+    #         rm -f info/has_prefix
+    #     fi
+    #     popd
+    # done
+    # echo copying libftdi1 to libftdi
+    # cp /tmp/conda/lib/libftdi1.a /tmp/conda/lib/libftdi.a
+    # cp /tmp/conda/lib/libftdi1.dylib /tmp/conda/lib/libftdi.dylib
 else
     cp $WORK_DIR/build-data/lib/$ARCH/libftdi1.a $WORK_DIR/build-data/lib/$ARCH/libftdi.a
 fi
