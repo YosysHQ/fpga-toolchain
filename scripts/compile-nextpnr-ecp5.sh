@@ -88,7 +88,7 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/conda \
         -DPYTHON_EXECUTABLE=/tmp/conda/bin/python3 \
-        -DPYTHON_LIBRARY=/tmp/conda/lib/libpython3.6m.a \
+        -DPYTHON_LIBRARY=/tmp/conda/lib/libpython3.7m.a \
         -DEigen3_DIR=/tmp/conda/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
