@@ -128,7 +128,7 @@ else
     cmake \
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
-        -DBUILD_PYTHON=OFF \
+        -DBUILD_PYTHON=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
         -DCURRENT_GIT_VERSION=$prjtrellis_commit \
