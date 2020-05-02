@@ -5,12 +5,14 @@ set -e
 
 nextpnr_dir=nextpnr-ecp5
 nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
-nextpnr_commit=371d33146fcfda9a1c568f46fd1f5775cd4fb1be
+nextpnr_commit=master
+nextpnr_commit=$(git ls-remote ${nextpnr_uri} ${nextpnr_commit} | cut -f 1)
 
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
 # Every time you update this, regenerate the chipdb files!
-prjtrellis_commit=88e28f5ebba8a31c0aea74c2b7fddd43846f9a56
+prjtrellis_commit=master
+prjtrellis_commit=$(git ls-remote ${prjtrellis_uri} ${prjtrellis_commit} | cut -f 1)
 
 # -- Setup
 . $WORK_DIR/scripts/build_setup.sh

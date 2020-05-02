@@ -4,7 +4,7 @@
 set -e
 
 dfu_util=dfu-util
-commit=0c621882e4fd73cda323e739c6a48b3ddcbcb8ad
+commit=master
 git_dfu_util=https://git.code.sf.net/p/dfu-util/dfu-util
 
 cd $UPSTREAM_DIR
