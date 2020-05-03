@@ -9,8 +9,35 @@ stages:
     pool:
       vmImage: 'ubuntu-18.04'
     steps:
-    - bash: ./build-bba.sh  # contents of the script to run
+    - bash: ./build-bba.sh
       displayName: Build ECP5 Chip DBs
-      name: build_bba  # identifier for this step (A-Z, a-z, 0-9, and underscore)
+      name: build_bba
     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
       artifact: ecp5-bba
+- stage: build_toolchain
+  displayName: build toolchain
+  jobs:
+  - job: build_toolchain
+    displayName: Build ECP5 chipdbs (*.bba)
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+    - download: current
+      artifact: ecp5-bba
+    # - $(Pipeline.Workspace)/{artifact}
+    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
+      displayName: Copy BBA artifact
+    - bash: ./build.sh linux_x86_64
+      displayName: Build toolchain
+      name: build_toolchain  # identifier for this step (A-Z, a-z, 0-9, and underscore)
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: open-tool-forge
+        repositoryName: '$(Build.Repository.Name)'
+        action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'User specified tag'
+        tag: nightly-$(Date:yyyyMMdd)
+        assets:
+          - _packages/**/*.tar.gz
+          - _packages/**/*.zip

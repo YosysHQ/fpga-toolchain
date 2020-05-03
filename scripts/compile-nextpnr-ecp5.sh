@@ -53,18 +53,14 @@ then
 fi
 rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 
+cd $BUILD_DIR
+mkdir chipdb
+cd chipdb
+tar -xvf ../chipdb.tar.gz
+
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
-    cd $BUILD_DIR
-    mkdir chipdb
-    cd chipdb
-    for i in $(ls $WORK_DIR/chipdb/*.gz)
-    do
-        cp $i .
-        gunzip -f $(basename $i)
-    done
-
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
         -DBUILD_SHARED=OFF \
@@ -83,7 +79,7 @@ then
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb \
+        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/bba \
         -DBOOST_ROOT=/tmp/conda \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/conda \
@@ -103,26 +99,17 @@ then
     echo "Build not functioning on Windows"
     exit 1
 else
-    cd $BUILD_DIR
-    mkdir chipdb
-    cd chipdb
-    for i in $(ls $WORK_DIR/chipdb/*.gz)
-    do
-        cp $i .
-        gunzip -f $(basename $i)
-    done
-
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 
-    # The first run of the build produces the Python shared library
-    # (Disabled since we now use PREGENERATED_BBA_PATH)
-    cmake \
-        -DBUILD_SHARED=ON \
-        -DSTATIC_BUILD=OFF \
-        -DBUILD_PYTHON=ON \
-        .
-    make -j$J CXX="$CXX"
-    rm -rf CMakeCache.txt
+    # # The first run of the build produces the Python shared library
+    # # (Disabled since we now use PREGENERATED_BBA_PATH)
+    # cmake \
+    #     -DBUILD_SHARED=ON \
+    #     -DSTATIC_BUILD=OFF \
+    #     -DBUILD_PYTHON=ON \
+    #     .
+    # make -j$J CXX="$CXX"
+    # rm -rf CMakeCache.txt
 
     # The second run builds the static libraries we'll use in the final release
     cmake \
@@ -138,11 +125,11 @@ else
     make install
 
     cd $BUILD_DIR/$nextpnr_dir
-            # -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb
     cmake \
         -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
+        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/bba \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
