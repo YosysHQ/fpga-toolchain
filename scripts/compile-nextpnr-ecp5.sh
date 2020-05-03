@@ -56,7 +56,7 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 cd $BUILD_DIR
 mkdir chipdb
 cd chipdb
-tar -xvf ../chipdb.tar.gz
+tar -xvf $WORK_DIR/chipdb.tar.gz
 
 # -- Compile it
 if [ $ARCH = "darwin" ]

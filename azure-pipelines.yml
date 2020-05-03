@@ -18,7 +18,7 @@ stages:
   displayName: build toolchain
   jobs:
   - job: build_toolchain
-    displayName: Build ECP5 chipdbs (*.bba)
+    displayName: Build toolchains
     pool:
       vmImage: 'ubuntu-18.04'
     steps:
