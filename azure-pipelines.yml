@@ -32,7 +32,7 @@ stages:
       name: build_toolchain  # identifier for this step (A-Z, a-z, 0-9, and underscore)
     - task: GitHubRelease@0
       inputs:
-        gitHubConnection: open-tool-forge
+        gitHubConnection: open-tool-forge-release
         repositoryName: '$(Build.Repository.Name)'
         action: 'create'
         target: '$(Build.SourceVersion)'
