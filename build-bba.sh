@@ -61,10 +61,8 @@ function print {
   echo ""
 }
 
-if [ $INSTALL_DEPS == "1" ]; then
-  print ">> Install dependencies"
-  . $WORK_DIR/scripts/install_dependencies.sh
-fi
+print ">> Install dependencies"
+. $WORK_DIR/scripts/install_dependencies.sh
 
 print ">> Set build flags"
 . $WORK_DIR/scripts/build_setup.sh
