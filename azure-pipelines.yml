@@ -38,6 +38,4 @@ stages:
         target: '$(Build.SourceVersion)'
         tagSource: 'User specified tag'
         tag: nightly-$(Date:yyyyMMdd)
-        assets:
-          - _packages/**/*.tar.gz
-          - _packages/**/*.zip
+        assets: _packages/**/*.tar.gz
