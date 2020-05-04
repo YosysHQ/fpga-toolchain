@@ -53,6 +53,7 @@ if [ $ARCH == "darwin" ]; then
     export CXX="clang++"
     export ABC_ARCHFLAGS="-DLIN64 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -DSIZEOF_INT=4"
     export J=`sysctl -n hw.ncpu`
+    export MACOSX_DEPLOYMENT_TARGET="10.10"
 else
     export J=`nproc`
 fi
