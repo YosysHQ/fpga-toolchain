@@ -1,5 +1,14 @@
 trigger:
 - master
+
+# schedules:
+# - cron: "0 4 * * *"
+#   displayName: Nightly build at 0400 UTC
+#   branches:
+#     include:
+#     - master
+#   always: true
+
 stages:
 - stage: build_bba
   displayName: build bba
@@ -19,15 +28,25 @@ stages:
   jobs:
   - job: build_toolchain
     displayName: Build toolchains
+    strategy:
+      matrix:
+        linux_x86_64:
+          ARCH: linux_x86_64
+          vm_image: ubuntu-18.04
+        osx:
+          ARCH: darwin
+          vm_image: macOS-10.14
+        # win64:
+        #   ARCH: windows_amd64
+        #   vm_image: vs2017-win2016
     pool:
-      vmImage: 'ubuntu-18.04'
+      vmImage: '$(vm_image)'
     steps:
     - download: current
       artifact: ecp5-bba
-    # - $(Pipeline.Workspace)/{artifact}
     - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
       displayName: Copy BBA artifact
-    - bash: ./build.sh linux_x86_64
+    - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain  # identifier for this step (A-Z, a-z, 0-9, and underscore)
     - task: GitHubRelease@0
@@ -37,5 +56,7 @@ stages:
         action: 'create'
         target: '$(Build.SourceVersion)'
         tagSource: 'User specified tag'
-        tag: nightly-$(Date:yyyyMMdd)
-        assets: _packages/**/*.tar.gz
+        tag: $(ARCH)-nightly-$(Date:yyyyMMdd)
+        assets: |
+          _packages/**/*.tar.gz
+          _packages/**/*.zip
