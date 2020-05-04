@@ -103,7 +103,7 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
-    wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.2-MacOSX-x86_64.sh -O miniconda.sh
+    wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.1-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda
     echo debug1
     source /tmp/conda/bin/activate base
