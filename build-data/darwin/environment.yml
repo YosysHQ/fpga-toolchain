@@ -5,16 +5,16 @@ channels:
   - litex-hub # for libftdi
 dependencies:
   - python=3.7
-  - bison
+  - conda-forge::boost=1.72 # includes py-boost, has more recent releases
   - eigen
+  - bison
   - flex
   - gawk
   - gettext
-  - conda-forge::boost # includes py-boost, has more recent releases
   - libftdi
   - libiconv
   - libusb
   - m4
   - make
   - ncurses
-  - readline=8.0
+  - readline
