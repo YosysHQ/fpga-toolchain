@@ -10,7 +10,7 @@ dependencies:
   - flex=2.6.4
   - gawk=5.0.1
   - gettext=0.19.8.1
-  - libboost=1.67.0
+  - boost=1.72.0
   - libftdi=1.3
   - libiconv=1.15
   - libusb=1.0.23
