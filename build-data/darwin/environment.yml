@@ -10,12 +10,11 @@ dependencies:
   - flex
   - gawk
   - gettext
-  - boost
+  - conda-forge::boost # includes py-boost, has more recent releases
   - libftdi
   - libiconv
   - libusb
   - m4
   - make
   - ncurses
-  - py-boost
   - readline=8.0
