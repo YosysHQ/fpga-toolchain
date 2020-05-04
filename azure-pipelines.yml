@@ -1,13 +1,13 @@
 trigger:
 - master
 
-# schedules:
-# - cron: "0 4 * * *"
-#   displayName: Nightly build at 0400 UTC
-#   branches:
-#     include:
-#     - master
-#   always: true
+schedules:
+- cron: "0 4 * * *"
+  displayName: Nightly build at 0400 UTC
+  branches:
+    include:
+    - master
+  always: true
 
 stages:
 - stage: build_bba

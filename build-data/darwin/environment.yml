@@ -2,7 +2,7 @@ name: base
 channels:
   - defaults
   - conda-forge
-  - litex-hub # for libftdi
+  - antmicro # for libftdi
 dependencies:
   - python=3.7
   - conda-forge::boost=1.72 # includes py-boost, has more recent releases
