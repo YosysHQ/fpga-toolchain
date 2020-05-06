@@ -23,7 +23,7 @@ cd $BUILD_DIR/$dfu_util
 ./autogen.sh
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
-    ./configure CFLAGS="$CFLAGS -isystem $(xcrun --sdk macosx --show-sdk-path)/usr/include/"
+    ./configure
     make LDFLAGS="/tmp/conda/lib/libusb-1.0.a -Wl,-framework,IOKit -Wl,-framework,CoreFoundation $LDFLAGS"
 else
     ./configure USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"
