@@ -44,11 +44,6 @@ stages:
     steps:
     # - download: current
     #   artifact: ecp5-bba
-    - download: specific
-      artifact: ecp5-bba
-      pipeline: '$(System.DefinitionId)'
-      runVersion: 'specific'
-      runId: 23
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
