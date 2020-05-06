@@ -5,14 +5,14 @@ set -e
 
 ## --Create a tar.gz package
 
-cd $PACKAGE_DIR/$NAME
+cd $PACKAGE_DIR/
 
 echo $VERSION > VERSION
 
 if [ $ARCH == "windows_x86" ]; then
-    zip -r ../$NAME-$ARCH-$VERSION.zip *
+    zip -r $NAME-$ARCH-$VERSION.zip $NAME
 elif [ $ARCH == "windows_amd64" ]; then
-    zip -r ../$NAME-$ARCH-$VERSION.zip *
+    zip -r $NAME-$ARCH-$VERSION.zip $NAME
 else
-    tar -czvf ../$NAME-$ARCH-$VERSION.tar.gz *
+    tar -czvf $NAME-$ARCH-$VERSION.tar.gz $NAME
 fi

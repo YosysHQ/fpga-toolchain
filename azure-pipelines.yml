@@ -52,7 +52,7 @@ stages:
       displayName: Copy BBA artifact
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
-      name: build_toolchain  # identifier for this step (A-Z, a-z, 0-9, and underscore)
+      name: build_toolchain
     - task: GitHubRelease@0
       inputs:
         gitHubConnection: open-tool-forge-release

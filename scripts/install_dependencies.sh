@@ -103,31 +103,12 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
+    # match the version that was installed on travis CI
+    sudo xcode-select -s /Applications/Xcode_9.4.1.app/Contents/Developer
     wget https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda
-    echo debug1
     source /tmp/conda/bin/activate base
-    echo debug2
     conda env update -n base -f $WORK_DIR/build-data/darwin/environment.yml
-    echo debug3
-    # export PATH=/tmp/conda/bin:$PATH
-
-    # for dep in $(ls -1 $WORK_DIR/build-data/darwin/*.bz2)
-    # do
-    #     mkdir -p /tmp/conda
-    #     pushd /tmp/conda
-    #     echo "Extracting $dep..."
-    #     tar xjf $dep
-    #     if [ -e info/has_prefix ]
-    #     then
-    #         python3 $WORK_DIR/build-data/darwin/convert.py /tmp/conda
-    #         rm -f info/has_prefix
-    #     fi
-    #     popd
-    # done
-    # echo copying libftdi1 to libftdi
-    # cp /tmp/conda/lib/libftdi1.a /tmp/conda/lib/libftdi.a
-    # cp /tmp/conda/lib/libftdi1.dylib /tmp/conda/lib/libftdi.dylib
 else
     cp $WORK_DIR/build-data/lib/$ARCH/libftdi1.a $WORK_DIR/build-data/lib/$ARCH/libftdi.a
 fi
