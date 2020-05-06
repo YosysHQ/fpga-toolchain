@@ -79,7 +79,7 @@ then
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/bba \
+        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
         -DBOOST_ROOT=/tmp/conda \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/conda \
@@ -129,7 +129,7 @@ else
         -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/bba \
+        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
