@@ -103,13 +103,14 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
-    open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
-    # match the version that was installed on travis CI
-    sudo xcode-select -s /Applications/Xcode_9.4.1.app/Contents/Developer
+    sudo xcode-select -s /Applications/Xcode_11.4.1.app/Contents/Developer
+    brew install automake pkgconfig
+
     wget --progress=dot https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda
     source /tmp/conda/bin/activate base
     conda env update -n base -f $WORK_DIR/build-data/darwin/environment.yml
+    conda deactivate
 else
     cp $WORK_DIR/build-data/lib/$ARCH/libftdi1.a $WORK_DIR/build-data/lib/$ARCH/libftdi.a
 fi

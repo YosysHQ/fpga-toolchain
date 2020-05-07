@@ -35,7 +35,7 @@ stages:
           vm_image: ubuntu-18.04
         osx:
           ARCH: darwin
-          vm_image: macOS-10.14
+          vm_image: macOS-10.15
         # win64:
         #   ARCH: windows_amd64
         #   vm_image: vs2017-win2016
