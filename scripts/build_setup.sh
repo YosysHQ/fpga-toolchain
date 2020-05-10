@@ -61,7 +61,7 @@ if [ $ARCH == "darwin" ]; then
     export EMBEDDED_PY_VER=$($CONDA_ROOT/bin/python -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
 
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
-    cp -R $CONDA_ROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
+    cp -L -R $CONDA_ROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
 else
     export J=`nproc`
 fi
