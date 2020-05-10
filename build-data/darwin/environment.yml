@@ -1,23 +1,5 @@
 name: base
 channels:
   - defaults
-  - conda-forge
-  - antmicro # for libftdi
 dependencies:
-  - python=3.7
-  - conda-forge::boost=1.72 # includes py-boost, has more recent releases
-  - autoconf
-  - automake
-  - pkgconfig
-  - eigen
-  - bison
-  - flex
-  - gawk
-  - gettext
-  - libftdi
-  - libiconv
-  - libusb
-  - m4
-  - make
-  - ncurses
-  - readline
+  - python=3.8

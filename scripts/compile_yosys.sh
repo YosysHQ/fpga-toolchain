@@ -39,7 +39,7 @@ cd $BUILD_DIR/$YOSYS
 if [ $ARCH == "darwin" ]; then
     make config-clang
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
-    CXXFLAGS="-I/tmp/conda/include -std=c++11 $CXXFLAGS" LDFLAGS="-L/tmp/conda/lib $LDFLAGS" make \
+    CXXFLAGS="std=c++11 $CXXFLAGS" make \
             -j$J YOSYS_VER="$VER (open-tool-forge build)" \
             ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
             ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" OPTFLAGS=\"-O\" \

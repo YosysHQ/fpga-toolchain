@@ -23,13 +23,15 @@ cd $BUILD_DIR/$ICESTORM
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
     sed -i "" "s/-ggdb //;" config.mk
+    # pkg-config is used to set LDLIBS in this Makefile and doesn't quite do what we want
+    sed -i "" "s/\$^ \$(LDLIBS)/\$^ \$(LDSTATICLIBS)/g" iceprog/Makefile
     make -j$J CC="$CC" \
               SUBDIRS="iceprog" \
-              LDFLAGS="-pthread -L/tmp/conda/lib $LDFLAGS" \
-              LDUSBSTATIC="-lusb-1.0"\
-              CFLAGS="-MD -O0 -Wall -std=c99 -I/tmp/conda/include $CFLAGS"
+              PKG_CONFIG=":" \
+              LDSTATICLIBS="-pthread $LIBFTDI_ROOT/lib/libftdi1.a $LIBUSB_ROOT/lib/libusb-1.0.a  -Wl,-framework,IOKit -Wl,-framework,CoreFoundation" \
+              CFLAGS="-MD -O0 -Wall -std=c99 -I$LIBFTDI_ROOT/include/libftdi1 $CFLAGS"
     make -j$J CXX="$CXX" \
-              CXXFLAGS="-I/tmp/conda/include -std=c++11" LDFLAGS="-L/tmp/conda/lib $CXXFLAGS" \
+              CXXFLAGS="-std=c++11 $CXXFLAGS" \
               SUBDIRS="icebox icepack icemulti icepll icetime icebram"
 else
   sed -i "s/-ggdb //;" config.mk

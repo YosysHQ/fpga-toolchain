@@ -25,8 +25,8 @@ cd $BUILD_DIR/$dfu_util
 if [ $ARCH == "darwin" ]; then
     ./configure --libdir=/opt/local/lib \
         --includedir=/opt/local/include \
-        USB_CFLAGS="-I/tmp/conda/include/libusb-1.0" \
-        USB_LIBS="/tmp/conda/lib/libusb-1.0.a -Wl,-framework,IOKit -Wl,-framework,CoreFoundation"
+        USB_CFLAGS="-I$LIBUSB_ROOT/include/libusb-1.0" \
+        USB_LIBS="$LIBUSB_ROOT/lib/libusb-1.0.a -Wl,-framework,IOKit -Wl,-framework,CoreFoundation"
     make
 else
     ./configure USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"

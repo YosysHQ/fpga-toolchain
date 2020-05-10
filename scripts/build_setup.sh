@@ -54,6 +54,14 @@ if [ $ARCH == "darwin" ]; then
     export ABC_ARCHFLAGS="-DLIN64 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -DSIZEOF_INT=4"
     export J=`sysctl -n hw.ncpu`
     export MACOSX_DEPLOYMENT_TARGET="10.10"
+
+    export LIBFTDI_ROOT=$(brew --cellar libftdi)/$(brew list --versions libftdi | tr ' ' '\n' | tail -1)
+    export LIBUSB_ROOT=$(brew --cellar libusb)/$(brew list --versions libusb | tr ' ' '\n' | tail -1)
+    export CONDA_ROOT=/tmp/conda
+    export EMBEDDED_PY_VER=$($CONDA_ROOT/bin/python -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
+
+    mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
+    cp -R $CONDA_ROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
 else
     export J=`nproc`
 fi

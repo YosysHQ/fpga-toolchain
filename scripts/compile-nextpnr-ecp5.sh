@@ -66,9 +66,7 @@ then
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
-        -DBOOST_ROOT=/tmp/conda \
         -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
-        -DPYTHON_EXECUTABLE=/tmp/conda/bin/python3 \
         -DCURRENT_GIT_VERSION=$prjtrellis_commit \
         -DBoost_USE_STATIC_LIBS=ON \
         .
@@ -80,12 +78,9 @@ then
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
         -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
-        -DBOOST_ROOT=/tmp/conda \
         -DBoost_USE_STATIC_LIBS=ON \
-        -DBOOST_ROOT=/tmp/conda \
-        -DPYTHON_EXECUTABLE=/tmp/conda/bin/python3 \
-        -DPYTHON_LIBRARY=/tmp/conda/lib/libpython3.7m.a \
-        -DEigen3_DIR=/tmp/conda/share/eigen3/cmake \
+        -DPYTHON_EXECUTABLE=$CONDA_ROOT/bin/python \
+        -DPYTHON_LIBRARY=$CONDA_ROOT/lib/libpython$EMBEDDED_PY_VER.a \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
         -DBUILD_HEAP=ON \

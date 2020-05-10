@@ -32,11 +32,9 @@ rm -f CMakeCache.txt
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
   cmake -DARCH=ice40 \
-    -DBOOST_ROOT=/tmp/conda \
     -DBoost_USE_STATIC_LIBS=ON \
-    -DPYTHON_EXECUTABLE=/tmp/conda/bin/python \
-    -DPYTHON_LIBRARY=/tmp/conda/lib/libpython3.7m.a \
-    -DEigen3_DIR=/tmp/conda/share/eigen3/cmake \
+    -DPYTHON_EXECUTABLE=$CONDA_ROOT/bin/python \
+    -DPYTHON_LIBRARY=$CONDA_ROOT/lib/libpython$EMBEDDED_PY_VER.a \
     -DBUILD_GUI=OFF \
     -DBUILD_HEAP=ON \
     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
