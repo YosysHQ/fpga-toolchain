@@ -10,19 +10,19 @@ schedules:
   always: true
 
 stages:
-# - stage: build_bba
-#   displayName: Build ECP5 chipdb (*.bba)
-#   jobs:
-#   - job: build_bba
-#     displayName: Build ECP5 chipdb (*.bba)
-#     pool:
-#       vmImage: 'ubuntu-18.04'
-#     steps:
-#     - bash: ./build-bba.sh
-#       displayName: Build ECP5 chipdb (*.bba)
-#       name: build_bba
-#     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
-#       artifact: ecp5-bba
+- stage: build_bba
+  displayName: Build ECP5 chipdb (*.bba)
+  jobs:
+  - job: build_bba
+    displayName: Build ECP5 chipdb (*.bba)
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+    - bash: ./build-bba.sh
+      displayName: Build ECP5 chipdb (*.bba)
+      name: build_bba
+    - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
+      artifact: ecp5-bba
 - stage: build_toolchain
   displayName: build toolchain
   jobs:
@@ -42,14 +42,14 @@ stages:
     pool:
       vmImage: '$(vm_image)'
     steps:
-    # - download: current
-    #   artifact: ecp5-bba
+    - download: current
+      artifact: ecp5-bba
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    # - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
-    #   displayName: Copy BBA artifact
+    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
+      displayName: Copy BBA artifact
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
