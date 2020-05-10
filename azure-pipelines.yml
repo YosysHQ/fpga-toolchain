@@ -23,6 +23,7 @@ stages:
       name: build_bba
     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
       artifact: ecp5-bba
+
 - stage: build_toolchain
   displayName: build toolchain
   jobs:
@@ -53,6 +54,23 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+
+- stage: publish_release
+  displayName: publish release
+  jobs:
+  - job: publish_release
+    displayName: publish_release
+    pool:
+      vmImage: linux_x86_64
+    steps:
+    - bash: |
+        RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        # create pipeline variable
+        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+    - download: current
+      patterns: '**/fpga-toolchain*.*'
     - task: GitHubRelease@0
       inputs:
         gitHubConnection: open-tool-forge-release
@@ -62,5 +80,5 @@ stages:
         tagSource: 'manual'
         tag: '$(ARCH)-$(RELEASE_TAG)'
         assets: |
-          _packages/**/*.tar.gz
-          _packages/**/*.zip
+          $(Pipeline.Workspace)/**/fpga-toolchain*.tar.gz
+          $(Pipeline.Workspace)/**/fpga-toolchain*.zip
