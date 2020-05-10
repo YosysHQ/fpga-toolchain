@@ -25,6 +25,7 @@ COMPILE_ICESTORM=1
 COMPILE_YOSYS=1
 COMPILE_NEXTPNR_ICE40=1
 COMPILE_NEXTPNR_ECP5=1
+COMPILE_ECPPROG=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -126,6 +127,11 @@ fi
 if [ $COMPILE_NEXTPNR_ICE40 == "1" ]; then
   print ">> Compile nextpnr-ice40"
   . $WORK_DIR/scripts/compile_nextpnr-ice40.sh
+fi
+
+if [ $COMPILE_ECPPROG == "1" ]; then
+  print ">> Compile ecpprog"
+  . $WORK_DIR/scripts/compile_ecpprog.sh
 fi
 
 if [ $CREATE_PACKAGE == "1" ]; then
