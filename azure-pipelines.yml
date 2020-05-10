@@ -1,6 +1,3 @@
-trigger:
-- master
-
 schedules:
 - cron: "0 4 * * *"
   displayName: Nightly build at 0400 UTC
@@ -59,6 +56,8 @@ stages:
 
 - stage: publish_release
   displayName: publish release
+  # only generate a github release on master (dev branches still have artifacts that can be downloaded)
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
   jobs:
   - job: publish_release
     displayName: publish_release

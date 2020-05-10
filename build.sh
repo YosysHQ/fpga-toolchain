@@ -26,6 +26,7 @@ COMPILE_YOSYS=1
 COMPILE_NEXTPNR_ICE40=1
 COMPILE_NEXTPNR_ECP5=1
 COMPILE_ECPPROG=1
+COMPILE_IVERILOG=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -132,6 +133,11 @@ fi
 if [ $COMPILE_ECPPROG == "1" ]; then
   print ">> Compile ecpprog"
   . $WORK_DIR/scripts/compile_ecpprog.sh
+fi
+
+if [ $COMPILE_IVERILOG == "1" ]; then
+  print ">> Compile iverilog"
+  . $WORK_DIR/scripts/compile_iverilog.sh
 fi
 
 if [ $CREATE_PACKAGE == "1" ]; then
