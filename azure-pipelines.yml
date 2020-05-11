@@ -68,10 +68,8 @@ stages:
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    # - download: current
-    #   patterns: '**/fpga-toolchain*.*'
     - download: current
-      patterns: '**/ecp5-bba*.*'
+      patterns: '**/fpga-toolchain*.*'
     - task: GitHubRelease@0
       inputs:
         gitHubConnection: open-tool-forge-release
@@ -81,9 +79,8 @@ stages:
         tagSource: 'manual'
         tag: '$(RELEASE_TAG)'
         addChangeLog: false
+        releaseNotesSource: 'input'
+        releaseNotes: '$(RELEASE_TAG)'
         assets: |
-          $(Pipeline.Workspace)/**/ecp5-bba*.tar.gz
-          $(Pipeline.Workspace)/**/ecp5-bba*.zip
-        # assets: |
-        #   $(Pipeline.Workspace)/**/fpga-toolchain*.tar.gz
-        #   $(Pipeline.Workspace)/**/fpga-toolchain*.zip
+          $(Pipeline.Workspace)/**/fpga-toolchain*.tar.gz
+          $(Pipeline.Workspace)/**/fpga-toolchain*.zip
