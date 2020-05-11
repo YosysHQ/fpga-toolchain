@@ -6,7 +6,7 @@ set -e
 
 base_packages="build-essential bison flex libreadline-dev \
                gawk tcl-dev libffi-dev git rsync \
-               pkg-config python3 cmake autotools-dev automake"
+               pkg-config python3 cmake autotools-dev automake gperf"
 
 cross_x64="libboost-dev libboost-filesystem-dev libboost-thread-dev \
            libboost-program-options-dev libboost-python-dev libboost-iostreams-dev \
