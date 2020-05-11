@@ -21,38 +21,38 @@ stages:
     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
       artifact: ecp5-bba
 
-# - stage: build_toolchain
-#   displayName: build toolchain
-#   jobs:
-#   - job: build_toolchain
-#     displayName: Build toolchain
-#     strategy:
-#       matrix:
-#         linux_x86_64:
-#           ARCH: linux_x86_64
-#           vm_image: ubuntu-18.04
-#         osx:
-#           ARCH: darwin
-#           vm_image: macOS-10.15
-#         # win64:
-#         #   ARCH: windows_amd64
-#         #   vm_image: vs2017-win2016
-#     pool:
-#       vmImage: '$(vm_image)'
-#     steps:
-#     - download: current
-#       artifact: ecp5-bba
-#     - bash: |
-#         RELEASE_TAG=nightly-$(date +'%Y%m%d')
-#         # create pipeline variable
-#         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-#     - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
-#       displayName: Copy BBA artifact
-#     - bash: ./build.sh $(ARCH)
-#       displayName: Build toolchain
-#       name: build_toolchain
-#     - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
-#       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+- stage: build_toolchain
+  displayName: build toolchain
+  jobs:
+  - job: build_toolchain
+    displayName: Build toolchain
+    strategy:
+      matrix:
+        linux_x86_64:
+          ARCH: linux_x86_64
+          vm_image: ubuntu-18.04
+        osx:
+          ARCH: darwin
+          vm_image: macOS-10.15
+        # win64:
+        #   ARCH: windows_amd64
+        #   vm_image: vs2017-win2016
+    pool:
+      vmImage: '$(vm_image)'
+    steps:
+    - download: current
+      artifact: ecp5-bba
+    - bash: |
+        RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        # create pipeline variable
+        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
+      displayName: Copy BBA artifact
+    - bash: ./build.sh $(ARCH)
+      displayName: Build toolchain
+      name: build_toolchain
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: publish_release
   displayName: publish release
