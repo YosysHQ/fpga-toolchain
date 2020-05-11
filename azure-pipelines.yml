@@ -34,9 +34,6 @@ stages:
         osx:
           ARCH: darwin
           vm_image: macOS-10.15
-        # win64:
-        #   ARCH: windows_amd64
-        #   vm_image: vs2017-win2016
     pool:
       vmImage: '$(vm_image)'
     steps:
@@ -53,6 +50,37 @@ stages:
       name: build_toolchain
     - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+  - job: build_toolchain_windows_amd64
+    displayName: Build toolchain windows_amd64
+    pool:
+      vmImage: vs2017-win2016
+    variables:
+      ARCH: windows_amd64
+      MINGW_ARCH: x86_64
+    steps:
+    - script: |
+        git clone https://github.com/msys2/msys2-ci-base.git %CD:~0,2%\msys64
+        %CD:~0,2%\msys64\usr\bin\rm -rf %CD:~0,2%\msys64\.git
+      displayName: Install MSYS2
+    - script: |
+        set PATH=%CD:~0,2%\msys64\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+        %CD:~0,2%\msys64\usr\bin\pacman --noconfirm -Syyuu
+      displayName: Update MSYS2
+    - script: |
+        set PATH=%CD:~0,2%\msys64\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+        %CD:~0,2%\msys64\usr\bin\pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+        %CD:~0,2%\msys64\usr\bin\pacman --noconfirm -Scc
+      displayName: Install Toolchain
+    - script: |
+        set PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+        %CD:~0,2%\msys64\usr\bin\sed -i "s|#CacheDir.*|CacheDir=/c/Users/%USERNAME%/AppData/Local/Temp|g" /etc/pacman.conf
+        set MSYS=winsymlinks:nativestrict
+        %CD:~0,2%\msys64\msys2_shell.cmd -defterm -no-start -mingw64 -full-path -here -c "./build.sh windows_amd64"
+      displayName: CI-Build
+      env:
+        MSYSTEM: MINGW64
+        CHERE_INVOKING: yes
+        MINGW_INSTALLS: mingw64
 
 - stage: publish_release
   displayName: publish release

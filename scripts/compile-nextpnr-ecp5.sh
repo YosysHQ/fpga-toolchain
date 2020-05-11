@@ -54,7 +54,7 @@ fi
 rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 
 cd $BUILD_DIR
-mkdir chipdb
+mkdir -p chipdb
 cd chipdb
 tar -xvf $WORK_DIR/chipdb.tar.gz
 
@@ -91,8 +91,18 @@ then
     cd ..
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    echo "Build not functioning on Windows"
-    exit 1
+    cd $BUILD_DIR/$prjtrellis_dir/libtrellis
+    cmake \
+        -G "MinGW Makefiles" \
+        -DBUILD_SHARED=OFF \
+        -DSTATIC_BUILD=ON \
+        -DBUILD_PYTHON=OFF \
+        -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
+        -DCURRENT_GIT_VERSION=$prjtrellis_commit \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    mingw32-make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    mingw32-make install
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 

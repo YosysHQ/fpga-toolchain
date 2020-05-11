@@ -80,9 +80,15 @@ if [ $ARCH == "windows_x86" ]; then
 fi
 
 if [ $ARCH == "windows_amd64" ]; then
-    sudo DEBIAN_FRONTEND=noninteractiveapt-get install -y $base_packages \
-                            mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev \
-                            zip
+    pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake \
+    mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip
+
+    export PYTHON_URI="https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip"
+    wget $PYTHON_URI
+
+    # sudo DEBIAN_FRONTEND=noninteractiveapt-get install -y $base_packages \
+    #                         mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev \
+    #                         zip
 
 #   this was used to cross-compile nextpnr-ecp5 for Windows but we can't build native python libs
 #   for Windows with MinGW (CPython on Windows is built with MSVC) and the built python libs are run as part
