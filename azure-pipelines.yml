@@ -64,7 +64,7 @@ stages:
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - script: copy $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
+    - script: copy $(Pipeline.Workspace)\ecp5-bba\ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)\chipdb.tar.gz
       displayName: Copy BBA artifact
     - script: |
         git clone https://github.com/msys2/msys2-ci-base.git %CD:~0,2%\msys64
