@@ -89,6 +89,8 @@ stages:
         MSYSTEM: MINGW64
         CHERE_INVOKING: yes
         MINGW_INSTALLS: mingw64
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: publish_release
   displayName: publish release
