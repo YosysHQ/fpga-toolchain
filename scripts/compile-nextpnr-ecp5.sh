@@ -172,9 +172,11 @@ mkdir -p $PACKAGE_DIR/$NAME/bin
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
 for i in ecpmulti ecppack ecppll ecpunpack ecpbram
 do
-    $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
+    # $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
     cp $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
 done
 
 # Do a test run of the new binary
 $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --help
+echo 'print("hello from python!")' > hello.py
+$PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --run hello.py
