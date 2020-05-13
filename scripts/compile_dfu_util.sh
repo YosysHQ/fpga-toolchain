@@ -27,10 +27,10 @@ if [ $ARCH == "darwin" ]; then
         --includedir=/opt/local/include \
         USB_CFLAGS="-I$LIBUSB_ROOT/include/libusb-1.0" \
         USB_LIBS="$LIBUSB_ROOT/lib/libusb-1.0.a -Wl,-framework,IOKit -Wl,-framework,CoreFoundation"
-    make
+    $MAKE
 else
     ./configure USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"
-    make
+    $MAKE
 fi
 
 TOOLS="dfu-util dfu-prefix dfu-suffix"

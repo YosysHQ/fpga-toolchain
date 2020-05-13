@@ -120,7 +120,7 @@ then
         -DSTATIC_BUILD=ON \
         .
 
-    mingw32-make -j$J CXX="$CXX" VERBOSE=1
+    mingw32-make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm" VERBOSE=1
     cd ..
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
@@ -150,7 +150,7 @@ else
         -DSTATIC_BUILD=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         .
-    make -j$J CXX="$CXX"
+    make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm"
 
     # Install a copy of Python, since Python libraries are not compatible
     # across minor versions.

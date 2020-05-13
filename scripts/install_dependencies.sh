@@ -81,7 +81,7 @@ fi
 
 if [ $ARCH == "windows_amd64" ]; then
     pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake \
-    mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip
+    mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip mingw-w64-x86_64-libftdi bison flex
 
     x86_64-w64-mingw32-gcc --version
     x86_64-w64-mingw32-g++ --version
