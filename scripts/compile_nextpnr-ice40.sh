@@ -43,8 +43,6 @@ if [ $ARCH == "darwin" ]; then
     .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 elif [ ${ARCH:0:7} == "windows" ]; then
-    cp $WORK_DIR/scripts/nextpnr-CMakeLists.txt CMakeLists.txt
-
     cmake \
       -G "MinGW Makefiles" \
       -DARCH=ice40 \

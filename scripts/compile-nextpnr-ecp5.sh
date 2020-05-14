@@ -105,7 +105,6 @@ then
     mingw32-make install
 
     cd $BUILD_DIR/$nextpnr_dir
-    cp $WORK_DIR/scripts/nextpnr-CMakeLists.txt CMakeLists.txt
 
     cmake \
         -G "MinGW Makefiles" \
