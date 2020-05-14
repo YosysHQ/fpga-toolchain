@@ -60,6 +60,10 @@ stages:
       ARCH: windows_amd64
       MINGW_ARCH: x86_64
     steps:
+    - powershell: |
+        Set-MpPreference -DisableArchiveScanning $true
+        Set-MpPreference -DisableRealtimeMonitoring $true
+        Set-MpPreference -DisableBehaviorMonitoring $true
     - download: current
       artifact: ecp5-bba
     - bash: |
