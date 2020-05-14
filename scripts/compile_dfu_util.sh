@@ -33,7 +33,6 @@ then
     ./configure USB_LIBS="-static -lpthread"
     $MAKE
 else
-else
     ./configure USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"
     $MAKE
 fi
