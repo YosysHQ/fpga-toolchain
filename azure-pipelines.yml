@@ -1,3 +1,9 @@
+trigger:
+  branches:
+    exclude:
+    # master branch publishes releases - avoid merges triggering a new release
+    - master
+
 schedules:
 - cron: "0 4 * * *"
   displayName: Nightly build at 0400 UTC
