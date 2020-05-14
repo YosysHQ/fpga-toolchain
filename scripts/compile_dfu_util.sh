@@ -30,7 +30,7 @@ if [ $ARCH == "darwin" ]; then
     $MAKE
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    ./configure USB_LIBS="-static -lpthread"
+    ./configure USB_LIBS="-static -lpthread -lusb-1.0"
     $MAKE
 else
     ./configure USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"
