@@ -33,6 +33,10 @@ if [ $ARCH == "darwin" ]; then
     make -j$J CXX="$CXX" \
               CXXFLAGS="-std=c++11 $CXXFLAGS" \
               SUBDIRS="icebox icepack icemulti icepll icetime icebram"
+elif [ ${ARCH:0:7} = "windows" ]
+then
+  sed -i "s/-ggdb //;" Makefile
+  $MAKE -j$J CC="$CC" STATIC=1
 else
   sed -i "s/-ggdb //;" config.mk
   sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" iceprog/Makefile
@@ -47,19 +51,14 @@ fi
 
 TOOLS="iceprog icepack icemulti icepll icetime icebram"
 
-EXE_O=
-if [ -f icepack/icepack.exe ]; then
-  EXE_O=.exe
-fi
-
 # -- Test the generated executables
 for dir in $TOOLS; do
-  test_bin $dir/$dir$EXE_O
+  test_bin $dir/$dir$EXE
 done
 
 # -- Copy the executables to the bin dir
 for dir in $TOOLS; do
-  cp $dir/$dir$EXE_O $PACKAGE_DIR/$NAME/bin/$dir$EXE
+  cp $dir/$dir$EXE $PACKAGE_DIR/$NAME/bin/$dir$EXE
 done
 
 # -- Copy the chipdb*.txt data files

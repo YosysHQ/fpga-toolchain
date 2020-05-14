@@ -44,15 +44,17 @@ if [ $ARCH == "darwin" ]; then
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 elif [ ${ARCH:0:7} == "windows" ]; then
     cmake \
-    -DARCH=ice40 \
-    -DBUILD_HEAP=ON \
-    -DCMAKE_SYSTEM_NAME=Windows \
-    -DBUILD_GUI=OFF \
-    -DSTATIC_BUILD=ON \
-    -DICEBOX_ROOT=$PACKAGE_DIR/$NAME/share/icebox \
-    -DBoost_USE_STATIC_LIBS=ON \
-    .
-    make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
+      -G "MinGW Makefiles" \
+      -DARCH=ice40 \
+      -DBUILD_HEAP=ON \
+      -DBUILD_GUI=OFF \
+      -DBUILD_PYTHON=ON \
+      -DSTATIC_BUILD=ON \
+      -DICEBOX_ROOT=$PACKAGE_DIR/$NAME/share/icebox \
+      -DBoost_USE_STATIC_LIBS=ON \
+      .
+
+    $MAKE -j$J CXX="$CXX" VERBOSE=1
 else
     cmake \
         -DARCH=ice40 \
