@@ -3,6 +3,8 @@
 
 set -e
 
+export MAKE="make"
+
 if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
     export CXX="g++"
@@ -46,6 +48,14 @@ if [ $ARCH == "windows_amd64" ]; then
     export CXX="x86_64-w64-mingw32-g++"
     export HOST_FLAGS="--host=x86_64-w64-mingw32"
     export ABC_ARCHFLAGS="-DSIZEOF_VOID_P=8 -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DWIN32_NO_DLL -DHAVE_STRUCT_TIMESPEC -D_POSIX_SOURCE -fpermissive -w"
+    export MAKE="mingw32-make"
+
+    export EMBEDDED_PY_VER=$(python.exe -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
+    mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
+    cp -L -R /mingw64/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
+    # this isn't necessary and takes up ~half the size
+    rm -rf $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER/test
+    cp /mingw64/bin/{libgcc_s_seh-1.dll,libstdc++-6.dll,libwinpthread-1.dll,libpython$EMBEDDED_PY_VER.dll} $PACKAGE_DIR/$NAME/bin
 fi
 
 if [ $ARCH == "darwin" ]; then
@@ -70,3 +80,5 @@ fi
 if [ $J -gt 1 ]; then
     J=$(($J-1))
 fi
+
+echo Running with J=$J

@@ -1,3 +1,9 @@
+trigger:
+  branches:
+    exclude:
+    # master branch publishes releases - avoid merges triggering a new release
+    - master
+
 schedules:
 - cron: "0 4 * * *"
   displayName: Nightly build at 0400 UTC
@@ -26,6 +32,7 @@ stages:
   jobs:
   - job: build_toolchain
     displayName: Build toolchain
+    timeoutInMinutes: 0
     strategy:
       matrix:
         linux_x86_64:
@@ -34,9 +41,6 @@ stages:
         osx:
           ARCH: darwin
           vm_image: macOS-10.15
-        # win64:
-        #   ARCH: windows_amd64
-        #   vm_image: vs2017-win2016
     pool:
       vmImage: '$(vm_image)'
     steps:
@@ -52,6 +56,54 @@ stages:
       displayName: Build toolchain
       name: build_toolchain
     - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+  - job: build_toolchain_windows_amd64
+    displayName: Build toolchain windows_amd64
+    timeoutInMinutes: 0
+    pool:
+      vmImage: vs2017-win2016
+    variables:
+      ARCH: windows_amd64
+      MINGW_ARCH: x86_64
+    steps:
+    - powershell: |
+        Set-MpPreference -DisableArchiveScanning $true
+        Set-MpPreference -DisableRealtimeMonitoring $true
+        Set-MpPreference -DisableBehaviorMonitoring $true
+    - download: current
+      artifact: ecp5-bba
+    - bash: |
+        RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        # create pipeline variable
+        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+    - script: copy $(Pipeline.Workspace)\ecp5-bba\ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)\chipdb.tar.gz
+      displayName: Copy BBA artifact
+    - script: |
+        set MSYS_ROOT=%CD:~0,2%\msys64
+        echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
+        git clone https://github.com/msys2/msys2-ci-base.git %MSYS_ROOT%
+        %MSYS_ROOT%\usr\bin\rm -rf %MSYS_ROOT%\.git
+      displayName: Install MSYS2
+    - script: |
+        set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+        %MSYS_ROOT%\usr\bin\pacman --noconfirm -Syyuu
+      displayName: Update MSYS2
+    - script: |
+        set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+        %MSYS_ROOT%\usr\bin\pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+        %MSYS_ROOT%\usr\bin\pacman --noconfirm -Scc
+      displayName: Install Toolchain
+    - script: |
+        set PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+        %MSYS_ROOT%\usr\bin\sed -i "s|#CacheDir.*|CacheDir=/c/Users/%USERNAME%/AppData/Local/Temp|g" /etc/pacman.conf
+        set MSYS=winsymlinks:nativestrict
+        %MSYS_ROOT%\msys2_shell.cmd -defterm -no-start -mingw64 -full-path -here -c "./build.sh windows_amd64"
+      displayName: CI-Build
+      env:
+        MSYSTEM: MINGW64
+        CHERE_INVOKING: yes
+        MINGW_INSTALLS: mingw64
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: publish_release

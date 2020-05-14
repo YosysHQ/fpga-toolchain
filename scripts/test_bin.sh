@@ -1,7 +1,6 @@
 #!/bin/bash
-# Test script
 
-set -e
+# Test script
 
 FILE=$1
 
@@ -28,7 +27,7 @@ function test_exec {
 }
 
 function test_static {
-    output=$(ldd $1 | grep "not a dynamic executable")
+    output=$(ldd $1 2>&1 | grep "not a dynamic executable")
     test_base "- 3. File is static" test -n "$output"
 }
 

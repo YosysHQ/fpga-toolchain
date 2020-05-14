@@ -28,15 +28,21 @@ if [ $ARCH == "darwin" ]; then
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    make
+    $MAKE
 
     export PATH=$OLDPATH
+elif [ ${ARCH:0:7} = "windows" ]
+then
+    ./configure --prefix=$PACKAGE_DIR/$NAME \
+        --exec-prefix=$PACKAGE_DIR/$NAME \
+        LDFLAGS="-static -lstdc++ -lm" \
+
+    $MAKE
 else
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    make
+    $MAKE
 fi
 
-make install
-
+$MAKE install

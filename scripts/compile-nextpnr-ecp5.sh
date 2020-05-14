@@ -54,7 +54,7 @@ fi
 rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 
 cd $BUILD_DIR
-mkdir chipdb
+mkdir -p chipdb
 cd chipdb
 tar -xvf $WORK_DIR/chipdb.tar.gz
 
@@ -91,20 +91,39 @@ then
     cd ..
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    echo "Build not functioning on Windows"
-    exit 1
+    cd $BUILD_DIR/$prjtrellis_dir/libtrellis
+    cmake \
+        -G "MinGW Makefiles" \
+        -DBUILD_SHARED=OFF \
+        -DSTATIC_BUILD=ON \
+        -DBUILD_PYTHON=OFF \
+        -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
+        -DCURRENT_GIT_VERSION=$prjtrellis_commit \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    mingw32-make -j$J CXX="$CXX" LIBS="-lm"
+    mingw32-make install
+
+    cd $BUILD_DIR/$nextpnr_dir
+    cp $WORK_DIR/scripts/nextpnr-CMakeLists.txt CMakeLists.txt
+
+    cmake \
+        -G "MinGW Makefiles" \
+        -DARCH=ecp5 \
+        -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
+        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
+        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
+        -DBoost_USE_STATIC_LIBS=ON \
+        -DBUILD_GUI=OFF \
+        -DBUILD_PYTHON=ON \
+        -DBUILD_HEAP=ON \
+        -DSTATIC_BUILD=ON \
+        .
+
+    mingw32-make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm" VERBOSE=1
+    cd ..
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
-
-    # # The first run of the build produces the Python shared library
-    # # (Disabled since we now use PREGENERATED_BBA_PATH)
-    # cmake \
-    #     -DBUILD_SHARED=ON \
-    #     -DSTATIC_BUILD=OFF \
-    #     -DBUILD_PYTHON=ON \
-    #     .
-    # make -j$J CXX="$CXX"
-    # rm -rf CMakeCache.txt
 
     # The second run builds the static libraries we'll use in the final release
     cmake \
@@ -131,7 +150,7 @@ else
         -DSTATIC_BUILD=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         .
-    make -j$J CXX="$CXX"
+    make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm"
 
     # Install a copy of Python, since Python libraries are not compatible
     # across minor versions.
@@ -149,13 +168,15 @@ fi || exit 1
 
 # -- Copy the executables to the bin dir
 mkdir -p $PACKAGE_DIR/$NAME/bin
-$WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
+# $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
 for i in ecpmulti ecppack ecppll ecpunpack ecpbram
 do
-    $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
+    # $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
     cp $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
 done
 
 # Do a test run of the new binary
 $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --help
+echo 'print("hello from python!")' > hello.py
+$PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --run hello.py
