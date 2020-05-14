@@ -26,6 +26,7 @@ stages:
   jobs:
   - job: build_toolchain
     displayName: Build toolchain
+    timeoutInMinutes: 0
     strategy:
       matrix:
         linux_x86_64:
@@ -52,6 +53,7 @@ stages:
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
   - job: build_toolchain_windows_amd64
     displayName: Build toolchain windows_amd64
+    timeoutInMinutes: 0
     pool:
       vmImage: vs2017-win2016
     variables:
