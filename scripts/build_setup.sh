@@ -80,3 +80,5 @@ fi
 if [ $J -gt 1 ]; then
     J=$(($J-1))
 fi
+
+echo Running with J=$J
