@@ -19,12 +19,14 @@ rsync -a $ghdl $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$ghdl
 
+patch < $WORK_DIR/scripts/libghdl_static.diff
+
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
     OLD_PATH=$PATH
     export PATH="$GNAT_ROOT/bin:$PATH"
 
-    ./configure --prefix=$PACKAGE_DIR/$NAME --enable-synth
+    ./configure --prefix=$PACKAGE_DIR/$NAME
 
     $MAKE
     $MAKE install

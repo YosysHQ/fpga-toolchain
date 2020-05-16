@@ -5,6 +5,13 @@ set -e
 
 export MAKE="make"
 
+if [ $ARCH == "darwin" ]; then
+    export J=`sysctl -n hw.ncpu`
+else
+    export J=`nproc`
+fi
+echo nproc=$J
+
 if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
     export CXX="g++"
@@ -56,6 +63,8 @@ if [ $ARCH == "windows_amd64" ]; then
     # this isn't necessary and takes up ~half the size
     rm -rf $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER/test
     cp /mingw64/bin/{libgcc_s_seh-1.dll,libstdc++-6.dll,libwinpthread-1.dll,libpython$EMBEDDED_PY_VER.dll} $PACKAGE_DIR/$NAME/bin
+
+    export J=$(($J*4))
 fi
 
 if [ $ARCH == "darwin" ]; then
@@ -76,13 +85,6 @@ if [ $ARCH == "darwin" ]; then
     GNAT_VERSION=9.1.0
     GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin
     export GNAT_ROOT=/tmp/gnat/$GNAT_ARCHIVE
-else
-    export J=`nproc`
-fi
-
-# Support for 1cpu machines
-if [ $J -gt 1 ]; then
-    J=$(($J-1))
 fi
 
 echo Running with J=$J

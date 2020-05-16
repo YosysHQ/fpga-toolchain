@@ -50,15 +50,15 @@ if [ $ARCH == "darwin" ]; then
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
             -j$J YOSYS_VER="$VER (open-tool-forge build)" \
-            ENABLE_TCL=0 ENABLE_PLUGINS=1 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 ENABLE_GHDL=1 \
+            ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
             GHDL_DIR=$PACKAGE_DIR/$NAME \
             ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" OPTFLAGS=\"-O\" \
                        ARCHFLAGS=\"$ABC_ARCHFLAGS\" ABC_USE_NO_READLINE=1"
 
 elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
+    echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
-              LDLIBS="-static -lstdc++ -lm" \
               ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm\" OPTFLAGS=\"-O\" \
                          ARCHFLAGS=\"$ABC_ARCHFLAGS\" \
                          ABC_USE_NO_READLINE=1 \
@@ -68,12 +68,12 @@ elif [ ${ARCH:0:7} == "windows" ]; then
 
 else
     $MAKE config-gcc
+    echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
-    sed -i "s/LD = gcc$/LD = $CC/;" Makefile
-    sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
-    sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
+    # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
+    # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
+    # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
     $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" \
-                LDLIBS="-static -lstdc++ -lm" \
                 ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
                 ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm -ldl -pthread\" \
                            OPTFLAGS=\"-O\" \
