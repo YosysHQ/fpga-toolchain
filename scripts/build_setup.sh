@@ -72,6 +72,10 @@ if [ $ARCH == "darwin" ]; then
 
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
     cp -L -R $CONDA_ROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
+
+    GNAT_VERSION=9.1.0
+    GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin
+    export GNAT_ROOT=/tmp/gnat/$GNAT_ARCHIVE
 else
     export J=`nproc`
 fi

@@ -20,14 +20,15 @@ export NAME=fpga-toolchain
 
 # -- Debug flags
 INSTALL_DEPS=1
-COMPILE_DFU_UTIL=1
+COMPILE_DFU_UTIL=0
 COMPILE_YOSYS=1
-COMPILE_ICESTORM=1
-COMPILE_NEXTPNR_ICE40=1
-COMPILE_NEXTPNR_ECP5=1
-COMPILE_ECPPROG=1
-COMPILE_IVERILOG=1
-CREATE_PACKAGE=1
+COMPILE_ICESTORM=0
+COMPILE_NEXTPNR_ICE40=0
+COMPILE_NEXTPNR_ECP5=0
+COMPILE_ECPPROG=0
+COMPILE_IVERILOG=0
+COMPILE_GHDL=1
+CREATE_PACKAGE=0
 
 # -- Store current dir
 export WORK_DIR=$PWD
@@ -116,6 +117,11 @@ fi
 if [ $COMPILE_DFU_UTIL == "1" ]; then
   print ">> Compile dfu-utils"
   . $WORK_DIR/scripts/compile_dfu_util.sh
+fi
+
+if [ $COMPILE_GHDL == "1" ]; then
+  print ">> Compile ghdl"
+  . $WORK_DIR/scripts/compile_ghdl.sh
 fi
 
 if [ $COMPILE_YOSYS == "1" ]; then

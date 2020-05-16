@@ -6,42 +6,52 @@ set -e
 REL=0 # 1: load from release tag. 0: load from source code
 
 VER=master
-YOSYS=yosys-yosys-$VER
-TAR_YOSYS=yosys-$VER.tar.gz
-REL_YOSYS=https://github.com/YosysHQ/yosys/archive/$TAR_YOSYS
+YOSYS=yosys
 GIT_YOSYS=https://github.com/YosysHQ/yosys.git
 
 cd $UPSTREAM_DIR
 
-if [ $REL -eq 1 ]; then
-    # -- Check and download the release
-    test -e $TAR_YOSYS || wget $REL_YOSYS
-    # -- Unpack the release
-    tar zxf $TAR_YOSYS
-else
-    # -- Clone the sources from github
-    VER=$(git ls-remote ${GIT_YOSYS} ${VER} | cut -f 1)
-    YOSYS=yosys-yosys-$VER
-    git clone $GIT_YOSYS $YOSYS
-    git -C $YOSYS pull
-    VER=$(git -C $YOSYS rev-parse ${VER})
-    echo ""
-    git -C $YOSYS reset --hard $VER
-    git -C $YOSYS log -1
-fi
+# -- Clone the sources from github
+test -e $YOSYS || git clone $GIT_YOSYS $YOSYS
+git -C $YOSYS pull
+git -C $YOSYS checkout $VER
+git -C $YOSYS log -1
+VER=$(git -C $YOSYS rev-parse ${VER})
+
+ghdl_yosys_plugin=ghdl_yosys_plugin
+commit_gyp=master
+git_ghdl_yosys_plugin=https://github.com/ghdl/ghdl-yosys-plugin
+
+# -- Clone the sources from github
+test -e $ghdl_yosys_plugin || git clone $git_ghdl_yosys_plugin $ghdl_yosys_plugin
+git -C $ghdl_yosys_plugin pull
+git -C $ghdl_yosys_plugin checkout $commit_gyp
+git -C $ghdl_yosys_plugin log -1
+
+# -- Copy the upstream sources into the build directory
+rsync -a $ghdl_yosys_plugin $BUILD_DIR --exclude .git
 
 # -- Copy the upstream sources into the build directory
 rsync -a $YOSYS $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$YOSYS
+# TODO contribute updated patch upstream as it has gone stale
+patch < $WORK_DIR/scripts/yosys-ghdl.diff
+
+mkdir -p frontends/ghdl
+cp -R ../$ghdl_yosys_plugin/src/* frontends/ghdl
+MAKEFILE_CONF_GHDL=$'ENABLE_GHDL := 1\n'
+MAKEFILE_CONF_GHDL+="GHDL_DIR := $PACKAGE_DIR/$NAME"
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
     $MAKE config-clang
+    echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
             -j$J YOSYS_VER="$VER (open-tool-forge build)" \
-            ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
+            ENABLE_TCL=0 ENABLE_PLUGINS=1 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 ENABLE_GHDL=1 \
+            GHDL_DIR=$PACKAGE_DIR/$NAME \
             ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" OPTFLAGS=\"-O\" \
                        ARCHFLAGS=\"$ABC_ARCHFLAGS\" ABC_USE_NO_READLINE=1"
 

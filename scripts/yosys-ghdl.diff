@@ -1,0 +1,45 @@
+diff --git a/Makefile b/Makefile
+index cd617987..935dd21b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -21,6 +21,7 @@ ENABLE_COVER := 1
+ ENABLE_LIBYOSYS := 0
+ ENABLE_PROTOBUF := 0
+ ENABLE_ZLIB := 1
++ENABLE_GHDL := 0
+ 
+ # python wrappers
+ ENABLE_PYOSYS := 0
+@@ -81,7 +82,7 @@ all: top-all
+ YOSYS_SRC := $(dir $(firstword $(MAKEFILE_LIST)))
+ VPATH := $(YOSYS_SRC)
+ 
+-CXXFLAGS := $(CXXFLAGS) -Wall -Wextra -ggdb -I. -I"$(YOSYS_SRC)" -MD -D_YOSYS_ -fPIC -I$(PREFIX)/include
++CXXFLAGS := $(CXXFLAGS) -Wall -Wextra -ggdb -I. -I"$(YOSYS_SRC)" -MD -D_YOSYS_ -I$(PREFIX)/include
+ LDLIBS := $(LDLIBS) -lstdc++ -lm
+ PLUGIN_LDFLAGS :=
+ 
+@@ -183,7 +184,7 @@ endif
+ ifeq ($(CONFIG),clang)
+ CXX = clang
+ LD = clang++
+-CXXFLAGS += -std=c++11 -Os
++CXXFLAGS += -std=c++11 # -Os
+ ABCMKARGS += ARCHFLAGS="-DABC_USE_STDINT_H"
+ 
+ ifneq ($(SANITIZER),)
+@@ -203,6 +204,14 @@ LDFLAGS += -flto
+ endif
+ endif
+ 
++ifeq ($(ENABLE_GHDL),1)
++GHDL_DIR ?= /usr/local/ghdl
++GHDL_INCLUDE_DIR ?= $(GHDL_DIR)/include
++GHDL_LIB_DIR ?= $(GHDL_DIR)/lib
++CXXFLAGS += -I$(GHDL_INCLUDE_DIR) -DYOSYS_ENABLE_GHDL
++LDLIBS += $(GHDL_LIB_DIR)/libghdlsynth.a $(shell cat $(GHDL_LIB_DIR)/ghdlsynth.link)
++endif
++
+ else ifeq ($(CONFIG),gcc)
+ CXX = gcc
+ LD = gcc

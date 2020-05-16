@@ -6,7 +6,7 @@ set -e
 
 base_packages="build-essential bison flex libreadline-dev \
                gawk tcl-dev libffi-dev git rsync \
-               pkg-config python3 cmake autotools-dev automake gperf"
+               pkg-config python3 cmake autotools-dev automake gperf gnat"
 
 cross_x64="libboost-dev libboost-filesystem-dev libboost-thread-dev \
            libboost-program-options-dev libboost-python-dev libboost-iostreams-dev \
@@ -81,7 +81,8 @@ fi
 
 if [ $ARCH == "windows_amd64" ]; then
     pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake \
-    mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip mingw-w64-x86_64-libftdi bison flex
+    mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip mingw-w64-x86_64-libftdi bison flex \
+    mingw-w64-x86_64-gcc-ada
 
     x86_64-w64-mingw32-gcc --version
     x86_64-w64-mingw32-g++ --version
@@ -98,6 +99,13 @@ if [ $ARCH == "darwin" ]; then
     source /tmp/conda/bin/activate base
     conda env update -n base -f $WORK_DIR/build-data/darwin/environment.yml
     conda deactivate
+
+    GNAT_VERSION=9.1.0
+    GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin
+    mkdir -p /tmp/gnat
+    wget https://sourceforge.net/projects/gnuada/files/GNAT_GCC%20Mac%20OS%20X/$GNAT_VERSION/native/$GNAT_ARCHIVE.tar.bz2
+    tar jxvf $GNAT_ARCHIVE.tar.bz2 -C /tmp/gnat
+    export GNAT_ROOT=/tmp/gnat/$GNAT_ARCHIVE
 else
     cp $WORK_DIR/build-data/lib/$ARCH/libftdi1.a $WORK_DIR/build-data/lib/$ARCH/libftdi.a
 fi
