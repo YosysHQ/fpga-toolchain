@@ -28,12 +28,12 @@ if [ $ARCH == "darwin" ]; then
 
     ./configure --prefix=$PACKAGE_DIR/$NAME
 
-    $MAKE -j$J
+    $MAKE -j$J LDFLAGS="-static-libgcc $ZLIB_ROOT/lib/libz.a"
     $MAKE install
 
     export PATH="$OLD_PATH"
 else
     ./configure --prefix=$PACKAGE_DIR/$NAME
-    $MAKE -j$J
+    $MAKE -j$J LDFLAGS="-static -lz"
     $MAKE install
 fi
