@@ -19,7 +19,9 @@ rsync -a $ghdl $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$ghdl
 
-patch < $WORK_DIR/scripts/libghdl_static.diff
+# add a static libghdl.a target to the Makefile
+# remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
+patch -p1 < $WORK_DIR/scripts/libghdl_static.diff
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
@@ -28,12 +30,12 @@ if [ $ARCH == "darwin" ]; then
 
     ./configure --prefix=$PACKAGE_DIR/$NAME
 
-    $MAKE -j$J LDFLAGS="-static-libgcc $ZLIB_ROOT/lib/libz.a"
+    $MAKE -j$J GNAT_LARGS="-static-libgcc $ZLIB_ROOT/lib/libz.a"
     $MAKE install
 
     export PATH="$OLD_PATH"
 else
     ./configure --prefix=$PACKAGE_DIR/$NAME
-    $MAKE -j$J LDFLAGS="-static -lz"
+    $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz"
     $MAKE install
 fi
