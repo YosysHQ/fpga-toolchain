@@ -19,7 +19,7 @@ for b in $cross_x64; do
 done
 
 if [ $ARCH == "linux_x86_64" ]; then
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_x64
+    DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_x64
     gcc --version
     g++ --version
 fi
