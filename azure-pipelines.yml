@@ -7,19 +7,19 @@ schedules:
   always: true
 
 stages:
-# - stage: build_bba
-#   displayName: Build ECP5 chipdb (*.bba)
-#   jobs:
-#   - job: build_bba
-#     displayName: Build ECP5 chipdb (*.bba)
-#     pool:
-#       vmImage: 'ubuntu-18.04'
-#     steps:
-#     - bash: ./build-bba.sh
-#       displayName: Build ECP5 chipdb (*.bba)
-#       name: build_bba
-#     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
-#       artifact: ecp5-bba
+- stage: build_bba
+  displayName: Build ECP5 chipdb (*.bba)
+  jobs:
+  - job: build_bba
+    displayName: Build ECP5 chipdb (*.bba)
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+    - bash: ./build-bba.sh
+      displayName: Build ECP5 chipdb (*.bba)
+      name: build_bba
+    - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
+      artifact: ecp5-bba
 
 - stage: build_toolchain
   displayName: build toolchain
@@ -33,10 +33,6 @@ stages:
           ARCH: linux_x86_64
           vm_image: ubuntu-16.04
           container_image: ubuntu:20.04
-        # osx:
-        #   ARCH: darwin
-        #   vm_image: macOS-10.15
-        #   container_image:
     pool:
       vmImage: '$(vm_image)'
 
@@ -45,14 +41,14 @@ stages:
       options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
 
     steps:
-    # - download: current
-    #   artifact: ecp5-bba
+    - download: current
+      artifact: ecp5-bba
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    # - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
-    #   displayName: Copy BBA artifact
+    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
+      displayName: Copy BBA artifact
     - script: |
         /tmp/docker exec -t -u 0 ci-container \
         sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
@@ -62,6 +58,32 @@ stages:
       name: build_toolchain
     - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+  - job: build_toolchain_osx
+    displayName: Build toolchain OS X
+    timeoutInMinutes: 0
+    strategy:
+      matrix:
+        osx:
+          ARCH: darwin
+          vm_image: macOS-10.15
+    pool:
+      vmImage: '$(vm_image)'
+
+    steps:
+    - download: current
+      artifact: ecp5-bba
+    - bash: |
+        RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        # create pipeline variable
+        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
+      displayName: Copy BBA artifact
+    - bash: ./build.sh $(ARCH)
+      displayName: Build toolchain
+      name: build_toolchain
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+
   - job: build_toolchain_windows_amd64
     displayName: Build toolchain windows_amd64
     timeoutInMinutes: 0
@@ -75,14 +97,14 @@ stages:
         Set-MpPreference -DisableArchiveScanning $true
         Set-MpPreference -DisableRealtimeMonitoring $true
         Set-MpPreference -DisableBehaviorMonitoring $true
-    # - download: current
-    #   artifact: ecp5-bba
+    - download: current
+      artifact: ecp5-bba
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    # - script: copy $(Pipeline.Workspace)\ecp5-bba\ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)\chipdb.tar.gz
-    #   displayName: Copy BBA artifact
+    - script: copy $(Pipeline.Workspace)\ecp5-bba\ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)\chipdb.tar.gz
+      displayName: Copy BBA artifact
     - script: |
         set MSYS_ROOT=%CD:~0,2%\msys64
         echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
