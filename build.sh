@@ -61,7 +61,7 @@ mkdir -p $PACKAGE_DIR/$NAME/share
 
 # -- Test script function
 function test_bin {
-  if [[ ${ARCH:0:7} != "windows" ]]; then
+  if false; then
     . $WORK_DIR/test/test_bin.sh $1
     if [ $? != "0" ]; then
         exit 1
