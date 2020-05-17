@@ -40,7 +40,7 @@ stages:
     pool:
       vmImage: '$(vm_image)'
 
-    container: '$(container_image)'
+    container: $[ variables['container_image'] ]
 
     steps:
     # - download: current
