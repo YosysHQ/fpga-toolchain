@@ -31,12 +31,16 @@ stages:
       matrix:
         linux_x86_64:
           ARCH: linux_x86_64
-          vm_image: ubuntu-18.04
+          vm_image: ubuntu-16.04
+          container_image: ubuntu:20.04
         osx:
           ARCH: darwin
           vm_image: macOS-10.15
     pool:
       vmImage: '$(vm_image)'
+
+    container: '$(container_image)'
+
     steps:
     # - download: current
     #   artifact: ecp5-bba
