@@ -28,12 +28,12 @@ if [ $ARCH == "darwin" ]; then
 
     ./configure --prefix=$PACKAGE_DIR/$NAME
 
-    $MAKE
+    $MAKE -j$J
     $MAKE install
 
     export PATH="$OLD_PATH"
 else
     ./configure --prefix=$PACKAGE_DIR/$NAME
-    $MAKE
+    $MAKE -j$J
     $MAKE install
 fi

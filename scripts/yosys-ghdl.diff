@@ -46,7 +46,7 @@ index cd617987..a60ea7a3 100644
 +GHDL_INCLUDE_DIR ?= $(GHDL_DIR)/include
 +GHDL_LIB_DIR ?= $(GHDL_DIR)/lib
 +CXXFLAGS += -I$(GHDL_INCLUDE_DIR) -DYOSYS_ENABLE_GHDL
-+LDLIBS += -static -lstdc++ -lm $(GHDL_LIB_DIR)/libghdl.a $(shell cat $(GHDL_LIB_DIR)/ghdl.link)
++LDLIBS += $(GHDL_LIB_DIR)/libghdl.a $(shell cat $(GHDL_LIB_DIR)/ghdl.link)
 +endif
 +
  ifeq ($(ENABLE_VERIFIC),1)
