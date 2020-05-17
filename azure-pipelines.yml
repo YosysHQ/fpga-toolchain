@@ -36,6 +36,7 @@ stages:
         osx:
           ARCH: darwin
           vm_image: macOS-10.15
+          container_image:
     pool:
       vmImage: '$(vm_image)'
 
