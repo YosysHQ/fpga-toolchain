@@ -14,5 +14,5 @@ if [ $ARCH == "windows_x86" ]; then
 elif [ $ARCH == "windows_amd64" ]; then
     zip -r $NAME-$ARCH-$VERSION.zip $NAME
 else
-    tar -czvf $NAME-$ARCH-$VERSION.tar.gz $NAME
+    tar -czf $NAME-$ARCH-$VERSION.tar.gz $NAME
 fi
