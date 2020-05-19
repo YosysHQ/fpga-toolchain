@@ -7,15 +7,15 @@ Multi-platform nightly builds of open source FPGA tools.
 
 Currently included:
 
- * (Yosys)[https://github.com/YosysHQ/yosys]: RTL synthesis with extensive Verilog 2005 support)
- * (GHDL Yosys Plugin)[https://github.com/ghdl/ghdl-yosys-plugin]: experimental VHDL synthesis, built in to Yosys for your convenience!
- * (GHDL)[https://github.com/ghdl/ghdl]: CLI tool supporting the Yosys plugin
- * (Project Trellis)[https://github.com/SymbiFlow/prjtrellis]: Tools for working with Lattice ECP5 bitstreams
- * (Project IceStorm)[https://github.com/cliffordwolf/icestorm]: Tools for working with Lattice ICE40 bitstreams
- * (nextpnr)[https://github.com/YosysHQ/nextpnr]: Timing-driven place and route for both ICE40 and ECP5 architectures
- * (Icarus Verilog)[https://github.com/steveicarus/iverilog]: Verilog simulation tool
- * (dfu-util)[http://dfu-util.sourceforge.net/]: Device Firmware Upgrade Utilities
- * (ecpprog)[https://github.com/gregdavill/ecpprog]: A basic driver for FTDI based JTAG probes, to program ECP5 FPGAs
+ * [Yosys](https://github.com/YosysHQ/yosys): RTL synthesis with extensive Verilog 2005 support)
+ * [GHDL Yosys Plugin](https://github.com/ghdl/ghdl-yosys-plugin): experimental VHDL synthesis, built in to Yosys for your convenience!
+ * [GHDL](https://github.com/ghdl/ghdl): CLI tool supporting the Yosys plugin
+ * [Project Trellis](https://github.com/SymbiFlow/prjtrellis): Tools for working with Lattice ECP5 bitstreams
+ * [Project IceStorm](https://github.com/cliffordwolf/icestorm): Tools for working with Lattice ICE40 bitstreams
+ * [nextpnr](https://github.com/YosysHQ/nextpnr): Timing-driven place and route for both ICE40 and ECP5 architectures
+ * [Icarus Verilog](https://github.com/steveicarus/iverilog): Verilog simulation tool
+ * [dfu-util](http://dfu-util.sourceforge.net/): Device Firmware Upgrade Utilities
+ * [ecpprog](https://github.com/gregdavill/ecpprog): A basic driver for FTDI based JTAG probes, to program ECP5 FPGAs
 
 These tools are under active development (as are these build scripts), so
 please be prepared for things to break from time to time. In most cases you should be able
@@ -25,7 +25,7 @@ Builds run at 0400 UTC daily from the master branch of each project.
 
 ## Installation
 
-1. Download an archive matching your OS from (the releases page)[https://github.com/open-tool-forge/fpga-toolchain/releases].
+1. Download an archive matching your OS from [the releases page](https://github.com/open-tool-forge/fpga-toolchain/releases).
 2. Extract the archive to a location of your choice
 3. Add the `bin` folder to your `PATH`.
 4. (optional, not needed on Windows) If you would like to use the experimental GHDL Yosys plugin for VHDL, you will
