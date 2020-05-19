@@ -7,7 +7,7 @@ Multi-platform nightly builds of open source FPGA tools.
 
 Currently included:
 
- * [Yosys](https://github.com/YosysHQ/yosys): RTL synthesis with extensive Verilog 2005 support)
+ * [Yosys](https://github.com/YosysHQ/yosys): RTL synthesis with extensive Verilog 2005 support
  * [GHDL Yosys Plugin](https://github.com/ghdl/ghdl-yosys-plugin): experimental VHDL synthesis, built in to Yosys for your convenience!
  * [GHDL](https://github.com/ghdl/ghdl): CLI tool supporting the Yosys plugin
  * [Project Trellis](https://github.com/SymbiFlow/prjtrellis): Tools for working with Lattice ECP5 bitstreams
@@ -37,7 +37,7 @@ If you see errors about missing libraries (`.so`/`.dll`/`.dylib`) please report 
 
 If you run into issues with these tools, please consider reporting an issue to the authors of the tools - we are just compiling them here! If you think your issue relates to *the way we have compiled them* then it is more appropriate to open a GitHub issue here.
 
-If you aren't sure where to report your issue, you can also try sending a message in the `#open-tool-forge` channel on [1BitSquared's Discord channel](https://1bitsquared.com/pages/chat)
+If you aren't sure where to report your issue, you can also try sending a message in the `#open-tool-forge` channel on [1BitSquared's Discord server](https://1bitsquared.com/pages/chat)
 
 ## Credits
 
