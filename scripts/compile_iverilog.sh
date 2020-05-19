@@ -30,7 +30,10 @@ if [ $ARCH == "darwin" ]; then
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    $MAKE
+    $MAKE LIBS="-lm /usr/local/opt/zlib/lib/libz.a \
+        /usr/local/opt/bzip2/lib/libbz2.a \
+        /usr/local/opt/ncurses/lib/libncurses.a \
+        /usr/local/opt/libedit/lib/libedit.a"
 
     export PATH=$OLDPATH
 elif [ ${ARCH:0:7} = "windows" ]
@@ -48,7 +51,7 @@ else
     # ivlpp vhdlpp vvp vpi libveriuser cadpli tgt-null tgt-stub tgt-vvp \
         #    tgt-vhdl tgt-vlog95 tgt-pcb tgt-blif tgt-sizer driver
 
-    $MAKE SUBDIRS="ivlpp vhdlpp vvp driver" LDFLAGS="-static-libgcc -static -lstdc++ -lm -lc"
+    $MAKE LDFLAGS="-static-libgcc -static -lstdc++ -lm -lc"
 fi
 
 $MAKE install
