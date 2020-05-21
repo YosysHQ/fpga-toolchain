@@ -16,6 +16,20 @@ if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
     export CXX="g++"
     export ABC_ARCHFLAGS="-DLIN64 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -DSIZEOF_INT=4"
+    export EMBEDDED_PY_VER=$(python3 -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
+
+    # Install a copy of Python, since Python libraries are not compatible
+    # across minor versions.
+    mkdir libpython3
+    cd libpython3
+    for pkg in $(ls -1 ${WORK_DIR}/build-data/$ARCH/*.deb)
+    do
+        echo "Extracting $pkg..."
+        ar p $pkg data.tar.xz | tar xJ
+    done
+    mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
+    mv usr/lib/python$EMBEDDED_PY_VER/* $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
+    cd ..
 fi
 
 if [ $ARCH == "linux_i686" ]; then
