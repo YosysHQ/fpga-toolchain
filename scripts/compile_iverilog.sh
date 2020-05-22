@@ -19,8 +19,6 @@ rsync -a $iverilog $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$iverilog
 
-patch -p1 < $WORK_DIR/scripts/iverilog.diff
-
 bash ./autoconf.sh
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
@@ -47,11 +45,7 @@ else
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    # $MAKE
-    # ivlpp vhdlpp vvp vpi libveriuser cadpli tgt-null tgt-stub tgt-vvp \
-        #    tgt-vhdl tgt-vlog95 tgt-pcb tgt-blif tgt-sizer driver
-
-    $MAKE LDFLAGS="-static-libgcc -static -lstdc++ -lm -lc"
+    $MAKE SUBDIRS="ivlpp vhdlpp vvp driver" LDFLAGS="-static-libgcc -static -lstdc++ -lm -lc"
 fi
 
 $MAKE install
