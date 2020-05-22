@@ -16,6 +16,7 @@ if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
     export CXX="g++"
     export ABC_ARCHFLAGS="-DLIN64 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -DSIZEOF_INT=4"
+    export EMBEDDED_PY_VER=$(python3 -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
 fi
 
 if [ $ARCH == "linux_i686" ]; then
@@ -58,11 +59,6 @@ if [ $ARCH == "windows_amd64" ]; then
     export MAKE="mingw32-make"
 
     export EMBEDDED_PY_VER=$(python.exe -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
-    mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
-    cp -L -R /mingw64/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
-    # this isn't necessary and takes up ~half the size
-    rm -rf $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER/test
-    cp /mingw64/bin/{libgcc_s_seh-1.dll,libstdc++-6.dll,libwinpthread-1.dll,libpython$EMBEDDED_PY_VER.dll} $PACKAGE_DIR/$NAME/bin
 
     export J=$(($J*4))
 fi
@@ -79,9 +75,6 @@ if [ $ARCH == "darwin" ]; then
     export ZLIB_ROOT=$(brew --cellar zlib)/$(brew list --versions zlib | tr ' ' '\n' | tail -1)
     export CONDA_ROOT=/tmp/conda
     export EMBEDDED_PY_VER=$($CONDA_ROOT/bin/python -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
-
-    mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
-    cp -L -R $CONDA_ROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
 
     GNAT_VERSION=9.1.0
     GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin

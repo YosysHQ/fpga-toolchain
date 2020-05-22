@@ -150,19 +150,6 @@ else
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm"
-
-    # Install a copy of Python, since Python libraries are not compatible
-    # across minor versions.
-    mkdir libpython3
-    cd libpython3
-    for pkg in $(ls -1 ${WORK_DIR}/build-data/linux/*.deb)
-    do
-        echo "Extracting $pkg..."
-        ar p $pkg data.tar.xz | tar xvJ
-    done
-    mkdir -p $PACKAGE_DIR/$NAME
-    mv usr/* $PACKAGE_DIR/$NAME
-    cd ..
 fi || exit 1
 
 # -- Copy the executables to the bin dir

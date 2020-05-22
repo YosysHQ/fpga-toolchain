@@ -28,6 +28,7 @@ COMPILE_NEXTPNR_ECP5=0
 COMPILE_ECPPROG=0
 COMPILE_IVERILOG=1
 COMPILE_GHDL=0
+BUNDLE_PYTHON=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -108,6 +109,11 @@ fi
 
 print ">> Set build flags"
 . $WORK_DIR/scripts/build_setup.sh
+
+if [ $BUNDLE_PYTHON == "1" ]; then
+  print ">> Bundle Python"
+  $WORK_DIR/scripts/bundle_python.sh
+fi
 
 if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
   print ">> Compile nextpnr-ecp5"
