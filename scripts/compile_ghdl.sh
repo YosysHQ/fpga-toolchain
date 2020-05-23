@@ -39,3 +39,5 @@ else
     $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz"
     $MAKE install
 fi
+
+test_bin $PACKAGE_DIR/$NAME/bin/ghdl$exe

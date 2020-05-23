@@ -13,22 +13,23 @@ export VERSION="nightly-$(date +%Y%m%d | tr -d '\n')"
 
 # -- Target architectures
 export ARCH=$1
-TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
+# TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
+TARGET_ARCHS="linux_x86_64 windows_amd64 darwin"
 
 # -- Toolchain name
 export NAME=fpga-toolchain
 
 # -- Debug flags
 INSTALL_DEPS=1
-COMPILE_DFU_UTIL=0
+COMPILE_DFU_UTIL=1
 COMPILE_YOSYS=0
-COMPILE_ICESTORM=0
+COMPILE_ICESTORM=1
 COMPILE_NEXTPNR_ICE40=0
 COMPILE_NEXTPNR_ECP5=0
-COMPILE_ECPPROG=0
+COMPILE_ECPPROG=1
 COMPILE_IVERILOG=1
-COMPILE_GHDL=0
-BUNDLE_PYTHON=1
+COMPILE_GHDL=1
+BUNDLE_PYTHON=0
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -62,12 +63,10 @@ mkdir -p $PACKAGE_DIR/$NAME/share
 
 # -- Test script function
 function test_bin {
-  if false; then
-    . $WORK_DIR/test/test_bin.sh $1
+    . $WORK_DIR/scripts/test_bin.sh $1
     if [ $? != "0" ]; then
         exit 1
     fi
-  fi
 }
 
 

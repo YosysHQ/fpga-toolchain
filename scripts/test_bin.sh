@@ -9,6 +9,8 @@ echo "Testing $FILE file" >&2
 echo "------------------------------" >&2
 
 function test_base {
+    # Arg $1: Description of test
+    # Arg $2: success/fail - empty string is success
     if "${@:2}"
     then
         echo "$1" >&2
@@ -27,7 +29,7 @@ function test_exec {
 }
 
 function test_static {
-    output=$(ldd $1 2>&1 | grep "not a dynamic executable")
+    output=$(ldd $1 2>&1 | grep "not a dynamic executable" || true)
     test_base "- 3. File is static" test -n "$output"
 }
 

@@ -48,10 +48,10 @@ mkdir -p $PACKAGE_DIR/$NAME/share
 
 # -- Test script function
 function test_bin {
-  . $WORK_DIR/test/test_bin.sh $1
-  if [ $? != "0" ]; then
-    exit 1
-  fi
+    . $WORK_DIR/scripts/test_bin.sh $1
+    if [ $? != "0" ]; then
+        exit 1
+    fi
 }
 
 # -- Print function
