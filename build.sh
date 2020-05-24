@@ -111,12 +111,12 @@ print ">> Set build flags"
 
 if [ $BUNDLE_PYTHON == "1" ]; then
   print ">> Bundle Python"
-  $WORK_DIR/scripts/bundle_python.sh
+  . $WORK_DIR/scripts/bundle_python.sh
 fi
 
 if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
   print ">> Compile nextpnr-ecp5"
-  $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
+  . $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
 fi
 
 if [ $COMPILE_DFU_UTIL == "1" ]; then
