@@ -35,6 +35,7 @@ function test_static {
     # (I won't be surprised if this breaks outside of the CI environment)
     if [ $ARCH == "darwin" ]; then
         pat='^\s*(/usr/lib/libSystem.B.dylib|'
+        pat+='/usr/lib/libc++.1|'
         pat+='/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit|'
         pat+='/System/Library/Frameworks/CoreFoundation.framework/'
         pat+='Versions/A/CoreFoundation).*$'
