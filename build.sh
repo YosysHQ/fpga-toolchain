@@ -13,7 +13,8 @@ export VERSION="nightly-$(date +%Y%m%d | tr -d '\n')"
 
 # -- Target architectures
 export ARCH=$1
-TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
+# TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
+TARGET_ARCHS="linux_x86_64 windows_amd64 darwin"
 
 # -- Toolchain name
 export NAME=fpga-toolchain
@@ -62,12 +63,10 @@ mkdir -p $PACKAGE_DIR/$NAME/share
 
 # -- Test script function
 function test_bin {
-  if false; then
-    . $WORK_DIR/test/test_bin.sh $1
+    . $WORK_DIR/scripts/test_bin.sh $1
     if [ $? != "0" ]; then
         exit 1
     fi
-  fi
 }
 
 
@@ -112,12 +111,12 @@ print ">> Set build flags"
 
 if [ $BUNDLE_PYTHON == "1" ]; then
   print ">> Bundle Python"
-  $WORK_DIR/scripts/bundle_python.sh
+  . $WORK_DIR/scripts/bundle_python.sh
 fi
 
 if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
   print ">> Compile nextpnr-ecp5"
-  $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
+  . $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
 fi
 
 if [ $COMPILE_DFU_UTIL == "1" ]; then

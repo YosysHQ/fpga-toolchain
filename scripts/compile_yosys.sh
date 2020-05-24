@@ -53,7 +53,7 @@ if [ $ARCH == "darwin" ]; then
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
             -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
-            LDLIBS="-lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/ghdl.link)" \
+            LDLIBS="-lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
             ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
             ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" OPTFLAGS=\"-O\" \
                        ARCHFLAGS=\"$ABC_ARCHFLAGS\" ABC_USE_NO_READLINE=1"
@@ -63,7 +63,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
-              LDLIBS="-static -lstdc++ -lm $(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $((tr -s '\n' ' ' | tr -s '\\' '/') < $PACKAGE_DIR/$NAME/lib/ghdl.link)" \
+              LDLIBS="-static -lstdc++ -lm $(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $((tr -s '\n' ' ' | tr -s '\\' '/') < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
               ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm\" OPTFLAGS=\"-O\" \
                          ARCHFLAGS=\"$ABC_ARCHFLAGS\" \
                          ABC_USE_NO_READLINE=1 \
@@ -71,6 +71,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
                          ABC_USE_LIBSTDCXX=1" \
               ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1
 
+    test_bin yosys-smtbmc$EXE
 else
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
@@ -79,7 +80,7 @@ else
     # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
     # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
     $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
-                LDLIBS="-static -lstdc++ -lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/ghdl.link)" \
+                LDLIBS="-static -lstdc++ -lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link) -ldl" \
                 ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
                 ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm -ldl -pthread\" \
                            OPTFLAGS=\"-O\" \
@@ -90,9 +91,7 @@ fi
 # -- Test the generated executables
 test_bin yosys$EXE
 test_bin yosys-abc$EXE
-test_bin yosys-config
 test_bin yosys-filterlib$EXE
-test_bin yosys-smtbmc$EXE
 
 # -- Copy the executable files
 cp yosys$EXE $PACKAGE_DIR/$NAME/bin/yosys$EXE

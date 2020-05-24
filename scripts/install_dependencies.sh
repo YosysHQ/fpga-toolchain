@@ -93,7 +93,7 @@ if [ $ARCH == "darwin" ]; then
     # yosys detects some of these tools if a homebrew version is installed
     # so we may not need to add all of them to PATH
     brew install automake pkg-config bison flex gawk libffi git graphviz xdot bash cmake boost boost-python3 eigen \
-        libftdi libusb zlib
+        libftdi libusb zlib libedit ncurses bzip2
 
     wget --progress=dot https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda

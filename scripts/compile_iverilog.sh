@@ -28,7 +28,10 @@ if [ $ARCH == "darwin" ]; then
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    $MAKE
+    $MAKE LIBS="-lm /usr/local/opt/zlib/lib/libz.a \
+        /usr/local/opt/bzip2/lib/libbz2.a \
+        /usr/local/opt/ncurses/lib/libncurses.a \
+        /usr/local/opt/libedit/lib/libedit.a"
 
     export PATH=$OLDPATH
 elif [ ${ARCH:0:7} = "windows" ]
@@ -42,7 +45,14 @@ else
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    $MAKE
+    $MAKE SUBDIRS="ivlpp vhdlpp vvp driver" LDFLAGS="-static-libgcc -static -lstdc++ -lm -lc"
 fi
 
 $MAKE install
+
+TOOLS="bin/iverilog bin/vvp lib/ivl/ivl lib/ivl/ivlpp lib/ivl/vhdlpp"
+
+# -- Test the generated executables
+for tool in $TOOLS; do
+  test_bin $PACKAGE_DIR/$NAME/$tool$EXE
+done

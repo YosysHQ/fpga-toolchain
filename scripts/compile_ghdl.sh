@@ -19,7 +19,6 @@ rsync -a $ghdl $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$ghdl
 
-# add a static libghdl.a target to the Makefile
 # remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
 patch -p1 < $WORK_DIR/scripts/libghdl_static.diff
 
@@ -39,3 +38,5 @@ else
     $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz"
     $MAKE install
 fi
+
+test_bin $PACKAGE_DIR/$NAME/bin/ghdl$exe
