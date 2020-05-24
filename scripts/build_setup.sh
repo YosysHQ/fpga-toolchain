@@ -60,7 +60,7 @@ if [ $ARCH == "windows_amd64" ]; then
 
     export EMBEDDED_PY_VER=$(python.exe -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
 
-    export J=$(($J*4))
+    export J=$(($J*2))
 fi
 
 if [ $ARCH == "darwin" ]; then

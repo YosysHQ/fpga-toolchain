@@ -79,7 +79,7 @@ else
     # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
     # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
     $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
-                LDLIBS="-static -lstdc++ -lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
+                LDLIBS="-static -lstdc++ -lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link) -ldl" \
                 ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
                 ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm -ldl -pthread\" \
                            OPTFLAGS=\"-O\" \
@@ -90,7 +90,6 @@ fi
 # -- Test the generated executables
 test_bin yosys$EXE
 test_bin yosys-abc$EXE
-test_bin yosys-config
 test_bin yosys-filterlib$EXE
 test_bin yosys-smtbmc$EXE
 
