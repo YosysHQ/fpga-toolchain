@@ -71,6 +71,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
                          ABC_USE_LIBSTDCXX=1" \
               ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1
 
+    test_bin yosys-smtbmc$EXE
 else
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
@@ -91,7 +92,6 @@ fi
 test_bin yosys$EXE
 test_bin yosys-abc$EXE
 test_bin yosys-filterlib$EXE
-test_bin yosys-smtbmc$EXE
 
 # -- Copy the executable files
 cp yosys$EXE $PACKAGE_DIR/$NAME/bin/yosys$EXE
