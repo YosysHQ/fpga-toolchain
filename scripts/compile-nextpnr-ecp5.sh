@@ -154,7 +154,7 @@ fi || exit 1
 
 # -- Copy the executables to the bin dir
 mkdir -p $PACKAGE_DIR/$NAME/bin
-test_bin $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
+# test_bin $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
 for i in ecpmulti ecppack ecppll ecpunpack ecpbram
 do
