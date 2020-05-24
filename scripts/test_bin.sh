@@ -46,7 +46,8 @@ function test_static {
     elif [ ${ARCH:0:7} = "windows" ]
     then
         pat='^\s*(ntdll|KERNEL32|KERNELBASE|msvcrt|'
-        pat+='ADVAPI32|sechost|RPCRT4|dbghelp|ucrtbase)\.(dll|DLL).*$'
+        pat+='ADVAPI32|sechost|RPCRT4|dbghelp|ucrtbase|'
+        pat+='USER32|win32u|GDI32|gdi32full)\.(dll|DLL).*$'
 
         output=$(ldd $1 2>&1 | grep -E -v "$pat" || true)
         [[ -n "$output" ]] && ldd $1
