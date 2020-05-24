@@ -10,7 +10,7 @@ echo "------------------------------" >&2
 
 function test_base {
     # Arg $1: Description of test
-    # Arg $2: success/fail - empty string is success
+    # Arg $2: expression to eval
     if "${@:2}"
     then
         echo "$1" >&2
@@ -40,16 +40,20 @@ function test_static {
         pat+='Versions/A/CoreFoundation).*$'
 
         output=$(otool -L -X $1 2>&1 | grep -E -v "$pat" || true)
+        # show the output for debugging if test fails
+        [[ -n "$output" ]] && otool -L -X $1
         test_base "$msg" test -z "$output"
     elif [ ${ARCH:0:7} = "windows" ]
     then
         pat='^\s*(ntdll|KERNEL32|KERNELBASE|msvcrt|'
-        pat+='ADVAPI32|sechost|RPCRT4)\.(dll|DLL).*$'
+        pat+='ADVAPI32|sechost|RPCRT4|dbghelp|ucrtbase)\.(dll|DLL).*$'
 
         output=$(ldd $1 2>&1 | grep -E -v "$pat" || true)
+        [[ -n "$output" ]] && ldd $1
         test_base "$msg" test -z "$output"
     else
         output=$(ldd $1 2>&1 | grep "not a dynamic executable" || true)
+        [[ -z "$output" ]] && ldd $1
         test_base "$msg" test -n "$output"
     fi
 }

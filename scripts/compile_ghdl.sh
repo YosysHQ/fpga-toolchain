@@ -19,10 +19,6 @@ rsync -a $ghdl $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$ghdl
 
-# add a static libghdl.a target to the Makefile
-# remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
-patch -p1 < $WORK_DIR/scripts/libghdl_static.diff
-
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
     OLD_PATH=$PATH
