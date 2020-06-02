@@ -1,6 +1,6 @@
 # FPGA-Toolchain
 
-[![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/open-tool-forge.fpga-toolchain?branchName=master)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/open-tool-forge.fpga-toolchain?branchName=master)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build?definitionId=1&branchFilter=2)
 
 ## Introduction
 Multi-platform nightly builds of open source FPGA tools.
