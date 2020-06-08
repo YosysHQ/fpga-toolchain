@@ -92,7 +92,6 @@ fi
 test_bin yosys$EXE
 test_bin yosys-abc$EXE
 test_bin yosys-filterlib$EXE
-test_bin yosys-smtbmc$EXE
 
 # -- Copy the executable files
 cp yosys$EXE $PACKAGE_DIR/$NAME/bin/yosys$EXE
