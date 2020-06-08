@@ -1,0 +1,105 @@
+#!/bin/bash
+
+help() {
+        {
+                echo ""
+                echo "Usage: $0 [--exec] [--prefix pf] args.."
+                echo ""
+                echo "Replacement args:"
+                echo "    --bindir      fpga-toolchain/bin"
+                echo "    --datdir      fpga-toolchain/share/yosys"
+                echo ""
+                echo "Note that various options relating to compiling have been disabled for"
+                echo "the open-tool-forge build and will cause an error."
+                echo "All other args are passed through as they are."
+                echo ""
+                echo "Use --exec to call a command instead of generating output."
+                echo ""
+                echo "Use --prefix to change the prefix for the special args from '--' to"
+                echo "something else. Example:"
+                echo ""
+                echo "  $0 --prefix @ bindir: @bindir"
+                echo ""
+                echo "The args --bindir and --datdir can be directly followed by a slash and"
+                echo "additional text. Example:"
+                echo ""
+                echo "  $0 --datdir/simlib.v"
+                echo ""
+        } >&2
+        exit 1
+}
+
+if [ $# -eq 0 ]; then
+        help
+fi
+
+if [ "$1" == "--build" ]; then
+        echo Option --build unsupported in open-tool-forge build
+        exit 1
+fi
+
+prefix="--"
+get_prefix=false
+exec_mode=false
+declare -a tokens=()
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )"
+
+for opt; do
+        if $get_prefix; then
+                prefix="$opt"
+                get_prefix=false
+                continue
+        fi
+        case "$opt" in
+                "$prefix"cxx)
+                        echo Option --cxx unsupported in open-tool-forge build
+                        exit 1
+                        ;;
+                "$prefix"cxxflags)
+                        echo Option --cxxflags unsupported in open-tool-forge build
+                        exit 1
+                        ;;
+                "$prefix"ldflags)
+                        echo Option --ldflags unsupported in open-tool-forge build
+                        exit 1
+                        ;;
+                "$prefix"ldlibs)
+                        echo Option --ldlibs unsupported in open-tool-forge build
+                        exit 1
+                        ;;
+                "$prefix"bindir)
+                        tokens=( "${tokens[@]}" "${DIR}"'/bin'   ) ;;
+                "$prefix"datdir)
+                        tokens=( "${tokens[@]}" "${DIR}"'/share/yosys'   ) ;;
+                "$prefix"bindir/*)
+                        tokens=( "${tokens[@]}" "${DIR}"'/bin'"${opt#${prefix}bindir}" ) ;;
+                "$prefix"datdir/*)
+                        tokens=( "${tokens[@]}" "${DIR}"'/share/yosys'"${opt#${prefix}datdir}" ) ;;
+                --help|-\?|-h)
+                        if [ ${#tokens[@]} -eq 0 ]; then
+                                help
+                        else
+                                tokens=( "${tokens[@]}" "$opt" )
+                        fi ;;
+                --exec)
+                        if [ ${#tokens[@]} -eq 0 ]; then
+                                exec_mode=true
+                        else
+                                tokens=( "${tokens[@]}" "$opt" )
+                        fi ;;
+                --prefix)
+                        if [ ${#tokens[@]} -eq 0 ]; then
+                                get_prefix=true
+                        else
+                                tokens=( "${tokens[@]}" "$opt" )
+                        fi ;;
+                *)
+                        tokens=( "${tokens[@]}" "$opt" )
+        esac
+done
+
+if $exec_mode; then
+        exec "${tokens[@]}"
+fi
+echo "${tokens[@]}"
+exit 0

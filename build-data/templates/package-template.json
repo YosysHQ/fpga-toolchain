@@ -1,7 +1,0 @@
-{
-  "name":"toolchain-icestorm",
-  "description":"Icestorm toolchain",
-  "url":"https://github.com/FPGAwars/toolchain-icestorm/releases",
-  "version": %VERSION%,
-  "system": [ %SYSTEM% ]
-}

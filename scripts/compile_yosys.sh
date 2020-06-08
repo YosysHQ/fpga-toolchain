@@ -96,7 +96,10 @@ test_bin yosys-filterlib$EXE
 # -- Copy the executable files
 cp yosys$EXE $PACKAGE_DIR/$NAME/bin/yosys$EXE
 cp yosys-abc$EXE $PACKAGE_DIR/$NAME/bin/yosys-abc$EXE
-cp yosys-config $PACKAGE_DIR/$NAME/bin/yosys-config
+
+# this is a custom version of yosys-config (https://github.com/open-tool-forge/fpga-toolchain/issues/26)
+cp $WORK_DIR/build-data/yosys-config $PACKAGE_DIR/$NAME/bin/yosys-config
+
 cp yosys-filterlib$EXE $PACKAGE_DIR/$NAME/bin/yosys-filterlib$EXE
 cp yosys-smtbmc$EXE $PACKAGE_DIR/$NAME/bin/yosys-smtbmc$EXE
 
