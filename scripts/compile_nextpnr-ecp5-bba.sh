@@ -9,7 +9,7 @@ nextpnr_commit=master
 nextpnr_commit=$(git ls-remote ${nextpnr_uri} ${nextpnr_commit} | cut -f 1)
 
 prjtrellis_dir=prjtrellis
-prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
+prjtrellis_uri=https://github.com/YosysHQ/prjtrellis.git
 # Every time you update this, regenerate the chipdb files!
 prjtrellis_commit=master
 prjtrellis_commit=$(git ls-remote ${prjtrellis_uri} ${prjtrellis_commit} | cut -f 1)
@@ -78,7 +78,7 @@ cmake \
 
 # skip most of the nextpnr build and generate the *.bba chipdb files
 # (also needlessly runs bbasm to generate *.cc files and compiles them but for now we'll let it)
-make -j$J CXX="$CXX" ecp5_chipdb 
+make -j$J CXX="$CXX" chipdb-ecp5-bbas
 
 mkdir -p $PACKAGE_DIR/$NAME/bba
 cp $BUILD_DIR/$nextpnr_dir/ecp5/chipdbs/*.bba $PACKAGE_DIR/$NAME/bba
