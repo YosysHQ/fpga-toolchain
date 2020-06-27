@@ -9,7 +9,7 @@ nextpnr_commit=master
 nextpnr_commit=$(git ls-remote ${nextpnr_uri} ${nextpnr_commit} | cut -f 1)
 
 prjtrellis_dir=prjtrellis
-prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
+prjtrellis_uri=https://github.com/YosysHQ/prjtrellis.git
 # Every time you update this, regenerate the chipdb files!
 prjtrellis_commit=master
 prjtrellis_commit=$(git ls-remote ${prjtrellis_uri} ${prjtrellis_commit} | cut -f 1)
@@ -77,7 +77,7 @@ then
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
+        -DECP5_CHIPDB=$BUILD_DIR/chipdb/ecp5-bba/bba \
         -DBoost_USE_STATIC_LIBS=ON \
         -DPYTHON_EXECUTABLE=$CONDA_ROOT/bin/python \
         -DPYTHON_LIBRARY=$CONDA_ROOT/lib/libpython$EMBEDDED_PY_VER.a \
@@ -111,7 +111,7 @@ then
         -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
+        -DECP5_CHIPDB=$BUILD_DIR/chipdb/ecp5-bba/bba \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
@@ -142,7 +142,7 @@ else
         -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb/ecp5-bba/bba \
+        -DECP5_CHIPDB=$BUILD_DIR/chipdb/ecp5-bba/bba \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
