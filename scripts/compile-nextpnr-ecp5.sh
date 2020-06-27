@@ -9,7 +9,7 @@ nextpnr_commit=master
 nextpnr_commit=$(git ls-remote ${nextpnr_uri} ${nextpnr_commit} | cut -f 1)
 
 prjtrellis_dir=prjtrellis
-prjtrellis_uri= https://github.com/YosysHQ/prjtrellis.git
+prjtrellis_uri=https://github.com/YosysHQ/prjtrellis.git
 # Every time you update this, regenerate the chipdb files!
 prjtrellis_commit=master
 prjtrellis_commit=$(git ls-remote ${prjtrellis_uri} ${prjtrellis_commit} | cut -f 1)
