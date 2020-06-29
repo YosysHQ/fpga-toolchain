@@ -22,8 +22,8 @@ git -C $YOSYS log -1
 pushd $YOSYS
 if [ $ARCH == "darwin" ]; then
     OLDPATH=$PATH
-    # bumpversion needs GNUsed
-    export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
+    # bumpversion needs GNU sed and wc
+    export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
     $MAKE bumpversion
     sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     export PATH=$OLDPATH
