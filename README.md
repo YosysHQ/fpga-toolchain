@@ -14,9 +14,10 @@ Currently included:
  * [Project Trellis](https://github.com/SymbiFlow/prjtrellis): Tools for working with Lattice ECP5 bitstreams
  * [Project IceStorm](https://github.com/cliffordwolf/icestorm): Tools for working with Lattice ICE40 bitstreams
  * [nextpnr](https://github.com/YosysHQ/nextpnr): Timing-driven place and route for both ICE40 and ECP5 architectures
- <!-- * [Icarus Verilog](https://github.com/steveicarus/iverilog): Verilog simulation tool -->
  * [dfu-util](http://dfu-util.sourceforge.net/): Device Firmware Upgrade Utilities
  * [ecpprog](https://github.com/gregdavill/ecpprog): A basic driver for FTDI based JTAG probes, to program ECP5 FPGAs
+
+<!-- * [Icarus Verilog](https://github.com/steveicarus/iverilog): Verilog simulation tool -->
 
 These tools are under active development (as are these build scripts), so
 please be prepared for things to break from time to time. In most cases you should be able
