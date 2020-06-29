@@ -51,7 +51,7 @@ if [ $ARCH == "darwin" ]; then
     $MAKE config-clang
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
-    sed -i "" 's/(\d+\.\d+\+\d+)/\1 \(open-tool-forge build\)/;'
+    sed -r -i "" 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
             -j$J PRETTY=0 \
             LDLIBS="-lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
@@ -63,7 +63,7 @@ if [ $ARCH == "darwin" ]; then
 elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
-    sed -i 's/(\d+\.\d+\+\d+)/\1 \(open-tool-forge build\)/;'
+    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     $MAKE -j$J PRETTY=0 \
               LDLIBS="-static -lstdc++ -lm $(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $((tr -s '\n' ' ' | tr -s '\\' '/') < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
               ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm\" OPTFLAGS=\"-O\" \
@@ -78,7 +78,7 @@ else
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
-    sed -i 's/(\d+\.\d+\+\d+)/\1 \(open-tool-forge build\)/;'
+    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
     # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
     # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
