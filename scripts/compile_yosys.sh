@@ -16,7 +16,7 @@ test -e $YOSYS || git clone $GIT_YOSYS $YOSYS
 git -C $YOSYS pull
 git -C $YOSYS checkout $VER
 git -C $YOSYS log -1
-VER=$(git -C $YOSYS rev-parse ${VER})
+pushd $YOSYS && $MAKE bumpversion && popd
 
 ghdl_yosys_plugin=ghdl_yosys_plugin
 commit_gyp=master
@@ -51,8 +51,9 @@ if [ $ARCH == "darwin" ]; then
     $MAKE config-clang
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
+    sed -i "" 's/(\d+\.\d+\+\d+)/\1 \(open-tool-forge build\)/;'
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
-            -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
+            -j$J PRETTY=0 \
             LDLIBS="-lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
             ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
             ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" OPTFLAGS=\"-O\" \
@@ -62,7 +63,8 @@ if [ $ARCH == "darwin" ]; then
 elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
-    $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
+    sed -i 's/(\d+\.\d+\+\d+)/\1 \(open-tool-forge build\)/;'
+    $MAKE -j$J PRETTY=0 \
               LDLIBS="-static -lstdc++ -lm $(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $((tr -s '\n' ' ' | tr -s '\\' '/') < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
               ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm\" OPTFLAGS=\"-O\" \
                          ARCHFLAGS=\"$ABC_ARCHFLAGS\" \
@@ -76,10 +78,11 @@ else
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
+    sed -i 's/(\d+\.\d+\+\d+)/\1 \(open-tool-forge build\)/;'
     # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
     # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
     # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
-    $MAKE -j$J YOSYS_VER="$VER (open-tool-forge build)" PRETTY=0 \
+    $MAKE -j$J PRETTY=0 \
                 LDLIBS="-static -lstdc++ -lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link) -ldl" \
                 ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
                 ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm -ldl -pthread\" \
