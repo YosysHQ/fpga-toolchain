@@ -16,7 +16,19 @@ test -e $YOSYS || git clone $GIT_YOSYS $YOSYS
 git -C $YOSYS pull
 git -C $YOSYS checkout $VER
 git -C $YOSYS log -1
-pushd $YOSYS && $MAKE bumpversion && popd
+
+# edbordin: it would be better to avoid running anything in the upstream folder but
+# this just makes life much easier...
+pushd $YOSYS
+if [ $ARCH == "darwin" ]; then
+    OLDPATH=$PATH
+    export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
+    $MAKE bumpversion
+    export PATH=$OLDPATH
+else
+    $MAKE bumpversion
+fi
+popd
 
 ghdl_yosys_plugin=ghdl_yosys_plugin
 commit_gyp=master
