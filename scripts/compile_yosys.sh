@@ -22,11 +22,14 @@ git -C $YOSYS log -1
 pushd $YOSYS
 if [ $ARCH == "darwin" ]; then
     OLDPATH=$PATH
+    # bumpversion needs GNUsed
     export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
     $MAKE bumpversion
+    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     export PATH=$OLDPATH
 else
     $MAKE bumpversion
+    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
 fi
 popd
 
@@ -59,11 +62,9 @@ MAKEFILE_CONF_GHDL+="GHDL_DIR := $PACKAGE_DIR/$NAME"
 if [ $ARCH == "darwin" ]; then
     OLDPATH=$PATH
     export PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH"
-
     $MAKE config-clang
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
-    sed -r -i "" 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
             -j$J PRETTY=0 \
             LDLIBS="-lm $PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
@@ -75,7 +76,6 @@ if [ $ARCH == "darwin" ]; then
 elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
-    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     $MAKE -j$J PRETTY=0 \
               LDLIBS="-static -lstdc++ -lm $(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $((tr -s '\n' ' ' | tr -s '\\' '/') < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
               ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm\" OPTFLAGS=\"-O\" \
@@ -90,7 +90,6 @@ else
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
-    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
     # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
     # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
