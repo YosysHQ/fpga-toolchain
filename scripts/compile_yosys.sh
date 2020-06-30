@@ -16,7 +16,7 @@ test -e $YOSYS || git clone $GIT_YOSYS $YOSYS
 git -C $YOSYS pull
 git -C $YOSYS checkout $VER
 git -C $YOSYS log -1
-GIT_REV = $(git -C $YOSYS rev-parse --short HEAD 2> /dev/null || echo UNKNOWN)
+GIT_REV=$(git -C $YOSYS rev-parse --short HEAD 2> /dev/null || echo UNKNOWN)
 
 # edbordin: it would be better to avoid running anything in the upstream folder but
 # this just makes life much easier...
