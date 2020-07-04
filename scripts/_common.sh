@@ -8,8 +8,7 @@ set -e
 # Set english language for propper pattern matching
 export LC_ALL=C
 
-# export VERSION="${TRAVIS_TAG}"
-export VERSION="nightly-$(date +%Y%m%d | tr -d '\n')"
+export VERSION="${VERSION:-nightly-$(date +%Y%m%d | tr -d '\n')}"
 
 # -- Target architectures
 export ARCH=$1

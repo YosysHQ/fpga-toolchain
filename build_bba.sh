@@ -11,6 +11,7 @@ export NAME=ecp5-bba
 # -- Debug flags
 INSTALL_DEPS=1
 
+export VERSION=nightly
 . scripts/_common.sh linux_x86_64
 
 print ">> Compile nextpnr-ecp5-bba"
