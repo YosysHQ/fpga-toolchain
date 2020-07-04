@@ -1,27 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # -- Compile nextpnr-ice40 script
 
 set -e
 
-nextpnr_dir=nextpnr-ice40
-nextpnr_commit=master
-nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
+dir_name=nextpnr-ice40
+commit=master
+git_url=https://github.com/YosysHQ/nextpnr.git
 
-# -- Setup
-. $WORK_DIR/scripts/build_setup.sh
+git_clone $dir_name $git_url $commit
 
-cd $UPSTREAM_DIR
-
-# -- Clone the sources from github
-test -e $nextpnr_dir || git clone $nextpnr_uri $nextpnr_dir
-git -C $nextpnr_dir fetch
-git -C $nextpnr_dir checkout $nextpnr_commit
-git -C $nextpnr_dir log -1
-
-# -- Copy the upstream sources into the build directory
-rsync -a $nextpnr_dir $BUILD_DIR --exclude .git
-
-cd $BUILD_DIR/$nextpnr_dir
+cd $BUILD_DIR/$dir_name
 
 if [ -e CMakeCache.txt ]
 then

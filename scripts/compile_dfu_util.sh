@@ -1,24 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # -- Compile dfu-util script
 
 set -e
 
-dfu_util=dfu-util
+dir_name=dfu-util
 commit=master
-git_dfu_util=https://git.code.sf.net/p/dfu-util/dfu-util
+git_url=https://git.code.sf.net/p/dfu-util/dfu-util
 
-cd $UPSTREAM_DIR
+git_clone $dir_name $git_url $commit
 
-# -- Clone the sources from github
-test -e $dfu_util || git clone $git_dfu_util $dfu_util
-git -C $dfu_util pull
-git -C $dfu_util checkout $commit
-git -C $dfu_util log -1
-
-# -- Copy the upstream sources into the build directory
-rsync -a $dfu_util $BUILD_DIR --exclude .git
-
-cd $BUILD_DIR/$dfu_util
+cd $BUILD_DIR/$dir_name
 
 ./autogen.sh
 # -- Compile it

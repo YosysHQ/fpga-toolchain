@@ -1,59 +1,28 @@
-#!/bin/bash -x
+#!/usr/bin/env bash -x
 # -- Compile Yosys script
 
 set -e
 
-REL=0 # 1: load from release tag. 0: load from source code
+dir_name=yosys
+commit=master
+git_url=https://github.com/YosysHQ/yosys.git
 
-VER=master
-YOSYS=yosys
-GIT_YOSYS=https://github.com/YosysHQ/yosys.git
-
-cd $UPSTREAM_DIR
-
-# -- Clone the sources from github
-test -e $YOSYS || git clone $GIT_YOSYS $YOSYS
-git -C $YOSYS pull
-git -C $YOSYS checkout $VER
-git -C $YOSYS log -1
-GIT_REV=$(git -C $YOSYS rev-parse --short HEAD 2> /dev/null || echo UNKNOWN)
-
-# edbordin: it would be better to avoid running anything in the upstream folder but
-# this just makes life much easier...
-pushd $YOSYS
-if [ $ARCH == "darwin" ]; then
-    OLDPATH=$PATH
-    # use GNU sed so we can reuse the same pattern
-    export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
-    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
-    export PATH=$OLDPATH
-else
-    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
-fi
-popd
-
-ghdl_yosys_plugin=ghdl_yosys_plugin
+dir_name_gyp=ghdl_yosys_plugin
 commit_gyp=master
-git_ghdl_yosys_plugin=https://github.com/ghdl/ghdl-yosys-plugin
+git_url_gyp=https://github.com/ghdl/ghdl-yosys-plugin
 
-# -- Clone the sources from github
-test -e $ghdl_yosys_plugin || git clone $git_ghdl_yosys_plugin $ghdl_yosys_plugin
-git -C $ghdl_yosys_plugin pull
-git -C $ghdl_yosys_plugin checkout $commit_gyp
-git -C $ghdl_yosys_plugin log -1
 
-# -- Copy the upstream sources into the build directory
-rsync -a $ghdl_yosys_plugin $BUILD_DIR --exclude .git
+git_clone $dir_name $git_url $commit
+GIT_REV=$(git -C $UPSTREAM_DIR/$dir_name rev-parse --short HEAD 2> /dev/null || echo UNKNOWN)
 
-# -- Copy the upstream sources into the build directory
-rsync -a $YOSYS $BUILD_DIR --exclude .git
+git_clone $dir_name_gyp $git_url_gyp $commit_gyp
 
-cd $BUILD_DIR/$YOSYS
+cd $BUILD_DIR/$dir_name
 # TODO contribute updated patch upstream as it has gone stale
-patch < $WORK_DIR/scripts/yosys-ghdl.diff
+patch < $WORK_DIR/scripts/yosys_ghdl.diff
 
 mkdir -p frontends/ghdl
-cp -R ../$ghdl_yosys_plugin/src/* frontends/ghdl
+cp -R ../$dir_name_gyp/src/* frontends/ghdl
 MAKEFILE_CONF_GHDL=$'ENABLE_GHDL := 1\n'
 MAKEFILE_CONF_GHDL+="GHDL_DIR := $PACKAGE_DIR/$NAME"
 
@@ -63,6 +32,7 @@ if [ $ARCH == "darwin" ]; then
     export PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH"
     $MAKE config-clang
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
+    gsed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
             -j$J GIT_REV="${GIT_REV}" PRETTY=0 \
@@ -75,6 +45,7 @@ if [ $ARCH == "darwin" ]; then
 elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
+    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     $MAKE -j$J GIT_REV="${GIT_REV}" PRETTY=0 \
               LDLIBS="-static -lstdc++ -lm $(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $((tr -s '\n' ' ' | tr -s '\\' '/') < $PACKAGE_DIR/$NAME/lib/libghdl.link)" \
               ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm\" OPTFLAGS=\"-O\" \
@@ -89,6 +60,7 @@ else
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
+    sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
     # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
     # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile

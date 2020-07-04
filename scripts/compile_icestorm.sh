@@ -1,24 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # -- Compile Icestorm script
 
 set -e
 
-ICESTORM=icestorm
-COMMIT=master
-GIT_ICESTORM=https://github.com/cliffordwolf/icestorm.git
+dir_name=icestorm
+commit=master
+git_url=https://github.com/YosysHQ/icestorm
 
-cd $UPSTREAM_DIR
+git_clone $dir_name $git_url $commit
 
-# -- Clone the sources from github
-test -e $ICESTORM || git clone $GIT_ICESTORM $ICESTORM
-git -C $ICESTORM pull
-git -C $ICESTORM checkout $COMMIT
-git -C $ICESTORM log -1
-
-# -- Copy the upstream sources into the build directory
-rsync -a $ICESTORM $BUILD_DIR --exclude .git
-
-cd $BUILD_DIR/$ICESTORM
+cd $BUILD_DIR/$dir_name
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then

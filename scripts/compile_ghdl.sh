@@ -1,23 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
-ghdl=ghdl
+dir_name=ghdl
 commit=master
-git_ghdl=https://github.com/ghdl/ghdl.git
+git_url=https://github.com/ghdl/ghdl.git
 
-cd $UPSTREAM_DIR
+git_clone $dir_name $git_url $commit
 
-# -- Clone the sources from github
-test -e $ghdl || git clone $git_ghdl $ghdl
-git -C $ghdl pull
-git -C $ghdl checkout $commit
-git -C $ghdl log -1
-
-# -- Copy the upstream sources into the build directory
-rsync -a $ghdl $BUILD_DIR --exclude .git
-
-cd $BUILD_DIR/$ghdl
+cd $BUILD_DIR/$dir_name
 
 # remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
 patch -p1 < $WORK_DIR/scripts/libghdl_static.diff

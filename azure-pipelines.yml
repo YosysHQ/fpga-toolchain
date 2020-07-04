@@ -21,7 +21,7 @@ stages:
     pool:
       vmImage: 'ubuntu-18.04'
     steps:
-    - bash: ./build-bba.sh
+    - bash: ./build_bba.sh
       displayName: Build ECP5 chipdb (*.bba)
       name: build_bba
     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # -- Create package script
 
 set -e
