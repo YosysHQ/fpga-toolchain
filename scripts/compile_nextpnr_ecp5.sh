@@ -1,7 +1,7 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 # -- Compile nextpnr-ecp5 script
 
-set -e
+set -e -x
 
 nextpnr_dir=nextpnr-ecp5
 nextpnr_uri=https://github.com/YosysHQ/nextpnr.git

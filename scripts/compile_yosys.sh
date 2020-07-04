@@ -1,7 +1,7 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 # -- Compile Yosys script
 
-set -e
+set -e -x
 
 dir_name=yosys
 commit=master

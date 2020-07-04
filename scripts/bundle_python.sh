@@ -1,6 +1,6 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
-set -e
+set -e -x
 
 if [ $ARCH == "linux_x86_64" ]; then
     # Install a copy of Python, since Python libraries are not compatible
