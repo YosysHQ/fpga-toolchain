@@ -37,7 +37,7 @@ else
 fi
 
 export PATH="$WORK_DIR/fpga-toolchain/bin:$PATH"
-export GHDL_PREFIX="$WORK_DIR/fpga_toolchain/lib/ghdl"
+export GHDL_PREFIX="$WORK_DIR/fpga-toolchain/lib/ghdl"
 
 $PIP install git+https://github.com/nmigen/nmigen.git#egg=nmigen
 $PIP install git+https://github.com/nmigen/nmigen-boards.git

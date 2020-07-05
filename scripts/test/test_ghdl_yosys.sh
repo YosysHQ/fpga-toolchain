@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# -- Test VHDL synthesis
+# -- Test VHDL synthesis with ghdl-yosys-plugin
 
 set -e
 
@@ -8,8 +8,9 @@ commit=master
 git_url=https://github.com/ghdl/ghdl-yosys-plugin.git
 
 git_clone_direct $dir_name $git_url $commit
-cd $BUILD_DIR/$dir_name/examples
-$SED -i 's/\$\(YOSYS\) -m \$\(GHDLSYNTH\)/\$\(YOSYS\)/;' ghdlsynth.mk
-cd ecp5_versa
 
-$MAKE YOSYS=yosys GHDL=ghdl NEXTPNR=nextpnr-ecp5 ECPPACK=ecppack
+cd $BUILD_DIR/$dir_name/examples/icestick/leds/
+
+yosys -p 'ghdl leds.vhdl spin1.vhdl -e leds; synth_ice40 -json leds.json'
+nextpnr-ice40 --package hx1k --pcf leds.pcf --asc leds.asc --json leds.json
+icepack leds.asc leds.bin
