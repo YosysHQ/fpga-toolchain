@@ -39,6 +39,8 @@ variables:
   value: "1"
 - name: TEST_ECP5_BLINKY
   value: "1"
+- name: TEST_NMIGEN
+  value: "1"
 
 stages:
 # - stage: build_bba
