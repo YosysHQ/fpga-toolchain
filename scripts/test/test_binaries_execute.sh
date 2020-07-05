@@ -3,10 +3,11 @@
 
 set -e
 
+# yosys-smtbmc is omitted because it is broken on windows for now
+# https://github.com/open-tool-forge/fpga-toolchain/issues/37
 for i in dfu-prefix dfu-suffix dfu-util ecpbram ecpmulti ecppack ecppll \
     ecpprog ecpunpack ghdl icebram icemulti icepack icepll iceprog icetime \
-    nextpnr-ecp5 nextpnr-ice40 yosys yosys-abc yosys-config yosys-filterlib \
-    yosys-smtbmc
+    nextpnr-ecp5 nextpnr-ice40 yosys yosys-abc yosys-config yosys-filterlib
 do
   if $i --help 2&> /dev/null
   then
