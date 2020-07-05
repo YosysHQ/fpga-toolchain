@@ -19,10 +19,18 @@ then
     export PYTHON=python3
 else
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
-    # sudo apt-get update && sudo apt-get install python3-setuptools
-    pip3 install setuptools wheel
-    export PIP=pip3
-    export PYTHON=python3
+
+    # install python 3.6 on ubuntu 16.04 for nmigen
+    # TODO: test on non-debian distros
+    sudo apt-get update
+    sudo apt-get install -y --no-install-recommends software-properties-common
+    sudo add-apt-repository -y -u ppa:deadsnakes/ppa
+    sudo apt-get install -y --no-install-recommends python3.6 python3-pip
+
+    export PIP="python3.6 -m pip"
+    export PYTHON=python3.6
+    $PIP install --upgrade pip
+    $PIP install setuptools wheel
 fi
 
 export PATH="$WORK_DIR/fpga-toolchain/bin:$PATH"
