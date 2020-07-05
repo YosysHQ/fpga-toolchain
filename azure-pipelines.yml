@@ -50,7 +50,7 @@ variables:
 
 stages:
 - stage: build_bba
-  condition: variables['COMPILE_NEXTPNR_ECP5']
+  condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
   displayName: Build ECP5 chipdb (*.bba)
   jobs:
   - job: build_bba
@@ -85,7 +85,7 @@ stages:
 
     steps:
     - task: DownloadPipelineArtifact@2
-      condition: variables['COMPILE_NEXTPNR_ECP5']
+      condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
       inputs:
         source: current
         artifact: ecp5-bba
@@ -116,7 +116,7 @@ stages:
 
     steps:
     - task: DownloadPipelineArtifact@2
-      condition: variables['COMPILE_NEXTPNR_ECP5']
+      condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
       inputs:
         source: current
         artifact: ecp5-bba
@@ -145,7 +145,7 @@ stages:
         Set-MpPreference -DisableRealtimeMonitoring $true
         Set-MpPreference -DisableBehaviorMonitoring $true
     - task: DownloadPipelineArtifact@2
-      condition: variables['COMPILE_NEXTPNR_ECP5']
+      condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
       inputs:
         source: current
         artifact: ecp5-bba
