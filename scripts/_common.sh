@@ -81,6 +81,25 @@ function git_clone {
     popd
 }
 
+function git_clone_direct {
+    local dir_name=$1
+    local git_url=$2
+    local git_commit=$3
+    local update_submodules=$4
+
+    pushd $BUILD_DIR
+
+    # -- Clone the sources from github
+    test -e $dir_name || git clone $git_url $dir_name
+    git -C $dir_name pull
+    git -C $dir_name checkout $git_commit
+    [[ ! -z "$update_submodules" ]] && git -C $dir_name submodule init
+    [[ ! -z "$update_submodules" ]] && git -C $dir_name submodule update
+    git -C $dir_name log -1
+
+    popd
+}
+
 # -- Check ARCH
 if [[ $# > 1 ]]; then
   echo ""
