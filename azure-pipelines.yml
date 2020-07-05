@@ -50,8 +50,8 @@ variables:
 
 stages:
 - stage: build_bba
-  condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
   displayName: Build ECP5 chipdb (*.bba)
+  condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
   jobs:
   - job: build_bba
     displayName: Build ECP5 chipdb (*.bba)
@@ -66,6 +66,7 @@ stages:
 
 - stage: build_toolchain
   displayName: build toolchain
+  condition: always()
   jobs:
   - job: build_toolchain
     displayName: Build toolchain
@@ -184,6 +185,7 @@ stages:
 
 - stage: run_tests
   displayName: run tests
+  condition: always()
   jobs:
   - job: run_tests
     displayName: run tests
