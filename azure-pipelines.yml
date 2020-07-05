@@ -200,9 +200,14 @@ stages:
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
     - task: DownloadPipelineArtifact@2
       inputs:
-        source: current
+        # source: current
+        source: 'specific'
         artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
         path: '$(Build.Repository.LocalPath)'
+        project: 'open-tool-forge'
+        pipeline: 'fpga-toolchain'
+        runVersion: 'specific'
+        runId: '222'
     - bash: ./scripts/test/run_tests.sh $(ARCH)
       displayName: Run tests
       name: run_tests
