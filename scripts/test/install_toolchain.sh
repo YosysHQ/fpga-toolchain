@@ -11,12 +11,14 @@ then
     unzip fpga-toolchain-$ARCH-$VERSION.zip
     export PIP=pip
     export PYTHON=python
+    export SED=sed
 elif [ $ARCH = "darwin" ]
 then
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
-    brew install python@3.8
+    brew install python@3.8 gnu-sed
     export PIP=pip3
     export PYTHON=python3
+    export SED=gsed
 else
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
 
@@ -29,11 +31,13 @@ else
 
     export PIP="python3.6 -m pip"
     export PYTHON=python3.6
+    export SED=sed
     $PIP install --upgrade pip
     $PIP install setuptools wheel
 fi
 
 export PATH="$WORK_DIR/fpga-toolchain/bin:$PATH"
+export GHDL_PREFIX="$WORK_DIR/fpga_toolchain/lib/ghdl"
 
 $PIP install git+https://github.com/nmigen/nmigen.git#egg=nmigen
 $PIP install git+https://github.com/nmigen/nmigen-boards.git

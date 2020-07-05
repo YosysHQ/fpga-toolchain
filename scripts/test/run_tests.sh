@@ -11,6 +11,7 @@ INSTALL_DEPS=0
 TEST_ICE40_BLINKY="${TEST_ICE40_BLINKY:-1}"
 TEST_ECP5_BLINKY="${TEST_ECP5_BLINKY:-1}"
 TEST_NMIGEN="${TEST_NMIGEN:-1}"
+TEST_GHDL_YOSYS="${TEST_GHDL_YOSYS:-1}"
 
 . scripts/_common.sh $1
 . $WORK_DIR/scripts/test/install_toolchain.sh
@@ -28,4 +29,9 @@ fi
 if [ $TEST_ECP5_BLINKY == "1" ]; then
   print ">> Test nMigen"
   . $WORK_DIR/scripts/test/test_nmigen.sh
+fi
+
+if [ $TEST_GHDL_YOSYS == "1" ]; then
+    print ">> Test ghdl-yosys-plugin"
+  . $WORK_DIR/scripts/test/test_ghdl_yosys.sh
 fi
