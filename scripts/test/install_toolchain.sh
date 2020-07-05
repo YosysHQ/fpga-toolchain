@@ -19,7 +19,8 @@ then
     export PYTHON=python3
 else
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
-    sudo apt-get update && sudo apt-get install python3-setuptools
+    # sudo apt-get update && sudo apt-get install python3-setuptools
+    pip3 install setuptools wheel
     export PIP=pip3
     export PYTHON=python3
 fi
