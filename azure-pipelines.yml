@@ -204,8 +204,8 @@ stages:
         source: 'specific'
         artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
         path: '$(Build.Repository.LocalPath)'
-        project: 'open-tool-forge'
-        pipeline: 'fpga-toolchain'
+        project: '4615f283-ee51-4dbc-992b-cdd560f6506b'
+        pipeline: '1'
         runVersion: 'specific'
         runId: '222'
     - bash: ./scripts/test/run_tests.sh $(ARCH)
