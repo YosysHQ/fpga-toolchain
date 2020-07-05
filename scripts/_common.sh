@@ -61,10 +61,10 @@ function print {
 }
 
 function git_clone {
-    dir_name=$1
-    git_url=$2
-    git_commit=$3
-    update_submodules=$4
+    local dir_name=$1
+    local git_url=$2
+    local git_commit=$3
+    local update_submodules=$4
 
     pushd $UPSTREAM_DIR
 

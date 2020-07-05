@@ -18,7 +18,7 @@ GIT_REV=$(git -C $UPSTREAM_DIR/$dir_name rev-parse --short HEAD 2> /dev/null || 
 git_clone $dir_name_gyp $git_url_gyp $commit_gyp
 
 cd $BUILD_DIR/$dir_name
-# TODO contribute updated patch upstream as it has gone stale
+
 patch < $WORK_DIR/scripts/yosys_ghdl.diff
 
 mkdir -p frontends/ghdl
