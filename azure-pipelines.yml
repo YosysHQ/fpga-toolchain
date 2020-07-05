@@ -12,8 +12,37 @@ schedules:
     - master
   always: true
 
+variables:
+- name: INSTALL_DEPS
+  value: "1"
+- name: COMPILE_DFU_UTIL
+  value: "1"
+- name: COMPILE_YOSYS
+  value: "1"
+- name: COMPILE_ICESTORM
+  value: "1"
+- name: COMPILE_NEXTPNR_ICE40
+  value: "1"
+- name: COMPILE_NEXTPNR_ECP5
+  value: "1"
+- name: COMPILE_ECPPROG
+  value: "1"
+- name: COMPILE_IVERILOG
+  value: "0"
+- name: COMPILE_GHDL
+  value: "1"
+- name: BUNDLE_PYTHON
+  value: "1"
+- name: CREATE_PACKAGE
+  value: "1"
+- name: TEST_ICE40_BLINKY
+  value: "1"
+- name: TEST_ECP5_BLINKY
+  value: "1"
+
 stages:
 - stage: build_bba
+  condition: variables['COMPILE_NEXTPNR_ECP5']
   displayName: Build ECP5 chipdb (*.bba)
   jobs:
   - job: build_bba
@@ -47,14 +76,16 @@ stages:
       options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
 
     steps:
-    - download: current
-      artifact: ecp5-bba
+    - task: DownloadPipelineArtifact@2
+      condition: variables['COMPILE_NEXTPNR_ECP5']
+      inputs:
+        source: current
+        artifact: ecp5-bba
+        path: '$(Build.Repository.LocalPath)'
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
-      displayName: Copy BBA artifact
     - script: |
         /tmp/docker exec -t -u 0 ci-container \
         sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
@@ -76,14 +107,16 @@ stages:
       vmImage: '$(vm_image)'
 
     steps:
-    - download: current
-      artifact: ecp5-bba
+    - task: DownloadPipelineArtifact@2
+      condition: variables['COMPILE_NEXTPNR_ECP5']
+      inputs:
+        source: current
+        artifact: ecp5-bba
+        path: '$(Build.Repository.LocalPath)'
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - bash: cp $(Pipeline.Workspace)/ecp5-bba/ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)/chipdb.tar.gz
-      displayName: Copy BBA artifact
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
@@ -103,14 +136,16 @@ stages:
         Set-MpPreference -DisableArchiveScanning $true
         Set-MpPreference -DisableRealtimeMonitoring $true
         Set-MpPreference -DisableBehaviorMonitoring $true
-    - download: current
-      artifact: ecp5-bba
+    - task: DownloadPipelineArtifact@2
+      condition: variables['COMPILE_NEXTPNR_ECP5']
+      inputs:
+        source: current
+        artifact: ecp5-bba
+        path: '$(Build.Repository.LocalPath)'
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - script: copy $(Pipeline.Workspace)\ecp5-bba\ecp5-bba-linux_x86_64-nightly.tar.gz $(Build.Repository.LocalPath)\chipdb.tar.gz
-      displayName: Copy BBA artifact
     - script: |
         set MSYS_ROOT=%CD:~0,2%\msys64
         echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
@@ -138,6 +173,40 @@ stages:
         MINGW_INSTALLS: mingw64
     - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+
+- stage: run_tests
+  displayName: run tests
+  jobs:
+  - job: run_tests
+    displayName: run tests
+    timeoutInMinutes: 0
+    strategy:
+      matrix:
+        linux_x86_64:
+          ARCH: linux_x86_64
+          vm_image: ubuntu-16.04
+        windows_amd64:
+          ARCH: windows_amd64
+          vm_image: vs2017-win2016
+        darwin:
+          ARCH: darwin
+          vm_image: macOS-10.14
+    pool:
+      vmImage: '$(vm_image)'
+    steps:
+    - bash: |
+        RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        # create pipeline variable
+        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        source: current
+        artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+        path: '$(Build.Repository.LocalPath)'
+    - bash: ./scripts/test/run_tests.sh $(ARCH)
+      displayName: Run tests
+      name: run_tests
+
 
 - stage: publish_release
   displayName: publish release

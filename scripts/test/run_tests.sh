@@ -8,8 +8,8 @@ export NAME=fpga-toolchain-tests
 
 # -- Debug flags
 INSTALL_DEPS=0
-TEST_ICE40_BLINKY=1
-TEST_ECP5_BLINKY=1
+TEST_ICE40_BLINKY="${TEST_ICE40_BLINKY:-1}"
+TEST_ECP5_BLINKY="${TEST_ECP5_BLINKY:-1}"
 
 . scripts/_common.sh $1
 

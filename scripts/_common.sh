@@ -52,7 +52,6 @@ function test_bin {
     fi
 }
 
-
 # -- Print function
 function print {
   echo ""

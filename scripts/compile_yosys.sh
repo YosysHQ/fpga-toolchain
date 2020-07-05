@@ -11,7 +11,6 @@ dir_name_gyp=ghdl_yosys_plugin
 commit_gyp=master
 git_url_gyp=https://github.com/ghdl/ghdl-yosys-plugin
 
-
 git_clone $dir_name $git_url $commit
 GIT_REV=$(git -C $UPSTREAM_DIR/$dir_name rev-parse --short HEAD 2> /dev/null || echo UNKNOWN)
 
