@@ -14,11 +14,12 @@ then
 elif [ $ARCH = "darwin" ]
 then
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
-    brew install python3.8
+    brew install python@3.8
     export PIP=pip3
     export PYTHON=python3
 else
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
+    sudo apt-get update && sudo apt-get install python3-setuptools
     export PIP=pip3
     export PYTHON=python3
 fi
