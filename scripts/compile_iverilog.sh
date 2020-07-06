@@ -36,8 +36,7 @@ else
     ./configure --prefix=$PACKAGE_DIR/$NAME \
         --exec-prefix=$PACKAGE_DIR/$NAME \
 
-    $MAKE SUBDIRS="ivlpp vhdlpp vvp driver"
-    # LDFLAGS="-static-libgcc -Wl,-Bstatic -lstdc++ -ldl -lm -lc -Wl,-Bdynamic"
+    $MAKE SUBDIRS="ivlpp vhdlpp vvp driver" LDFLAGS="-static-libgcc -static -lstdc++ -lm -lc"
 fi
 
 $MAKE install

@@ -7,7 +7,7 @@ set -e
 export NAME=fpga-toolchain-tests
 
 # -- Debug flags
-INSTALL_DEPS=0
+INSTALL_DEPS=0 # stops _common.sh installing dev deps
 TEST_BINARIES_EXECUTE="${TEST_BINARIES_EXECUTE:-1}"
 TEST_ICE40_BLINKY="${TEST_ICE40_BLINKY:-1}"
 TEST_ECP5_BLINKY="${TEST_ECP5_BLINKY:-1}"

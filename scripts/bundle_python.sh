@@ -22,6 +22,7 @@ elif [ $ARCH == "windows_amd64" ]; then
         # this isn't necessary and takes up ~half the size
         rm -rf $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER/test
         cp /mingw64/bin/{libgcc_s_seh-1.dll,libstdc++-6.dll,libwinpthread-1.dll,libpython$EMBEDDED_PY_VER.dll} $PACKAGE_DIR/$NAME/bin
+        cp /mingw64/bin/python$EMBEDDED_PY_VER.exe $PACKAGE_DIR/$NAME/bin/python3-private.exe
 
 elif [ $ARCH == "darwin" ]; then
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
