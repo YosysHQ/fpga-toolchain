@@ -87,6 +87,7 @@ cp $WORK_DIR/build-data/yosys-config $PACKAGE_DIR/$NAME/bin/yosys-config
 
 cp yosys-filterlib$EXE $PACKAGE_DIR/$NAME/bin/yosys-filterlib$EXE
 cp yosys-smtbmc$EXE $PACKAGE_DIR/$NAME/bin/yosys-smtbmc$EXE
+[[ ! -z "$EXE" ]] && cp yosys-smtbmc-script.py $PACKAGE_DIR/$NAME/bin/yosys-smtbmc-script.py
 
 # -- Copy the share folder to the package folder
 mkdir -p $PACKAGE_DIR/$NAME/share/yosys
