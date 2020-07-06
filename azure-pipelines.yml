@@ -16,17 +16,17 @@ variables:
 - name: INSTALL_DEPS
   value: "1"
 - name: COMPILE_DFU_UTIL
-  value: "0"
+  value: "1"
 - name: COMPILE_YOSYS
   value: "1"
 - name: COMPILE_ICESTORM
-  value: "0"
+  value: "1"
 - name: COMPILE_NEXTPNR_ICE40
-  value: "0"
+  value: "1"
 - name: COMPILE_NEXTPNR_ECP5
-  value: "0"
+  value: "1"
 - name: COMPILE_ECPPROG
-  value: "0"
+  value: "1"
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled 
 - name: COMPILE_GHDL

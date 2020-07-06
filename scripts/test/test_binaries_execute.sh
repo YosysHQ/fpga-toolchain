@@ -18,7 +18,7 @@ do
         echo exit code $stored_exit_code OK: $i
     else
         echo exit code $stored_exit_code FAIL: $i
-        # exit $stored_exit_code
+        exit $stored_exit_code
     fi
   fi
 

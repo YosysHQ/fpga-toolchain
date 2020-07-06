@@ -53,7 +53,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
                          ABC_USE_NO_PTHREADS=1 \
                          ABC_USE_LIBSTDCXX=1" \
               ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
-              PYTHON=".\\bin\\python3-private.exe" # override the shebang telling the exe launcher where to find python
+              PYTHON="./bin/python3-private.exe" # override the shebang telling the exe launcher where to find python
 
     test_bin yosys-smtbmc$EXE
 else
