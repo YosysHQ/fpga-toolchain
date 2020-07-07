@@ -15,8 +15,8 @@ patch -p1 < $WORK_DIR/scripts/sby_launcher.diff
 # -- Compile it
 if [ ${ARCH:0:7} = "windows" ]
 then
-    $MAKE install PYTHON="./bin/python3-private.exe" # override the shebang telling the exe launcher where to find python
-    
+    # override the shebang telling the exe launcher where to find python
+    $MAKE install PREFIX=$PACKAGE_DIR/$NAME PYTHON="./bin/python3-private.exe"
 else
-    $MAKE install
+    $MAKE install PREFIX=$PACKAGE_DIR/$NAME
 fi
