@@ -1,23 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
-ecpprog=ecpprog
+dir_name=ecpprog
 commit=master
-git_ecpprog=https://github.com/gregdavill/ecpprog.git
+git_url=https://github.com/gregdavill/ecpprog.git
 
-cd $UPSTREAM_DIR
+git_clone $dir_name $git_url $commit
 
-# -- Clone the sources from github
-test -e $ecpprog || git clone $git_ecpprog $ecpprog
-git -C $ecpprog pull
-git -C $ecpprog checkout $commit
-git -C $ecpprog log -1
-
-# -- Copy the upstream sources into the build directory
-rsync -a $ecpprog $BUILD_DIR --exclude .git
-
-cd $BUILD_DIR/$ecpprog/ecpprog
+cd $BUILD_DIR/$dir_name/ecpprog
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then

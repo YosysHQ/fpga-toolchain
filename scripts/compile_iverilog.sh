@@ -1,23 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
-iverilog=iverilog
+dir_name=iverilog
 commit=master
-git_iverilog=https://github.com/steveicarus/iverilog.git
+git_url=https://github.com/steveicarus/iverilog.git
 
-cd $UPSTREAM_DIR
+git_clone $dir_name $git_url $commit
 
-# -- Clone the sources from github
-test -e $iverilog || git clone $git_iverilog $iverilog
-git -C $iverilog pull
-git -C $iverilog checkout $commit
-git -C $iverilog log -1
-
-# -- Copy the upstream sources into the build directory
-rsync -a $iverilog $BUILD_DIR --exclude .git
-
-cd $BUILD_DIR/$iverilog
+cd $BUILD_DIR/$dir_name
 
 bash ./autoconf.sh
 # -- Compile it
