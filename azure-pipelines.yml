@@ -1,15 +1,15 @@
 trigger:
   branches:
     exclude:
-    # master branch publishes releases - avoid merges triggering a new release
-    - master
+    # main branch publishes releases - avoid merges triggering a new release
+    - main
 
 schedules:
 - cron: "0 4 * * *"
   displayName: Nightly build at 0400 UTC
   branches:
     include:
-    - master
+    - main
   always: true
 
 variables:
@@ -224,8 +224,8 @@ stages:
 
 - stage: publish_release
   displayName: publish release
-  # only generate a github release on master (dev branches still have artifacts that can be downloaded)
-  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  # only generate a github release on main (dev branches still have artifacts that can be downloaded)
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   jobs:
   - job: publish_release
     displayName: publish_release
