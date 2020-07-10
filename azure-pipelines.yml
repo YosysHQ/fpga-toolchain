@@ -21,6 +21,8 @@ variables:
   value: "0"
 - name: COMPILE_SBY
   value: "1"
+- name: COMPILE_Z3
+  value: "1"
 - name: COMPILE_ICESTORM
   value: "0"
 - name: COMPILE_NEXTPNR_ICE40

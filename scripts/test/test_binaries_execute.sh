@@ -6,7 +6,7 @@ set -e
 for i in dfu-prefix dfu-suffix dfu-util ecpbram ecpmulti ecppack ecppll \
     ecpprog ecpunpack ghdl icebram icemulti icepack icepll iceprog icetime \
     nextpnr-ecp5 nextpnr-ice40 yosys yosys-abc yosys-config yosys-filterlib \
-    yosys-smtbmc sby yices yices-sat yices-smt yices-smt2
+    yosys-smtbmc sby yices yices-sat yices-smt yices-smt2 z3
 do
   if $i --help 2&> /dev/null
   then

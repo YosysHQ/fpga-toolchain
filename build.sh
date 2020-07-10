@@ -19,6 +19,7 @@ COMPILE_NEXTPNR_ECP5="${COMPILE_NEXTPNR_ECP5:-1}"
 COMPILE_ECPPROG="${COMPILE_ECPPROG:-1}"
 COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
 COMPILE_GHDL="${COMPILE_GHDL:-1}"
+COMPILE_Z3="${COMPILE_Z3:-1}"
 BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
 BUNDLE_YICES2="${BUNDLE_YICES2:-1}"
 CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
@@ -58,6 +59,11 @@ fi
 if [ $COMPILE_SBY == "1" ]; then
   print ">> Compile SymbiYosys"
   . $WORK_DIR/scripts/compile_sby.sh
+fi
+
+if [ $COMPILE_Z3 == "1" ]; then
+  print ">> Compile Z3"
+  . $WORK_DIR/scripts/compile_z3.sh
 fi
 
 if [ $COMPILE_ICESTORM == "1" ]; then

@@ -10,8 +10,6 @@ git_clone $dir_name $git_url $commit
 
 cd $BUILD_DIR/$dir_name
 
-patch -p1 < $WORK_DIR/scripts/sby_launcher.diff
-
 # -- Compile it
 if [ ${ARCH:0:7} = "windows" ]
 then
