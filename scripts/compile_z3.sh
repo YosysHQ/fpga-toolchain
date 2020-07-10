@@ -21,7 +21,7 @@ then
     LDFLAGS="-static" cmake -G "MinGW Makefiles" -DBUILD_LIBZ3_SHARED=OFF ../
     $MAKE -j$J
 else
-    LDFLAGS="-static" cmake -DBUILD_LIBZ3_SHARED=OFF ../
+    LDFLAGS="-static --whole-archive -lpthread --no-whole-archive" cmake -DBUILD_LIBZ3_SHARED=OFF ../
     cmake -DZ3_BUILD_LIBZ3_SHARED=OFF ../
     $MAKE -j$J
 fi
