@@ -17,12 +17,12 @@ then
     cmake ../
     $MAKE
 elif [ ${ARCH:0:7} = "windows" ]
+then
     cmake -G "MinGW Makefiles" ../
     $MAKE
-then
+else
     cmake ../
     $MAKE
-else
 fi
 
 test_bin z3$EXE
