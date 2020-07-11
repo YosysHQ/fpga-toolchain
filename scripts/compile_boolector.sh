@@ -23,7 +23,7 @@ then
 elif [ ${ARCH:0:7} = "windows" ]
 then
     # this is easier than working out how to escape an arg with a space
-    $SED -i 's/cmake .. $cmake_opts/cmake -G "MinGW Makefiles" .. $cmake_opts/;' ./configure.sh
+    $SED -i 's/cmake .. $cmake_opts/cmake -DIS_WINDOWS_BUILD=1 -G "MinGW Makefiles" .. $cmake_opts/;' ./configure.sh
 
     ./configure.sh
     $MAKE -C build -j$J
