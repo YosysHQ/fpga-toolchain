@@ -25,7 +25,7 @@ else
     # the program segfaulting on startup (something to do with weak symbols, I won't pretend
     # to fully understand)
     CXXFLAGS="-Wl,--whole-archive -lpthread -lrt -Wl,--no-whole-archive" LDFLAGS="-static -pthread -lrt" cmake -DZ3_BUILD_LIBZ3_SHARED=OFF ../
-    $MAKE -j$J VERBOSE=1
+    $MAKE -j$J
 fi
 
 test_bin z3$EXE
