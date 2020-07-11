@@ -25,6 +25,7 @@ then
     # this is easier than working out how to escape an arg with a space
     $SED -i 's/cmake .. $cmake_opts/cmake -G "MinGW Makefiles" .. $cmake_opts/;' ./configure.sh
 
+    ./configure.sh
     $MAKE -C build -j$J
 else
     ./configure.sh
