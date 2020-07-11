@@ -12,6 +12,8 @@ else
 fi
 echo nproc=$J
 
+export SED=sed
+
 if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
     export CXX="g++"
@@ -79,6 +81,7 @@ if [ $ARCH == "darwin" ]; then
     GNAT_VERSION=9.1.0
     GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin
     export GNAT_ROOT=/tmp/gnat/$GNAT_ARCHIVE
+    export SED=gsed
 fi
 
 echo Running with J=$J
