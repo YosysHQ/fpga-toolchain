@@ -33,6 +33,8 @@ variables:
   value: "1"
 - name: BUNDLE_PYTHON
   value: "1"
+- name: BUNDLE_MAKE
+  value: "1"
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
