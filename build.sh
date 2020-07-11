@@ -19,6 +19,7 @@ COMPILE_ECPPROG="${COMPILE_ECPPROG:-1}"
 COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
 COMPILE_GHDL="${COMPILE_GHDL:-1}"
 BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
+BUNDLE_MAKE="${BUNDLE_MAKE:-1}"
 CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 
 . scripts/_common.sh $1
@@ -26,6 +27,11 @@ CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 if [ $BUNDLE_PYTHON == "1" ]; then
   print ">> Bundle Python"
   . $WORK_DIR/scripts/bundle_python.sh
+fi
+
+if [ $BUNDLE_MAKE == "1" ]; then
+  print ">> Bundle GNU Make"
+  . $WORK_DIR/scripts/bundle_make.sh
 fi
 
 if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
