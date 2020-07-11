@@ -21,9 +21,11 @@ then
     LDFLAGS="-static" cmake -G "MinGW Makefiles" -DBUILD_LIBZ3_SHARED=OFF ../
     $MAKE -j$J
 else
-    LDFLAGS="-static --whole-archive -lpthread --no-whole-archive" cmake -DBUILD_LIBZ3_SHARED=OFF ../
-    cmake -DZ3_BUILD_LIBZ3_SHARED=OFF ../
-    $MAKE -j$J
+    # edbordin: the extra CXXFLAGS are required to correctly statically link pthreads without
+    # the program segfaulting on startup (something to do with weak symbols, I won't pretend
+    # to fully understand)
+    CXXFLAGS="-Wl,--whole-archive -lpthread -lrt -Wl,--no-whole-archive" LDFLAGS="-static -pthread -lrt" cmake -DZ3_BUILD_LIBZ3_SHARED=OFF ../
+    $MAKE -j$J VERBOSE=1
 fi
 
 test_bin z3$EXE
