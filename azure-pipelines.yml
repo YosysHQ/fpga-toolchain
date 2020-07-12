@@ -22,7 +22,7 @@ variables:
 - name: COMPILE_SBY
   value: "1"
 - name: COMPILE_Z3
-  value: "0"
+  value: "1"
 - name: COMPILE_BOOLECTOR
   value: "1"
 - name: COMPILE_ICESTORM
@@ -38,11 +38,11 @@ variables:
 - name: COMPILE_GHDL
   value: "0"
 - name: BUNDLE_PYTHON
-  value: "1"
+  value: "0"
 - name: BUNDLE_YICES2
   value: "1"
 - name: BUNDLE_MAKE
-  value: "1"
+  value: "0"
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
