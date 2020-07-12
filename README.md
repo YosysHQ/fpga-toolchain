@@ -35,15 +35,15 @@ need to set the `GHDL_PREFIX` environment variable. e.g. `export GHDL_PREFIX=<in
 
 If you see errors about missing libraries (`.so`/`.dll`/`.dylib`) please report them in an issue here.
 
-## Related Projects
-
-For portable WASM builds of these tools, check out [YoWASP](http://yowasp.org/). Also check out [nMigen](https://github.com/nmigen/nmigen) for a powerful python-based approach to hardware description.
-
 ## Getting Help
 
 If you run into issues with these tools, please consider reporting an issue to the authors of the tools - we are just compiling them here! If you think your issue relates to *the way we have compiled them* then it is more appropriate to open a GitHub issue here.
 
-If you aren't sure where to report your issue, you can also try sending a message in the `#open-tool-forge` channel on [1BitSquared's Discord server](https://discord.gg/s9sMfyx)
+If you aren't sure where to report your issue or don't feel it fits on GitHub, you can also try sending a message in the `#open-tool-forge` channel on [1BitSquared's Discord server](https://discord.gg/s9sMfyx) or [1BitSquared's Forum](https://forum.1bitsquared.com/c/projects/open-tool-forge/16).
+
+## Related Projects
+
+For portable WASM builds of these tools, check out [YoWASP](http://yowasp.org/). Also check out [nMigen](https://github.com/nmigen/nmigen) for a powerful python-based approach to hardware description.
 
 ## Credits
 
