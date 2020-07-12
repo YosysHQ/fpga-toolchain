@@ -44,3 +44,5 @@ do
     test_bin $i
     cp $i $PACKAGE_DIR/$NAME/bin
 done
+
+strip_binaries bin/{boolector,btorimc,btormbt,btormc,btorsim,btoruntrace}$EXE

@@ -25,3 +25,5 @@ else
     tar xvf yices2.tar.gz
     cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
 fi
+
+strip_binaries bin/{yices,yices-sat,yices-smt,yices-smt2}$EXE

@@ -39,3 +39,5 @@ done
 for tool in $TOOLS; do
   cp src/$tool$EXE $PACKAGE_DIR/$NAME/bin/$tool$EXE
 done
+
+strip_binaries bin/{dfu-util,dfu-prefix,dfu-suffix}$EXE

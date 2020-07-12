@@ -41,8 +41,8 @@ export PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
 mkdir -p $BUILD_DIR
 
 # -- Create the package folders
-mkdir -p $PACKAGE_DIR/$NAME/bin
-mkdir -p $PACKAGE_DIR/$NAME/share
+mkdir -p $PACKAGE_DIR/$NAME/{bin,lib,share}
+mkdir -p $PACKAGE_DIR/${NAME}_symbols/{bin,lib}
 
 # -- Test script function
 function test_bin {
@@ -98,6 +98,45 @@ function git_clone_direct {
     git -C $dir_name log -1
 
     popd
+}
+
+function strip_binaries() {
+    local binary_paths="$1"
+    for path in $binary_paths
+    do
+        local src_file=$PACKAGE_DIR/$NAME/$path
+        local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.debug
+
+        if [ ! -f "$src_file" ]; then
+            echo "Skipping strip of $src_file - does not exist."
+        fi
+
+        if [ $ARCH = "darwin" ]
+        then
+            strip $src_file
+        else
+            objcopy --only-keep-debug "${src_file}" "${dst_file}"
+            strip $src_file --strip-debug --strip-unneeded
+        fi
+    done
+}
+
+function create_package() {
+    local base_dir=$1
+    local compress_dir=$2
+    local package_name=$3
+
+    pushd $base_dir
+    echo $VERSION > $compress_dir/VERSION
+
+    if [ ${ARCH:0:7} = "windows" ]
+    then
+        zip -r $package_name.zip $compress_dir
+        7z a $package_name.7z $compress_dir
+    else
+        tar -czf $package_name.tar.gz $compress_dir
+        tar cf - $compress_dir | xz -z - > $package_name.tar.xz
+    fi
 }
 
 # -- Check ARCH

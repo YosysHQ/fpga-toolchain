@@ -30,3 +30,4 @@ fi
 
 test_bin z3$EXE
 cp z3$EXE $PACKAGE_DIR/$NAME/bin
+strip_binaries bin/z3$EXE

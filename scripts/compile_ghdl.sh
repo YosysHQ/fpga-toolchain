@@ -31,3 +31,5 @@ else
 fi
 
 test_bin $PACKAGE_DIR/$NAME/bin/ghdl$exe
+
+strip_binaries bin/ghdl$EXE

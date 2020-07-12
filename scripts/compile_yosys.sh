@@ -92,3 +92,5 @@ cp yosys-smtbmc$EXE $PACKAGE_DIR/$NAME/bin/yosys-smtbmc$EXE
 # -- Copy the share folder to the package folder
 mkdir -p $PACKAGE_DIR/$NAME/share/yosys
 cp -r share/* $PACKAGE_DIR/$NAME/share/yosys
+
+strip_binaries bin/{yosys,yosys-abc,yosys-filterlib}$EXE

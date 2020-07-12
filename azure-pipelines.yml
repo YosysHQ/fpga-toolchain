@@ -112,7 +112,7 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+    - publish: _packages/build_$(ARCH)/*fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.*
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
   - job: build_toolchain_osx
     displayName: Build toolchain OS X
@@ -139,7 +139,7 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+    - publish: _packages/build_$(ARCH)/*fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.*
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
   - job: build_toolchain_windows_amd64
@@ -190,7 +190,7 @@ stages:
         MSYSTEM: MINGW64
         CHERE_INVOKING: yes
         MINGW_INSTALLS: mingw64
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
+    - publish: _packages/build_$(ARCH)/*fpga-toolchain-$(ARCH)-$(RELEASE_TAG).*
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: run_tests
@@ -260,5 +260,6 @@ stages:
         releaseNotesSource: 'input'
         releaseNotes: '$(RELEASE_TAG)'
         assets: |
-          $(Pipeline.Workspace)/**/fpga-toolchain*.tar.gz
+          $(Pipeline.Workspace)/**/fpga-toolchain*.tar.*
           $(Pipeline.Workspace)/**/fpga-toolchain*.zip
+          $(Pipeline.Workspace)/**/fpga-toolchain*.7z

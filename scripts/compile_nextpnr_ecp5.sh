@@ -145,3 +145,5 @@ done
 $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --help
 echo 'print("hello from python!")' > hello.py
 $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --run hello.py
+
+strip_binaries bin/{ecpmulti,ecppack,ecppll,ecpunpack,ecpbram,nextpnr-ecp5}$EXE

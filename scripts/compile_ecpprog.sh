@@ -38,3 +38,5 @@ test_bin ecpprog$EXE
 
 # -- Copy the executable to the bin dir
 cp ecpprog$EXE $PACKAGE_DIR/$NAME/bin/ecpprog$EXE
+
+strip_binaries bin/ecpprog$EXE
