@@ -105,7 +105,6 @@ function strip_binaries() {
     for path in $binary_paths
     do
         local src_file=$PACKAGE_DIR/$NAME/$path
-        local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.debug
 
         if [ ! -f "$src_file" ]; then
             echo "Skipping strip of $src_file - does not exist."
@@ -113,8 +112,11 @@ function strip_binaries() {
 
         if [ $ARCH = "darwin" ]
         then
+            local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.dSYM
+            dsymutil -o $dst_file $src_file
             strip $src_file
         else
+            local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.debug
             objcopy --only-keep-debug "${src_file}" "${dst_file}"
             strip $src_file --strip-debug --strip-unneeded
         fi
@@ -127,7 +129,7 @@ function create_package() {
     local package_name=$3
 
     pushd $base_dir
-    echo $VERSION > $compress_dir/VERSION
+    echo $VERSION > ./$compress_dir/VERSION
 
     if [ ${ARCH:0:7} = "windows" ]
     then
