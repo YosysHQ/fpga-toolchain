@@ -23,6 +23,7 @@ COMPILE_Z3="${COMPILE_Z3:-1}"
 COMPILE_BOOLECTOR="${COMPILE_BOOLECTOR:-1}"
 BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
 BUNDLE_YICES2="${BUNDLE_YICES2:-1}"
+BUNDLE_MAKE="${BUNDLE_MAKE:-1}"
 CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 
 . scripts/_common.sh $1
@@ -35,6 +36,11 @@ fi
 if [ $BUNDLE_YICES2 == "1" ]; then
   print ">> Bundle Yices2"
   . $WORK_DIR/scripts/bundle_yices2.sh
+fi
+
+if [ $BUNDLE_MAKE == "1" ]; then
+  print ">> Bundle GNU Make"
+  . $WORK_DIR/scripts/bundle_make.sh
 fi
 
 if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then

@@ -41,6 +41,8 @@ variables:
   value: "1"
 - name: BUNDLE_YICES2
   value: "1"
+- name: BUNDLE_MAKE
+  value: "1"
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
