@@ -3,7 +3,7 @@
 set -e
 
 dir_name=avy
-commit=new_quip
+commit=cav19
 git_url=https://bitbucket.org/arieg/extavy.git
 
 git_clone $dir_name $git_url $commit 1 # enable submodule update
@@ -20,7 +20,7 @@ cd build
 
 if [ $ARCH = "darwin" ]
 then
-    cmake -DCMAKE_BUILD_TYPE=Release -DAVY_STATIC_EXE=ON ../
+    cmake -DCMAKE_BUILD_TYPE=Release ../
     $MAKE -j$J
 elif [ ${ARCH:0:7} = "windows" ]
 then
