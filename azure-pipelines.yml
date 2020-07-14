@@ -25,6 +25,8 @@ variables:
   value: "1"
 - name: COMPILE_BOOLECTOR
   value: "1"
+- name: COMPILE_AVY
+  value: "0"
 - name: COMPILE_ICESTORM
   value: "0"
 - name: COMPILE_NEXTPNR_ICE40
@@ -46,17 +48,17 @@ variables:
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
-  value: "1"
+  value: "0"
 - name: TEST_ICE40_BLINKY
-  value: "1"
+  value: "0"
 - name: TEST_ECP5_BLINKY
-  value: "1"
+  value: "0"
 - name: TEST_NMIGEN
-  value: "1"
+  value: "0"
 - name: TEST_GHDL_YOSYS
-  value: "1"
+  value: "0"
 - name: TEST_NEXTPNR_PYTHON
-  value: "1"
+  value: "0"
 
 stages:
 - stage: build_bba
@@ -112,8 +114,12 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/*fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.*
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
+      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
   - job: build_toolchain_osx
     displayName: Build toolchain OS X
     timeoutInMinutes: 0
@@ -139,8 +145,12 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/*fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.*
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
+      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
   - job: build_toolchain_windows_amd64
     displayName: Build toolchain windows_amd64
@@ -168,6 +178,7 @@ stages:
     - script: |
         set MSYS_ROOT=%CD:~0,2%\msys64
         echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
+        git config --global core.autocrlf false
         git clone https://github.com/msys2/msys2-ci-base.git %MSYS_ROOT%
         %MSYS_ROOT%\usr\bin\rm -rf %MSYS_ROOT%\.git
       displayName: Install MSYS2
@@ -184,14 +195,19 @@ stages:
         set PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
         %MSYS_ROOT%\usr\bin\sed -i "s|#CacheDir.*|CacheDir=/c/Users/%USERNAME%/AppData/Local/Temp|g" /etc/pacman.conf
         set MSYS=winsymlinks:nativestrict
+        git config --global core.autocrlf false
         %MSYS_ROOT%\msys2_shell.cmd -defterm -no-start -mingw64 -full-path -here -c "./build.sh windows_amd64"
       displayName: CI-Build
       env:
         MSYSTEM: MINGW64
         CHERE_INVOKING: yes
         MINGW_INSTALLS: mingw64
-    - publish: _packages/build_$(ARCH)/*fpga-toolchain-$(ARCH)-$(RELEASE_TAG).*
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).7z
+      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG).7z
+      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: run_tests
   displayName: run tests

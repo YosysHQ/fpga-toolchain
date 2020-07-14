@@ -3,7 +3,7 @@
 #   FPGA toolchain builder       #
 ##################################
 
-set -e
+set -e -x
 
 # -- Toolchain name
 export NAME=fpga-toolchain
@@ -21,6 +21,7 @@ COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
 COMPILE_GHDL="${COMPILE_GHDL:-1}"
 COMPILE_Z3="${COMPILE_Z3:-1}"
 COMPILE_BOOLECTOR="${COMPILE_BOOLECTOR:-1}"
+COMPILE_AVY="${COMPILE_AVY:-1}"
 BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
 BUNDLE_YICES2="${BUNDLE_YICES2:-1}"
 BUNDLE_MAKE="${BUNDLE_MAKE:-1}"
@@ -76,6 +77,11 @@ fi
 if [ $COMPILE_BOOLECTOR == "1" ]; then
   print ">> Compile Boolector"
   . $WORK_DIR/scripts/compile_boolector.sh
+fi
+
+if [ $COMPILE_AVY == "1" ]; then
+  print ">> Compile Avy"
+  . $WORK_DIR/scripts/compile_avy.sh
 fi
 
 if [ $COMPILE_ICESTORM == "1" ]; then
