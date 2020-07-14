@@ -26,7 +26,7 @@ variables:
 - name: COMPILE_BOOLECTOR
   value: "0"
 - name: COMPILE_AVY
-  value: "0"
+  value: "1"
 - name: COMPILE_ICESTORM
   value: "0"
 - name: COMPILE_NEXTPNR_ICE40
