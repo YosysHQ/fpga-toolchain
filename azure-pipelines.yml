@@ -22,9 +22,9 @@ variables:
 - name: COMPILE_SBY
   value: "1"
 - name: COMPILE_Z3
-  value: "1"
+  value: "0"
 - name: COMPILE_BOOLECTOR
-  value: "1"
+  value: "0"
 - name: COMPILE_AVY
   value: "0"
 - name: COMPILE_ICESTORM
@@ -114,12 +114,11 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+    - publish: _packages/build_$(ARCH)/publish
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
-      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
+    - publish: _packages/build_$(ARCH)/publish_symbols
       artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+
   - job: build_toolchain_osx
     displayName: Build toolchain OS X
     timeoutInMinutes: 0
@@ -145,11 +144,9 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+    - publish: _packages/build_$(ARCH)/publish
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
-      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.xz
+    - publish: _packages/build_$(ARCH)/publish_symbols
       artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
   - job: build_toolchain_windows_amd64
@@ -202,11 +199,9 @@ stages:
         MSYSTEM: MINGW64
         CHERE_INVOKING: yes
         MINGW_INSTALLS: mingw64
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
+    - publish: _packages/build_$(ARCH)/publish
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).7z
-      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG).7z
+    - publish: _packages/build_$(ARCH)/publish_symbols
       artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: run_tests

@@ -106,6 +106,7 @@ fi
 
 if [ $CREATE_PACKAGE == "1" ]; then
   print ">> Create package"
-  create_package "$PACKAGE_DIR" "$NAME" "$NAME-$ARCH-$VERSION"
-  create_package "$PACKAGE_DIR" "${NAME}_symbols" "symbols_${NAME}-$ARCH-$VERSION"
+  mkdir -p $PACKAGE_DIR/publish $PACKAGE_DIR/publish_symbols
+  create_package "$PACKAGE_DIR" "$NAME" "publish/$NAME-$ARCH-$VERSION"
+  create_package "$PACKAGE_DIR" "${NAME}_symbols" "publish_symbols/symbols_${NAME}-$ARCH-$VERSION"
 fi
