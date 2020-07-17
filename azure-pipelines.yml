@@ -7,7 +7,7 @@ trigger:
 schedules:
 - cron: "0 4 * * *"
   displayName: Nightly build at 0400 UTC
-  branches:
+  branches: 
     include:
     - main
   always: true
