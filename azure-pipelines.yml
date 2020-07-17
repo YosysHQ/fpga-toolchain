@@ -18,7 +18,7 @@ variables:
 - name: CLEAN_AFTER_BUILD
   value: "1"
 - name: COMPILE_DFU_UTIL
-  value: "1"
+  value: "0"
 - name: COMPILE_YOSYS
   value: "1"
 - name: COMPILE_SBY
@@ -26,40 +26,42 @@ variables:
 - name: COMPILE_Z3
   value: "1"
 - name: COMPILE_BOOLECTOR
-  value: "0"
+  value: "1"
 - name: COMPILE_AVY
-  value: "0"
+  value: "0" # deliberately disabled 
+- name: BUNDLE_YICES2
+  value: "1"
 - name: COMPILE_ICESTORM
-  value: "1"
+  value: "0"
 - name: COMPILE_NEXTPNR_ICE40
-  value: "1"
+  value: "0"
 - name: COMPILE_NEXTPNR_ECP5
-  value: "1"
+  value: "0"
 - name: COMPILE_ECPPROG
-  value: "1"
+  value: "0"
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled 
 - name: COMPILE_GHDL
-  value: "1"
+  value: "0"
 - name: BUNDLE_PYTHON
   value: "1"
-- name: BUNDLE_YICES2
-  value: "1"
 - name: BUNDLE_MAKE
-  value: "1"
+  value: "0"
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
   value: "1"
 - name: TEST_ICE40_BLINKY
-  value: "1"
+  value: "0"
 - name: TEST_ECP5_BLINKY
-  value: "1"
+  value: "0"
 - name: TEST_NMIGEN
-  value: "1"
+  value: "0"
 - name: TEST_GHDL_YOSYS
-  value: "1"
+  value: "0"
 - name: TEST_NEXTPNR_PYTHON
+  value: "0"
+- name: TEST_SBY
   value: "1"
 
 stages:
