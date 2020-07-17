@@ -42,7 +42,7 @@ variables:
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled 
 - name: COMPILE_GHDL
-  value: "0"
+  value: "1"
 - name: BUNDLE_PYTHON
   value: "1"
 - name: BUNDLE_MAKE
