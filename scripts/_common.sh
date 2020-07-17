@@ -102,6 +102,15 @@ function git_clone_direct {
     popd
 }
 
+function clean_build {
+    local dir_name=$1
+
+    if [ $CLEAN_AFTER_BUILD == "1" ]; then
+        rm -rf $UPSTREAM_DIR/$dir_name
+        rm -rf $BUILD_DIR/$dir_name
+    fi
+}
+
 function strip_binaries() {
     local binary_paths="$1"
     for path in $binary_paths

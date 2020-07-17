@@ -15,6 +15,8 @@ schedules:
 variables:
 - name: INSTALL_DEPS
   value: "1"
+- name: CLEAN_AFTER_BUILD
+  value: "1"
 - name: COMPILE_DFU_UTIL
   value: "1"
 - name: COMPILE_YOSYS

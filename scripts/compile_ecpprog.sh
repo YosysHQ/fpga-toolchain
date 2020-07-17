@@ -40,3 +40,5 @@ test_bin ecpprog$EXE
 cp ecpprog$EXE $PACKAGE_DIR/$NAME/bin/ecpprog$EXE
 
 strip_binaries bin/ecpprog$EXE
+
+clean_build $dir_name

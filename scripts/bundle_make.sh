@@ -16,3 +16,5 @@ then
 else
     print "Skipping bundling make (this platform should provide its own version of this tool)"
 fi
+
+clean_build gnu_make

@@ -5,8 +5,8 @@ set -e -x
 if [ $ARCH == "linux_x86_64" ]; then
     # Install a copy of Python, since Python libraries are not compatible
     # across minor versions.
-    mkdir libpython3
-    cd libpython3
+    mkdir -p $BUILD_DIR/libpython3
+    cd $BUILD_DIR/libpython3
     for pkg in $(ls -1 ${WORK_DIR}/build-data/$ARCH/*.deb)
     do
         echo "Extracting $pkg..."
@@ -16,6 +16,7 @@ if [ $ARCH == "linux_x86_64" ]; then
     mv usr/lib/python$EMBEDDED_PY_VER/* $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
     cd ..
 
+    clean_build libpython3
 elif [ $ARCH == "windows_amd64" ]; then
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
         cp -L -R /mingw64/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib

@@ -41,3 +41,5 @@ for tool in $TOOLS; do
 done
 
 strip_binaries bin/{dfu-util,dfu-prefix,dfu-suffix}$EXE
+
+clean_build $dir_name

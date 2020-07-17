@@ -94,3 +94,6 @@ mkdir -p $PACKAGE_DIR/$NAME/share/yosys
 cp -r share/* $PACKAGE_DIR/$NAME/share/yosys
 
 strip_binaries bin/{yosys,yosys-abc,yosys-filterlib}$EXE
+
+clean_build $dir_name
+clean_build $dir_name_gyp

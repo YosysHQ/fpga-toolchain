@@ -46,3 +46,5 @@ do
 done
 
 strip_binaries bin/{boolector,btorimc,btormbt,btormc,btorsim,btoruntrace}$EXE
+
+clean_build $dir_name

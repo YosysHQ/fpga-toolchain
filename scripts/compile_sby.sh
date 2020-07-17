@@ -18,3 +18,5 @@ then
 else
     $MAKE install PREFIX=$PACKAGE_DIR/$NAME
 fi
+
+clean_build $dir_name

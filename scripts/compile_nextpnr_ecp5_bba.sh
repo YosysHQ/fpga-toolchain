@@ -59,3 +59,6 @@ make -j$J CXX="$CXX" chipdb-ecp5-bbas
 
 mkdir -p $PACKAGE_DIR/$NAME/bba
 cp $BUILD_DIR/$nextpnr_dir/ecp5/chipdb/*.bba $PACKAGE_DIR/$NAME/bba
+
+clean_build $nextpnr_dir
+clean_build $prjtrellis_dir

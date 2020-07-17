@@ -27,3 +27,5 @@ else
 fi
 
 strip_binaries bin/{yices,yices-sat,yices-smt,yices-smt2}$EXE
+
+clean_build yices2

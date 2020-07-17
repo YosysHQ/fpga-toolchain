@@ -49,3 +49,5 @@ for tool in $TOOLS; do
 done
 
 strip_binaries $TOOLS
+
+clean_build $dir_name

@@ -33,3 +33,5 @@ fi
 test_bin $PACKAGE_DIR/$NAME/bin/ghdl$exe
 
 strip_binaries bin/ghdl$EXE
+
+clean_build $dir_name

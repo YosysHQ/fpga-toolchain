@@ -34,3 +34,5 @@ fi
 test_bin avy/src/avy$EXE
 cp avy/src/avy$EXE $PACKAGE_DIR/$NAME/bin
 strip_binaries bin/avy$EXE
+
+clean_build $dir_name
