@@ -106,6 +106,7 @@ function clean_build {
     local dir_name=$1
 
     if [ $CLEAN_AFTER_BUILD == "1" ]; then
+        cd $WORK_DIR
         rm -rf $UPSTREAM_DIR/$dir_name
         rm -rf $BUILD_DIR/$dir_name
     fi
@@ -150,6 +151,7 @@ function create_package() {
         tar -czf $package_name.tar.gz $compress_dir
         tar cf - $compress_dir | xz -z - > $package_name.tar.xz
     fi
+    popd
 }
 
 # -- Check ARCH
