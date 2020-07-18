@@ -154,6 +154,18 @@ function create_package() {
     popd
 }
 
+function wget_retry {
+    local max_retry=3
+    local counter=0
+    until wget "$@"
+    do
+        sleep 1
+        [[ counter -eq $max_retry ]] && echo "Failed!" && exit 1
+        echo "Trying again. Try #$counter"
+        ((counter++))
+    done
+}
+
 # -- Check ARCH
 if [[ $# > 1 ]]; then
   echo ""

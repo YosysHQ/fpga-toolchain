@@ -95,7 +95,7 @@ if [ $ARCH == "darwin" ]; then
     brew install automake pkg-config bison flex gawk libffi git graphviz xdot bash cmake boost boost-python3 eigen \
         libftdi libusb zlib libedit ncurses bzip2 gnu-sed
 
-    wget --progress=dot https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
+    wget_retry --progress=dot https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda
     source /tmp/conda/bin/activate base
     conda env update -n base -f $WORK_DIR/build-data/darwin/environment.yml
@@ -104,7 +104,7 @@ if [ $ARCH == "darwin" ]; then
     GNAT_VERSION=9.1.0
     GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin
     mkdir -p /tmp/gnat
-    wget https://sourceforge.net/projects/gnuada/files/GNAT_GCC%20Mac%20OS%20X/$GNAT_VERSION/native/$GNAT_ARCHIVE.tar.bz2
+    wget_retry https://sourceforge.net/projects/gnuada/files/GNAT_GCC%20Mac%20OS%20X/$GNAT_VERSION/native/$GNAT_ARCHIVE.tar.bz2
     tar jxvf $GNAT_ARCHIVE.tar.bz2 -C /tmp/gnat
     export GNAT_ROOT=/tmp/gnat/$GNAT_ARCHIVE
 else

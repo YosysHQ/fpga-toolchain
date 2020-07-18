@@ -10,7 +10,7 @@ cd $BUILD_DIR/gnu_make
 
 if [ ${ARCH:0:7} = "windows" ]
 then
-    wget $MAKE_URL_WIN -O gnumake.zip
+    wget_retry $MAKE_URL_WIN -O gnumake.zip
     unzip gnumake.zip
     cp bin/make.exe $PACKAGE_DIR/$NAME/bin/
 else

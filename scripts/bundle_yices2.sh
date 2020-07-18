@@ -12,16 +12,16 @@ cd $BUILD_DIR/yices2
 
 if [ $ARCH == "darwin" ]
 then
-    wget $YICES2_URL_DARWIN -O yices2.tar.gz
+    wget_retry $YICES2_URL_DARWIN -O yices2.tar.gz
     tar xvf yices2.tar.gz
     cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    wget $YICES2_URL_WIN -O yices2.zip
+    wget_retry $YICES2_URL_WIN -O yices2.zip
     unzip yices2.zip
     cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
 else
-    wget $YICES2_URL_LINUX -O yices2.tar.gz
+    wget_retry $YICES2_URL_LINUX -O yices2.tar.gz
     tar xvf yices2.tar.gz
     cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
 fi
