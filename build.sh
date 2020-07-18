@@ -3,7 +3,7 @@
 #   FPGA toolchain builder       #
 ##################################
 
-set -e -x
+set -e
 
 # -- Toolchain name
 export NAME=fpga-toolchain
