@@ -6,3 +6,4 @@ libftdi.a
 _builds/
 _packages/
 _upstream/
+.env

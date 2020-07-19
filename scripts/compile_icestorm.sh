@@ -56,3 +56,7 @@ done
 mkdir -p $PACKAGE_DIR/$NAME/share/icebox
 cp -r icebox/chipdb*.txt $PACKAGE_DIR/$NAME/share/icebox
 cp -r icefuzz/timings*.txt $PACKAGE_DIR/$NAME/share/icebox
+
+strip_binaries bin/{iceprog,icepack,icemulti,icepll,icetime,icebram}$EXE
+
+clean_build $dir_name

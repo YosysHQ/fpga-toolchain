@@ -10,15 +10,21 @@ export NAME=fpga-toolchain
 
 # -- Debug flags
 INSTALL_DEPS="${INSTALL_DEPS:-1}"
+CLEAN_AFTER_BUILD="${CLEAN_AFTER_BUILD:-1}"
 COMPILE_DFU_UTIL="${COMPILE_DFU_UTIL:-1}"
 COMPILE_YOSYS="${COMPILE_YOSYS:-1}"
+COMPILE_SBY="${COMPILE_SBY:-1}"
 COMPILE_ICESTORM="${COMPILE_ICESTORM:-1}"
 COMPILE_NEXTPNR_ICE40="${COMPILE_NEXTPNR_ICE40:-1}"
 COMPILE_NEXTPNR_ECP5="${COMPILE_NEXTPNR_ECP5:-1}"
 COMPILE_ECPPROG="${COMPILE_ECPPROG:-1}"
 COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
 COMPILE_GHDL="${COMPILE_GHDL:-1}"
+COMPILE_Z3="${COMPILE_Z3:-1}"
+COMPILE_BOOLECTOR="${COMPILE_BOOLECTOR:-1}"
+COMPILE_AVY="${COMPILE_AVY:-1}"
 BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
+BUNDLE_YICES2="${BUNDLE_YICES2:-1}"
 BUNDLE_MAKE="${BUNDLE_MAKE:-1}"
 CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 
@@ -27,6 +33,11 @@ CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 if [ $BUNDLE_PYTHON == "1" ]; then
   print ">> Bundle Python"
   . $WORK_DIR/scripts/bundle_python.sh
+fi
+
+if [ $BUNDLE_YICES2 == "1" ]; then
+  print ">> Bundle Yices2"
+  . $WORK_DIR/scripts/bundle_yices2.sh
 fi
 
 if [ $BUNDLE_MAKE == "1" ]; then
@@ -54,6 +65,26 @@ if [ $COMPILE_YOSYS == "1" ]; then
   . $WORK_DIR/scripts/compile_yosys.sh
 fi
 
+if [ $COMPILE_SBY == "1" ]; then
+  print ">> Compile SymbiYosys"
+  . $WORK_DIR/scripts/compile_sby.sh
+fi
+
+if [ $COMPILE_Z3 == "1" ]; then
+  print ">> Compile Z3"
+  . $WORK_DIR/scripts/compile_z3.sh
+fi
+
+if [ $COMPILE_BOOLECTOR == "1" ]; then
+  print ">> Compile Boolector"
+  . $WORK_DIR/scripts/compile_boolector.sh
+fi
+
+if [ $COMPILE_AVY == "1" ]; then
+  print ">> Compile Avy"
+  . $WORK_DIR/scripts/compile_avy.sh
+fi
+
 if [ $COMPILE_ICESTORM == "1" ]; then
   print ">> Compile icestorm"
   . $WORK_DIR/scripts/compile_icestorm.sh
@@ -76,5 +107,7 @@ fi
 
 if [ $CREATE_PACKAGE == "1" ]; then
   print ">> Create package"
-  . $WORK_DIR/scripts/create_package.sh
+  mkdir -p $PACKAGE_DIR/publish $PACKAGE_DIR/publish_symbols
+  create_package "$PACKAGE_DIR" "$NAME" "publish/$NAME-$ARCH-$VERSION"
+  create_package "$PACKAGE_DIR" "${NAME}_symbols" "publish_symbols/symbols_${NAME}-$ARCH-$VERSION"
 fi

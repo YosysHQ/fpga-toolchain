@@ -15,10 +15,22 @@ schedules:
 variables:
 - name: INSTALL_DEPS
   value: "1"
+- name: CLEAN_AFTER_BUILD
+  value: "1"
 - name: COMPILE_DFU_UTIL
   value: "1"
 - name: COMPILE_YOSYS
   value: "1"
+- name: COMPILE_SBY
+  value: "0" # deliberately disabled
+- name: COMPILE_Z3
+  value: "0" # deliberately disabled
+- name: COMPILE_BOOLECTOR
+  value: "0" # deliberately disabled
+- name: COMPILE_AVY
+  value: "0" # deliberately disabled
+- name: BUNDLE_YICES2
+  value: "0" # deliberately disabled
 - name: COMPILE_ICESTORM
   value: "1"
 - name: COMPILE_NEXTPNR_ICE40
@@ -28,7 +40,7 @@ variables:
 - name: COMPILE_ECPPROG
   value: "1"
 - name: COMPILE_IVERILOG
-  value: "0" # deliberately disabled 
+  value: "0" # deliberately disabled
 - name: COMPILE_GHDL
   value: "1"
 - name: BUNDLE_PYTHON
@@ -49,6 +61,8 @@ variables:
   value: "1"
 - name: TEST_NEXTPNR_PYTHON
   value: "1"
+- name: TEST_SBY
+  value: "0" # deliberately disabled
 
 stages:
 - stage: build_bba
@@ -104,8 +118,11 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+    - publish: _packages/build_$(ARCH)/publish
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/publish_symbols
+      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+
   - job: build_toolchain_osx
     displayName: Build toolchain OS X
     timeoutInMinutes: 0
@@ -131,8 +148,10 @@ stages:
     - bash: ./build.sh $(ARCH)
       displayName: Build toolchain
       name: build_toolchain
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).tar.gz
+    - publish: _packages/build_$(ARCH)/publish
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/publish_symbols
+      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
   - job: build_toolchain_windows_amd64
     displayName: Build toolchain windows_amd64
@@ -182,8 +201,10 @@ stages:
         MSYSTEM: MINGW64
         CHERE_INVOKING: yes
         MINGW_INSTALLS: mingw64
-    - publish: _packages/build_$(ARCH)/fpga-toolchain-$(ARCH)-$(RELEASE_TAG).zip
+    - publish: _packages/build_$(ARCH)/publish
       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+    - publish: _packages/build_$(ARCH)/publish_symbols
+      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: run_tests
   displayName: run tests
@@ -252,5 +273,6 @@ stages:
         releaseNotesSource: 'input'
         releaseNotes: '$(RELEASE_TAG)'
         assets: |
-          $(Pipeline.Workspace)/**/fpga-toolchain*.tar.gz
+          $(Pipeline.Workspace)/**/fpga-toolchain*.tar.*
           $(Pipeline.Workspace)/**/fpga-toolchain*.zip
+          $(Pipeline.Workspace)/**/fpga-toolchain*.7z

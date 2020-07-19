@@ -8,6 +8,8 @@ set -e
 # Set english language for propper pattern matching
 export LC_ALL=C
 
+[ -f .env ] && source .env
+
 export VERSION="${VERSION:-nightly-$(date +%Y%m%d | tr -d '\n')}"
 
 # -- Target architectures
@@ -41,8 +43,8 @@ export PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
 mkdir -p $BUILD_DIR
 
 # -- Create the package folders
-mkdir -p $PACKAGE_DIR/$NAME/bin
-mkdir -p $PACKAGE_DIR/$NAME/share
+mkdir -p $PACKAGE_DIR/$NAME/{bin,lib,share}
+mkdir -p $PACKAGE_DIR/${NAME}_symbols/{bin,lib}
 
 # -- Test script function
 function test_bin {
@@ -98,6 +100,70 @@ function git_clone_direct {
     git -C $dir_name log -1
 
     popd
+}
+
+function clean_build {
+    local dir_name=$1
+
+    if [ $CLEAN_AFTER_BUILD == "1" ]; then
+        cd $WORK_DIR
+        rm -rf $UPSTREAM_DIR/$dir_name
+        rm -rf $BUILD_DIR/$dir_name
+    fi
+}
+
+function strip_binaries() {
+    local binary_paths="$1"
+    for path in $binary_paths
+    do
+        local src_file=$PACKAGE_DIR/$NAME/$path
+
+        if [ ! -f "$src_file" ]; then
+            echo "Skipping strip of $src_file - does not exist."
+        fi
+
+        if [ $ARCH = "darwin" ]
+        then
+            local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.dSYM
+            dsymutil -o $dst_file $src_file
+            strip $src_file
+        else
+            local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.debug
+            objcopy --only-keep-debug "${src_file}" "${dst_file}"
+            strip $src_file --strip-debug --strip-unneeded
+        fi
+    done
+}
+
+function create_package() {
+    local base_dir=$1
+    local compress_dir=$2
+    local package_name=$3
+
+    pushd $base_dir
+    echo $VERSION > ./$compress_dir/VERSION
+
+    if [ ${ARCH:0:7} = "windows" ]
+    then
+        zip -r $package_name.zip $compress_dir
+        7z a $package_name.7z $compress_dir
+    else
+        tar -czf $package_name.tar.gz $compress_dir
+        tar cf - $compress_dir | xz -z - > $package_name.tar.xz
+    fi
+    popd
+}
+
+function wget_retry {
+    local max_retry=3
+    local counter=0
+    until wget "$@"
+    do
+        sleep 1
+        [[ counter -eq $max_retry ]] && echo "Failed!" && exit 1
+        echo "Trying again. Try #$counter"
+        ((counter++))
+    done
 }
 
 # -- Check ARCH

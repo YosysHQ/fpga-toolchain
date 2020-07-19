@@ -14,6 +14,7 @@ TEST_ECP5_BLINKY="${TEST_ECP5_BLINKY:-1}"
 TEST_NMIGEN="${TEST_NMIGEN:-1}"
 TEST_GHDL_YOSYS="${TEST_GHDL_YOSYS:-1}"
 TEST_NEXTPNR_PYTHON="${TEST_NEXTPNR_PYTHON:-1}"
+TEST_SBY="${TEST_SBY:-1}"
 
 . scripts/_common.sh $1
 . $WORK_DIR/scripts/test/install_toolchain.sh
@@ -46,4 +47,9 @@ fi
 if [ $TEST_NEXTPNR_PYTHON == "1" ]; then
     print ">> Test nextpnr embedded python"
   . $WORK_DIR/scripts/test/test_nextpnr_python.sh
+fi
+
+if [ $TEST_SBY == "1" ]; then
+    print ">> Test SymbiYosys"
+  . $WORK_DIR/scripts/test/test_sby.sh
 fi

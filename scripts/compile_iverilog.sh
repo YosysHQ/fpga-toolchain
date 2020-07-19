@@ -41,9 +41,13 @@ fi
 
 $MAKE install
 
-TOOLS="bin/iverilog bin/vvp lib/ivl/ivl lib/ivl/ivlpp lib/ivl/vhdlpp"
+TOOLS="bin/iverilog$EXE bin/vvp$EXE lib/ivl/ivl$EXE lib/ivl/ivlpp$EXE lib/ivl/vhdlpp$EXE"
 
 # -- Test the generated executables
 for tool in $TOOLS; do
-  test_bin $PACKAGE_DIR/$NAME/$tool$EXE
+  test_bin $PACKAGE_DIR/$NAME/$tool
 done
+
+strip_binaries $TOOLS
+
+clean_build $dir_name

@@ -5,7 +5,7 @@
 set -e
 
 base_packages="build-essential bison flex libreadline-dev \
-               gawk tcl-dev libffi-dev git rsync \
+               gawk tcl-dev libffi-dev git rsync wget curl \
                pkg-config python3 cmake autotools-dev automake gperf gnat"
 
 cross_x64="libboost-dev libboost-filesystem-dev libboost-thread-dev \
@@ -82,7 +82,7 @@ fi
 if [ $ARCH == "windows_amd64" ]; then
     pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake \
     mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip mingw-w64-x86_64-libftdi bison flex \
-    mingw-w64-x86_64-gcc-ada
+    mingw-w64-x86_64-gcc-ada p7zip
 
     x86_64-w64-mingw32-gcc --version
     x86_64-w64-mingw32-g++ --version
@@ -95,7 +95,7 @@ if [ $ARCH == "darwin" ]; then
     brew install automake pkg-config bison flex gawk libffi git graphviz xdot bash cmake boost boost-python3 eigen \
         libftdi libusb zlib libedit ncurses bzip2 gnu-sed
 
-    wget --progress=dot https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
+    wget_retry --progress=dot https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p /tmp/conda
     source /tmp/conda/bin/activate base
     conda env update -n base -f $WORK_DIR/build-data/darwin/environment.yml
@@ -104,7 +104,7 @@ if [ $ARCH == "darwin" ]; then
     GNAT_VERSION=9.1.0
     GNAT_ARCHIVE=gcc-$GNAT_VERSION-x86_64-apple-darwin15-bin
     mkdir -p /tmp/gnat
-    wget https://sourceforge.net/projects/gnuada/files/GNAT_GCC%20Mac%20OS%20X/$GNAT_VERSION/native/$GNAT_ARCHIVE.tar.bz2
+    wget_retry https://sourceforge.net/projects/gnuada/files/GNAT_GCC%20Mac%20OS%20X/$GNAT_VERSION/native/$GNAT_ARCHIVE.tar.bz2
     tar jxvf $GNAT_ARCHIVE.tar.bz2 -C /tmp/gnat
     export GNAT_ROOT=/tmp/gnat/$GNAT_ARCHIVE
 else

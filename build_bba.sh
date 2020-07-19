@@ -18,4 +18,4 @@ print ">> Compile nextpnr-ecp5-bba"
 . $WORK_DIR/scripts/compile_nextpnr_ecp5_bba.sh
 
 print ">> Create package"
-. $WORK_DIR/scripts/create_package.sh
+create_package "$PACKAGE_DIR" "$NAME" "$NAME-$ARCH-$VERSION"
