@@ -1,0 +1,44 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e83a076..c83d8b3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
+ set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+ 
+ if (BUILD_STATIC)
+-	 set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static")
++	 set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static ${CMAKE_EXE_LINKER_FLAGS}")
+ 	 set(BUILD_SHARED_LIBS OFF)
+ endif()
+ 
+@@ -22,8 +22,8 @@ include(GNUInstallDirs)
+ add_definitions(-DDATA_DIR=\"${CMAKE_INSTALL_FULL_DATAROOTDIR}\")
+ 
+ find_package(PkgConfig REQUIRED)
+-pkg_check_modules(LIBFTDI REQUIRED libftdi1)
+-pkg_check_modules(LIBUSB REQUIRED libusb-1.0)
++
++
+ 
+ if(ENABLE_UDEV)
+ 	pkg_check_modules(LIBUDEV libudev)
+@@ -144,15 +144,17 @@ endif()
+ 
+ if (BUILD_STATIC)
+ 	set_target_properties(openFPGALoader PROPERTIES LINK_SEARCH_END_STATIC 1)
++	find_package(Threads REQUIRED)
++	target_link_libraries(openFPGALoader Threads::Threads)
+ endif()
+ endif()
+ 
+ 
+ # libftdi < 1.4 as no usb_addr
+ if (${LIBFTDI_VERSION} VERSION_LESS 1.4)
+-	set(CMAKE_CXX_FLAGS "-DOLD_FTDI_VERSION=1")
++	set(CMAKE_CXX_FLAGS "-DOLD_FTDI_VERSION=1 ${CMAKE_CXX_FLAGS}")
+ else()
+-	set(CMAKE_CXX_FLAGS "-DOLD_FTDI_VERSION=0")
++	set(CMAKE_CXX_FLAGS "-DOLD_FTDI_VERSION=0 ${CMAKE_CXX_FLAGS}")
+ endif()
+ 
+ install(TARGETS openFPGALoader DESTINATION bin)
