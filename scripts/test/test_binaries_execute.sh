@@ -14,7 +14,7 @@ if [ ${ARCH:0:7} = "windows" ]
 then
     tools_to_check+=(make)
 else
-    tools_to_check+=(btormbt)
+    # tools_to_check+=(btormbt)
 fi
 
 for i in "${tools_to_check[@]}";
