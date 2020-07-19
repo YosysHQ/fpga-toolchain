@@ -13,7 +13,7 @@ tools_to_check=(dfu-prefix dfu-suffix dfu-util ecpbram ecpmulti ecppack ecppll \
 if [ ${ARCH:0:7} = "windows" ]
 then
     tools_to_check+=(make)
-else
+# else
     # tools_to_check+=(btormbt)
 fi
 
