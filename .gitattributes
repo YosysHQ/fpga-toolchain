@@ -1,1 +1,2 @@
-* text eol=lf
+# mark all files as not text to disable any EOL conversions
+* -text
