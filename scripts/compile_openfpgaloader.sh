@@ -10,11 +10,12 @@ git_clone $dir_name $git_url $commit
 
 mkdir -p $BUILD_DIR/$dir_name/build
 cd $BUILD_DIR/$dir_name
-patch -p1 < $WORK_DIR/scripts/openfpgaloader.diff
-cd build
+
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
+patch -p1 < $WORK_DIR/scripts/openfpgaloader.diff
+    cd build
     cmake -DENABLE_UDEV=OFF ../
     $MAKE -j$J
     # ./configure --libdir=/opt/local/lib \
@@ -23,7 +24,8 @@ if [ $ARCH == "darwin" ]; then
     #     USB_LIBS="$LIBUSB_ROOT/lib/libusb-1.0.a -Wl,-framework,IOKit -Wl,-framework,CoreFoundation"
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    cmake -DENABLE_UDEV=OFF -DBUILD_STATIC=ON ../
+    cd build
+    cmake -G "MinGW Makefiles" -DENABLE_UDEV=OFF -DBUILD_STATIC=ON ../
     $MAKE -j$J
     # ./configure USB_LIBS="-static -lpthread -lusb-1.0"
     # $MAKE
@@ -33,9 +35,8 @@ else
 #  -I$WORK_DIR/build-data/include/libusb-1.0
 # LDFLAGS="-static   -lpthread" 
         # -DCMAKE_EXE_LINKER_FLAGS="-lpthread -lrt"
-
-    sed -i 's/pkg_check_modules.LIBFTDI REQUIRED libftdi1.//' ../CMakeLists.txt
-    sed -i 's/pkg_check_modules.LIBUSB REQUIRED libusb-1.0.//' ../CMakeLists.txt
+    patch -p1 < $WORK_DIR/scripts/openfpgaloader.diff
+    cd build
     VERBOSE=1 \
         cmake -DENABLE_UDEV=OFF -DBUILD_STATIC=ON \
         -DLIBUSB_LIBRARIES=$WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a \
