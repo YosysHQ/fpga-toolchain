@@ -80,131 +80,131 @@ stages:
     - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
       artifact: ecp5-bba
 
-- stage: build_toolchain
-  displayName: build toolchain
-  condition: always()
-  jobs:
-  - job: build_toolchain
-    displayName: Build toolchain
-    timeoutInMinutes: 0
-    strategy:
-      matrix:
-        linux_x86_64:
-          ARCH: linux_x86_64
-          vm_image: ubuntu-16.04
-          container_image: ubuntu:20.04
-    pool:
-      vmImage: '$(vm_image)'
+# - stage: build_toolchain
+#   displayName: build toolchain
+#   condition: always()
+#   jobs:
+#   - job: build_toolchain
+#     displayName: Build toolchain
+#     timeoutInMinutes: 0
+#     strategy:
+#       matrix:
+#         linux_x86_64:
+#           ARCH: linux_x86_64
+#           vm_image: ubuntu-16.04
+#           container_image: ubuntu:20.04
+#     pool:
+#       vmImage: '$(vm_image)'
 
-    container:
-      image: $[ variables['container_image'] ]
-      options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
+#     container:
+#       image: $[ variables['container_image'] ]
+#       options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
 
-    steps:
-    - task: DownloadPipelineArtifact@2
-      condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
-      inputs:
-        source: current
-        artifact: ecp5-bba
-        path: '$(Build.Repository.LocalPath)'
-    - bash: |
-        RELEASE_TAG=nightly-$(date +'%Y%m%d')
-        # create pipeline variable
-        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - script: |
-        /tmp/docker exec -t -u 0 ci-container \
-        sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
-      displayName: Set up sudo
-    - bash: ./build.sh $(ARCH)
-      displayName: Build toolchain
-      name: build_toolchain
-    - publish: _packages/build_$(ARCH)/publish
-      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/publish_symbols
-      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+#     steps:
+#     - task: DownloadPipelineArtifact@2
+#       condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
+#       inputs:
+#         source: current
+#         artifact: ecp5-bba
+#         path: '$(Build.Repository.LocalPath)'
+#     - bash: |
+#         RELEASE_TAG=nightly-$(date +'%Y%m%d')
+#         # create pipeline variable
+#         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+#     - script: |
+#         /tmp/docker exec -t -u 0 ci-container \
+#         sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
+#       displayName: Set up sudo
+#     - bash: ./build.sh $(ARCH)
+#       displayName: Build toolchain
+#       name: build_toolchain
+#     - publish: _packages/build_$(ARCH)/publish
+#       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+#     - publish: _packages/build_$(ARCH)/publish_symbols
+#       artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
-  - job: build_toolchain_osx
-    displayName: Build toolchain OS X
-    timeoutInMinutes: 0
-    strategy:
-      matrix:
-        osx:
-          ARCH: darwin
-          vm_image: macOS-10.15
-    pool:
-      vmImage: '$(vm_image)'
+#   - job: build_toolchain_osx
+#     displayName: Build toolchain OS X
+#     timeoutInMinutes: 0
+#     strategy:
+#       matrix:
+#         osx:
+#           ARCH: darwin
+#           vm_image: macOS-10.15
+#     pool:
+#       vmImage: '$(vm_image)'
 
-    steps:
-    - task: DownloadPipelineArtifact@2
-      condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
-      inputs:
-        source: current
-        artifact: ecp5-bba
-        path: '$(Build.Repository.LocalPath)'
-    - bash: |
-        RELEASE_TAG=nightly-$(date +'%Y%m%d')
-        # create pipeline variable
-        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - bash: ./build.sh $(ARCH)
-      displayName: Build toolchain
-      name: build_toolchain
-    - publish: _packages/build_$(ARCH)/publish
-      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/publish_symbols
-      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+#     steps:
+#     - task: DownloadPipelineArtifact@2
+#       condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
+#       inputs:
+#         source: current
+#         artifact: ecp5-bba
+#         path: '$(Build.Repository.LocalPath)'
+#     - bash: |
+#         RELEASE_TAG=nightly-$(date +'%Y%m%d')
+#         # create pipeline variable
+#         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+#     - bash: ./build.sh $(ARCH)
+#       displayName: Build toolchain
+#       name: build_toolchain
+#     - publish: _packages/build_$(ARCH)/publish
+#       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+#     - publish: _packages/build_$(ARCH)/publish_symbols
+#       artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
-  - job: build_toolchain_windows_amd64
-    displayName: Build toolchain windows_amd64
-    timeoutInMinutes: 0
-    pool:
-      vmImage: vs2017-win2016
-    variables:
-      ARCH: windows_amd64
-      MINGW_ARCH: x86_64
-    steps:
-    - powershell: |
-        Set-MpPreference -DisableArchiveScanning $true
-        Set-MpPreference -DisableRealtimeMonitoring $true
-        Set-MpPreference -DisableBehaviorMonitoring $true
-    - task: DownloadPipelineArtifact@2
-      condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
-      inputs:
-        source: current
-        artifact: ecp5-bba
-        path: '$(Build.Repository.LocalPath)'
-    - bash: |
-        RELEASE_TAG=nightly-$(date +'%Y%m%d')
-        # create pipeline variable
-        echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
-    - script: |
-        set MSYS_ROOT=%CD:~0,2%\msys64
-        echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
-        git clone https://github.com/msys2/msys2-ci-base.git %MSYS_ROOT%
-        %MSYS_ROOT%\usr\bin\rm -rf %MSYS_ROOT%\.git
-      displayName: Install MSYS2
-    - script: |
-        set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
-        %MSYS_ROOT%\usr\bin\pacman --noconfirm -Syyuu
-      displayName: Update MSYS2
-    - script: |
-        set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
-        %MSYS_ROOT%\usr\bin\pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
-        %MSYS_ROOT%\usr\bin\pacman --noconfirm -Scc
-      displayName: Install Toolchain
-    - script: |
-        set PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
-        %MSYS_ROOT%\usr\bin\sed -i "s|#CacheDir.*|CacheDir=/c/Users/%USERNAME%/AppData/Local/Temp|g" /etc/pacman.conf
-        set MSYS=winsymlinks:nativestrict
-        %MSYS_ROOT%\msys2_shell.cmd -defterm -no-start -mingw64 -full-path -here -c "./build.sh windows_amd64"
-      displayName: CI-Build
-      env:
-        MSYSTEM: MINGW64
-        CHERE_INVOKING: yes
-        MINGW_INSTALLS: mingw64
-    - publish: _packages/build_$(ARCH)/publish
-      artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
-    - publish: _packages/build_$(ARCH)/publish_symbols
-      artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+#   - job: build_toolchain_windows_amd64
+#     displayName: Build toolchain windows_amd64
+#     timeoutInMinutes: 0
+#     pool:
+#       vmImage: vs2017-win2016
+#     variables:
+#       ARCH: windows_amd64
+#       MINGW_ARCH: x86_64
+#     steps:
+#     - powershell: |
+#         Set-MpPreference -DisableArchiveScanning $true
+#         Set-MpPreference -DisableRealtimeMonitoring $true
+#         Set-MpPreference -DisableBehaviorMonitoring $true
+#     - task: DownloadPipelineArtifact@2
+#       condition: eq(variables['COMPILE_NEXTPNR_ECP5'], '1')
+#       inputs:
+#         source: current
+#         artifact: ecp5-bba
+#         path: '$(Build.Repository.LocalPath)'
+#     - bash: |
+#         RELEASE_TAG=nightly-$(date +'%Y%m%d')
+#         # create pipeline variable
+#         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
+#     - script: |
+#         set MSYS_ROOT=%CD:~0,2%\msys64
+#         echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
+#         git clone https://github.com/msys2/msys2-ci-base.git %MSYS_ROOT%
+#         %MSYS_ROOT%\usr\bin\rm -rf %MSYS_ROOT%\.git
+#       displayName: Install MSYS2
+#     - script: |
+#         set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+#         %MSYS_ROOT%\usr\bin\pacman --noconfirm -Syyuu
+#       displayName: Update MSYS2
+#     - script: |
+#         set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+#         %MSYS_ROOT%\usr\bin\pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+#         %MSYS_ROOT%\usr\bin\pacman --noconfirm -Scc
+#       displayName: Install Toolchain
+#     - script: |
+#         set PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
+#         %MSYS_ROOT%\usr\bin\sed -i "s|#CacheDir.*|CacheDir=/c/Users/%USERNAME%/AppData/Local/Temp|g" /etc/pacman.conf
+#         set MSYS=winsymlinks:nativestrict
+#         %MSYS_ROOT%\msys2_shell.cmd -defterm -no-start -mingw64 -full-path -here -c "./build.sh windows_amd64"
+#       displayName: CI-Build
+#       env:
+#         MSYSTEM: MINGW64
+#         CHERE_INVOKING: yes
+#         MINGW_INSTALLS: mingw64
+#     - publish: _packages/build_$(ARCH)/publish
+#       artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+#     - publish: _packages/build_$(ARCH)/publish_symbols
+#       artifact: symbols_fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
 
 - stage: run_tests
   displayName: run tests
@@ -223,7 +223,7 @@ stages:
           vm_image: vs2017-win2016
         darwin:
           ARCH: darwin
-          vm_image: macOS-10.14
+          vm_image: macOS-10.15
     pool:
       vmImage: '$(vm_image)'
     steps:
@@ -233,14 +233,14 @@ stages:
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
     - task: DownloadPipelineArtifact@2
       inputs:
-        source: current
+        # source: current
         artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
         path: '$(Build.Repository.LocalPath)'
-        # source: 'specific'
-        # project: '4615f283-ee51-4dbc-992b-cdd560f6506b'
-        # pipeline: '1'
-        # runVersion: 'specific'
-        # runId: '222' # this is buildId in the URL
+        source: 'specific'
+        project: '4615f283-ee51-4dbc-992b-cdd560f6506b'
+        pipeline: '1'
+        runVersion: 'specific'
+        runId: '314' # this is buildId in the URL
     - bash: ./scripts/test/run_tests.sh $(ARCH)
       displayName: Run tests
       name: run_tests
