@@ -42,7 +42,7 @@ variables:
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled
 - name: COMPILE_GHDL
-  value: "1"
+  value: "0"
 - name: BUNDLE_PYTHON
   value: "1"
 - name: BUNDLE_MAKE
@@ -50,7 +50,7 @@ variables:
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
-  value: "1"
+  value: "0"
 - name: TEST_ICE40_BLINKY
   value: "0"
 - name: TEST_ECP5_BLINKY
