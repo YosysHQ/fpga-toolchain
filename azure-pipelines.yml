@@ -181,8 +181,7 @@ stages:
     - script: |
         set MSYS_ROOT=%CD:~0,2%\msys64
         echo ##vso[task.setvariable variable=MSYS_ROOT]%MSYS_ROOT%
-        git clone https://github.com/msys2/msys2-ci-base.git %MSYS_ROOT%
-        %MSYS_ROOT%\usr\bin\rm -rf %MSYS_ROOT%\.git
+        choco install msys2 --params "/NoUpdate /InstallDir:%MSYS_ROOT%"
       displayName: Install MSYS2
     - script: |
         set PATH=%MSYS_ROOT%\usr\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem
