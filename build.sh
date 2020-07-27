@@ -106,7 +106,6 @@ if [ $COMPILE_OPENFPGALOADER == "1" ]; then
   . $WORK_DIR/scripts/compile_openfpgaloader.sh
 fi
 
-
 if [ $COMPILE_IVERILOG == "1" ]; then
   print ">> Compile iverilog"
   . $WORK_DIR/scripts/compile_iverilog.sh
