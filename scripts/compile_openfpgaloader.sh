@@ -3,8 +3,8 @@
 set -e
 
 dir_name=openfpgaloader
-commit=cxxopts_migration
-git_url=https://github.com/edbordin/openFPGALoader.git
+commit=master
+git_url=https://github.com/trabucayre/openFPGALoader.git
 
 git_clone $dir_name $git_url $commit
 
