@@ -39,6 +39,8 @@ variables:
   value: "1"
 - name: COMPILE_ECPPROG
   value: "1"
+- name: COMPILE_OPENFPGALOADER
+  value: "1"
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled
 - name: COMPILE_GHDL

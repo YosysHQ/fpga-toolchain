@@ -48,7 +48,7 @@ function test_static {
     then
         pat='^\s*(ntdll|KERNEL32|KERNELBASE|msvcrt|'
         pat+='ADVAPI32|sechost|RPCRT4|dbghelp|ucrtbase|'
-        pat+='USER32|win32u|GDI32|gdi32full)\.(dll|DLL).*$'
+        pat+='USER32|win32u|GDI32|gdi32full|WS2_32)\.(dll|DLL).*$'
 
         output=$(ldd $1 2>&1 | grep -E -v "$pat" || true)
         [[ -n "$output" ]] && ldd $1

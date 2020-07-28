@@ -18,6 +18,7 @@ COMPILE_ICESTORM="${COMPILE_ICESTORM:-1}"
 COMPILE_NEXTPNR_ICE40="${COMPILE_NEXTPNR_ICE40:-1}"
 COMPILE_NEXTPNR_ECP5="${COMPILE_NEXTPNR_ECP5:-1}"
 COMPILE_ECPPROG="${COMPILE_ECPPROG:-1}"
+COMPILE_OPENFPGALOADER="${COMPILE_OPENFPGALOADER:-1}"
 COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
 COMPILE_GHDL="${COMPILE_GHDL:-1}"
 COMPILE_Z3="${COMPILE_Z3:-1}"
@@ -98,6 +99,11 @@ fi
 if [ $COMPILE_ECPPROG == "1" ]; then
   print ">> Compile ecpprog"
   . $WORK_DIR/scripts/compile_ecpprog.sh
+fi
+
+if [ $COMPILE_OPENFPGALOADER == "1" ]; then
+  print ">> Compile openFPGALoader"
+  . $WORK_DIR/scripts/compile_openfpgaloader.sh
 fi
 
 if [ $COMPILE_IVERILOG == "1" ]; then

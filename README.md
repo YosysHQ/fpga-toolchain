@@ -16,6 +16,7 @@ Currently included:
  * [nextpnr](https://github.com/YosysHQ/nextpnr): Timing-driven place and route for both ICE40 and ECP5 architectures
  * [dfu-util](http://dfu-util.sourceforge.net/): Device Firmware Upgrade Utilities
  * [ecpprog](https://github.com/gregdavill/ecpprog): A basic driver for FTDI based JTAG probes, to program ECP5 FPGAs
+ * [openFPGALoader](https://github.com/trabucayre/openFPGALoader): Universal utility for programming FPGA
 
 <!-- * [Icarus Verilog](https://github.com/steveicarus/iverilog): Verilog simulation tool -->
 
