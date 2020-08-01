@@ -34,6 +34,8 @@ Builds run at 0400 UTC daily from the master branch of each project.
 4. (optional, not needed on Windows) If you would like to use the experimental GHDL Yosys plugin for VHDL, you will
 need to set the `GHDL_PREFIX` environment variable. e.g. `export GHDL_PREFIX=<install_dir>/fpga-toolchain/lib/ghdl`
 
+Windows users that prefer to use WSL can download `fpga-toolchain-linux*` to build under WSL and then use the native tools from `fpga-toolchain-progtools-windows*` to program their boards (since USB devices are not currently accessible in the WSL environment).
+
 If you see errors about missing libraries (`.so`/`.dll`/`.dylib`) please report them in an issue here.
 
 ## Getting Help
