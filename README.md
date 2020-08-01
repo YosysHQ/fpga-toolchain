@@ -1,6 +1,6 @@
 # FPGA-Toolchain
 
-[![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/open-tool-forge.fpga-toolchain?branchName=master)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build?definitionId=1&branchFilter=2)
+[![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/open-tool-forge.fpga-toolchain?branchName=main)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build/latest?definitionId=1&branchName=main)
 [![Discord](https://img.shields.io/discord/613131135903596547?logo=discord)](https://discord.gg/s9sMfyx)
 
 ## Introduction
@@ -16,6 +16,7 @@ Currently included:
  * [nextpnr](https://github.com/YosysHQ/nextpnr): Timing-driven place and route for both ICE40 and ECP5 architectures
  * [dfu-util](http://dfu-util.sourceforge.net/): Device Firmware Upgrade Utilities
  * [ecpprog](https://github.com/gregdavill/ecpprog): A basic driver for FTDI based JTAG probes, to program ECP5 FPGAs
+ * [openFPGALoader](https://github.com/trabucayre/openFPGALoader): Universal utility for programming FPGA
 
 <!-- * [Icarus Verilog](https://github.com/steveicarus/iverilog): Verilog simulation tool -->
 
@@ -32,6 +33,8 @@ Builds run at 0400 UTC daily from the master branch of each project.
 3. Add the `bin` folder to your `PATH`.
 4. (optional, not needed on Windows) If you would like to use the experimental GHDL Yosys plugin for VHDL, you will
 need to set the `GHDL_PREFIX` environment variable. e.g. `export GHDL_PREFIX=<install_dir>/fpga-toolchain/lib/ghdl`
+
+Windows users that prefer to use WSL can download `fpga-toolchain-linux*` to build under WSL and then use the native tools from `fpga-toolchain-progtools-windows*` to program their boards (since USB devices are not currently accessible in the WSL environment).
 
 If you see errors about missing libraries (`.so`/`.dll`/`.dylib`) please report them in an issue here.
 

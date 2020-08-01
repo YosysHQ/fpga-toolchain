@@ -6,7 +6,7 @@ set -e
 tools_to_check=(dfu-prefix dfu-suffix dfu-util ecpbram ecpmulti ecppack ecppll \
     ecpprog ecpunpack ghdl icebram icemulti icepack icepll iceprog icetime \
     nextpnr-ecp5 nextpnr-ice40 yosys yosys-abc yosys-config yosys-filterlib \
-    yosys-smtbmc)
+    yosys-smtbmc openFPGALoader)
     # sby yices yices-sat yices-smt yices-smt2 z3 boolector
     # btorsim btoruntrace btormc btorimc
 

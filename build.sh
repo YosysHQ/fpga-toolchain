@@ -18,6 +18,7 @@ COMPILE_ICESTORM="${COMPILE_ICESTORM:-1}"
 COMPILE_NEXTPNR_ICE40="${COMPILE_NEXTPNR_ICE40:-1}"
 COMPILE_NEXTPNR_ECP5="${COMPILE_NEXTPNR_ECP5:-1}"
 COMPILE_ECPPROG="${COMPILE_ECPPROG:-1}"
+COMPILE_OPENFPGALOADER="${COMPILE_OPENFPGALOADER:-1}"
 COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
 COMPILE_GHDL="${COMPILE_GHDL:-1}"
 COMPILE_Z3="${COMPILE_Z3:-1}"
@@ -100,6 +101,11 @@ if [ $COMPILE_ECPPROG == "1" ]; then
   . $WORK_DIR/scripts/compile_ecpprog.sh
 fi
 
+if [ $COMPILE_OPENFPGALOADER == "1" ]; then
+  print ">> Compile openFPGALoader"
+  . $WORK_DIR/scripts/compile_openfpgaloader.sh
+fi
+
 if [ $COMPILE_IVERILOG == "1" ]; then
   print ">> Compile iverilog"
   . $WORK_DIR/scripts/compile_iverilog.sh
@@ -110,4 +116,8 @@ if [ $CREATE_PACKAGE == "1" ]; then
   mkdir -p $PACKAGE_DIR/publish $PACKAGE_DIR/publish_symbols
   create_package "$PACKAGE_DIR" "$NAME" "publish/$NAME-$ARCH-$VERSION"
   create_package "$PACKAGE_DIR" "${NAME}_symbols" "publish_symbols/symbols_${NAME}-$ARCH-$VERSION"
+
+  if [ ${ARCH:0:7} = "windows" ]; then
+    create_package "$PACKAGE_DIR" "${NAME}-progtools" "publish/${NAME}-progtools-$ARCH-$VERSION"
+  fi
 fi

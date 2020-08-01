@@ -72,8 +72,10 @@ if [ $ARCH == "darwin" ]; then
     export J=`sysctl -n hw.ncpu`
     export MACOSX_DEPLOYMENT_TARGET="10.10"
 
-    export LIBFTDI_ROOT=$(brew --cellar libftdi)/$(brew list --versions libftdi | tr ' ' '\n' | tail -1)
-    export LIBUSB_ROOT=$(brew --cellar libusb)/$(brew list --versions libusb | tr ' ' '\n' | tail -1)
+    export LIBFTDI_VERSION=$(brew list --versions libftdi | tr ' ' '\n' | tail -1)
+    export LIBFTDI_ROOT=$(brew --cellar libftdi)/$LIBFTDI_VERSION
+    export LIBUSB_VERSION=$(brew list --versions libusb | tr ' ' '\n' | tail -1)
+    export LIBUSB_ROOT=$(brew --cellar libusb)/$LIBUSB_VERSION
     export ZLIB_ROOT=$(brew --cellar zlib)/$(brew list --versions zlib | tr ' ' '\n' | tail -1)
     export CONDA_ROOT=/tmp/conda
     export EMBEDDED_PY_VER=$($CONDA_ROOT/bin/python -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
