@@ -36,7 +36,7 @@ cp openFPGALoader$EXE $PACKAGE_DIR/$NAME/bin/openFPGALoader$EXE
 strip_binaries bin/openFPGALoader$EXE
 
 if [ ${ARCH:0:7} = "windows" ]; then
-  cp $PACKAGE_DIR/$NAME/bin/openFPGALoader$EXE $PACKAGE_DIR/${NAME}_progtools/bin/openFPGALoader$EXE
+  cp $PACKAGE_DIR/$NAME/bin/openFPGALoader$EXE $PACKAGE_DIR/${NAME}-progtools/bin/openFPGALoader$EXE
 fi
 
 clean_build $dir_name

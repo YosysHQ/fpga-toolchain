@@ -43,7 +43,7 @@ done
 strip_binaries bin/{dfu-util,dfu-prefix,dfu-suffix}$EXE
 
 if [ ${ARCH:0:7} = "windows" ]; then
-  cp $PACKAGE_DIR/$NAME/bin/{dfu-util,dfu-prefix,dfu-suffix}$EXE $PACKAGE_DIR/${NAME}_progtools/bin/
+  cp $PACKAGE_DIR/$NAME/bin/{dfu-util,dfu-prefix,dfu-suffix}$EXE $PACKAGE_DIR/${NAME}-progtools/bin/
 fi
 
 clean_build $dir_name

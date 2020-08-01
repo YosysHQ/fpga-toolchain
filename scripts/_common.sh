@@ -45,7 +45,7 @@ mkdir -p $BUILD_DIR
 # -- Create the package folders
 mkdir -p $PACKAGE_DIR/$NAME/{bin,lib,share}
 mkdir -p $PACKAGE_DIR/${NAME}_symbols/{bin,lib}
-mkdir -p $PACKAGE_DIR/${NAME}_progtools/bin
+mkdir -p $PACKAGE_DIR/${NAME}-progtools/bin
 
 # -- Test script function
 function test_bin {
