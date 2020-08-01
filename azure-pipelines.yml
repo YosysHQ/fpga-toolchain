@@ -20,7 +20,7 @@ variables:
 - name: COMPILE_DFU_UTIL
   value: "1"
 - name: COMPILE_YOSYS
-  value: "1"
+  value: "0"
 - name: COMPILE_SBY
   value: "0" # deliberately disabled
 - name: COMPILE_Z3
@@ -34,9 +34,9 @@ variables:
 - name: COMPILE_ICESTORM
   value: "1"
 - name: COMPILE_NEXTPNR_ICE40
-  value: "1"
+  value: "0"
 - name: COMPILE_NEXTPNR_ECP5
-  value: "1"
+  value: "0"
 - name: COMPILE_ECPPROG
   value: "1"
 - name: COMPILE_OPENFPGALOADER
@@ -44,25 +44,25 @@ variables:
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled
 - name: COMPILE_GHDL
-  value: "1"
+  value: "0"
 - name: BUNDLE_PYTHON
-  value: "1"
+  value: "0"
 - name: BUNDLE_MAKE
-  value: "1"
+  value: "0"
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
-  value: "1"
+  value: "0"
 - name: TEST_ICE40_BLINKY
-  value: "1"
+  value: "0"
 - name: TEST_ECP5_BLINKY
-  value: "1"
+  value: "0"
 - name: TEST_NMIGEN
-  value: "1"
+  value: "0"
 - name: TEST_GHDL_YOSYS
-  value: "1"
+  value: "0"
 - name: TEST_NEXTPNR_PYTHON
-  value: "1"
+  value: "0"
 - name: TEST_SBY
   value: "0" # deliberately disabled
 

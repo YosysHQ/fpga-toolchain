@@ -59,4 +59,8 @@ cp -r icefuzz/timings*.txt $PACKAGE_DIR/$NAME/share/icebox
 
 strip_binaries bin/{iceprog,icepack,icemulti,icepll,icetime,icebram}$EXE
 
+if [ ${ARCH:0:7} = "windows" ]
+  cp $PACKAGE_DIR/$NAME/bin/iceprog$EXE $PACKAGE_DIR/${NAME}_progtools/bin/iceprog$EXE
+fi
+
 clean_build $dir_name
