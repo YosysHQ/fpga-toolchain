@@ -41,7 +41,7 @@ cp ecpprog$EXE $PACKAGE_DIR/$NAME/bin/ecpprog$EXE
 
 strip_binaries bin/ecpprog$EXE
 
-if [ ${ARCH:0:7} = "windows" ]
+if [ ${ARCH:0:7} = "windows" ]; then
   cp $PACKAGE_DIR/$NAME/bin/ecpprog$EXE $PACKAGE_DIR/${NAME}_progtools/bin/ecpprog$EXE
 fi
 

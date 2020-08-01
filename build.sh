@@ -117,7 +117,7 @@ if [ $CREATE_PACKAGE == "1" ]; then
   create_package "$PACKAGE_DIR" "$NAME" "publish/$NAME-$ARCH-$VERSION"
   create_package "$PACKAGE_DIR" "${NAME}_symbols" "publish_symbols/symbols_${NAME}-$ARCH-$VERSION"
 
-  if [ ${ARCH:0:7} = "windows" ]
+  if [ ${ARCH:0:7} = "windows" ]; then
     create_package "$PACKAGE_DIR" "${NAME}_progtools" "publish/${NAME}_progtools-$ARCH-$VERSION"
   fi
 fi
