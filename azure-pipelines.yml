@@ -229,19 +229,19 @@ stages:
       vmImage: '$(vm_image)'
     steps:
     - bash: |
-        RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        # RELEASE_TAG=nightly-$(date +'%Y%m%d')
+        RELEASE_TAG=nightly-20200801
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
     - task: DownloadPipelineArtifact@2
       inputs:
         # source: current
-        # artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
+        artifact: fpga-toolchain-$(ARCH)-$(RELEASE_TAG)
         path: '$(Build.Repository.LocalPath)'
         source: 'specific'
         project: '4615f283-ee51-4dbc-992b-cdd560f6506b'
         pipeline: '1'
         runVersion: 'specific'
-        artifact: fpga-toolchain-$(ARCH)-nightly-20200801
         runId: '349' # this is buildId in the URL
     - bash: ./scripts/test/run_tests.sh $(ARCH)
       displayName: Run tests
