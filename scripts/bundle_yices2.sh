@@ -6,22 +6,28 @@ dir_name=yices2
 commit=master
 git_url=https://github.com/SRI-CSL/yices2.git
 
+# gperf files don't work with CRLF line endings on windows
+# TODO: handle this better so I don't mess with people's dev envs
+git config --global core.autocrlf false
 git_clone $dir_name $git_url $commit
 cd $BUILD_DIR/$dir_name
 autoconf
-./configure
-
 
 if [ $ARCH == "darwin" ]
 then
+    ./configure
     $MAKE -j$J static-bin
     YICES2_BINDIR=./build/x86_64-apple-darwin*-release/static_bin
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    mv configs/make.include.x86_64-w64-mingw32 configs/make.include.x86_64-pc-mingw64
-    $MAKE -j$J static-bin
+    ./configure --host=x86_64-pc-mingw64
+    # this is a hack to make the Makefile behave like we are on cygwin
+    # (they have not implemented MSYS2 support but it seems to work anyway)
+    echo 'echo "cygwin"' > autoconf/os
+    OPTION=mingw64 make -j$J static-bin
     YICES2_BINDIR=./build/x86_64-pc-mingw64-release/static_bin
 else
+    ./configure
     $MAKE -j$J static-bin
     YICES2_BINDIR=./build/x86_64-pc-linux-gnu-release/static_bin
 fi

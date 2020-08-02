@@ -229,8 +229,7 @@ stages:
       vmImage: '$(vm_image)'
     steps:
     - bash: |
-        # RELEASE_TAG=nightly-$(date +'%Y%m%d')
-        RELEASE_TAG=nightly-20200801
+        RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
     - task: DownloadPipelineArtifact@2
