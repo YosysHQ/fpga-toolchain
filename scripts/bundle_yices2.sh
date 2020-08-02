@@ -8,7 +8,7 @@ git_url=https://github.com/SRI-CSL/yices2.git
 
 git_clone $dir_name $git_url $commit
 cd $BUILD_DIR/$dir_name
-./autoconf
+autoconf
 ./configure
 $make -j$J static-bin
 
