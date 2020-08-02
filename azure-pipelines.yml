@@ -243,7 +243,7 @@ stages:
         pipeline: '1'
         runVersion: 'specific'
         runId: '349' # this is buildId in the URL
-    - bash: ./scripts/test/run_tests.sh $(ARCH)
+    - bash: export VERSION=$(RELEASE_TAG) && ./scripts/test/run_tests.sh $(ARCH)
       displayName: Run tests
       name: run_tests
 
