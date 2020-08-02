@@ -31,7 +31,7 @@ cp $YICES2_BINDIR/yices_sat$EXE $PACKAGE_DIR/$NAME/bin/yices-sat$EXE
 cp $YICES2_BINDIR/yices_smt$EXE $PACKAGE_DIR/$NAME/bin/yices-smt$EXE
 cp $YICES2_BINDIR/yices_smt2$EXE $PACKAGE_DIR/$NAME/bin/yices-smt2$EXE
 
-TOOLS="yices,yices-sat,yices-smt,yices-smt2"
+TOOLS="yices yices-sat yices-smt yices-smt2"
 
 for tool in $TOOLS; do
   test_bin $PACKAGE_DIR/$NAME/bin/$tool$EXE
