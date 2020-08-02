@@ -2,30 +2,31 @@
 
 set -e
 
-YICES2_VERSION=2.6.2
-YICES2_URL_WIN=https://yices.csl.sri.com/releases/$YICES2_VERSION/yices-$YICES2_VERSION-x86_64-pc-mingw32-static-gmp.zip
-YICES2_URL_DARWIN=https://yices.csl.sri.com/releases/$YICES2_VERSION/yices-$YICES2_VERSION-x86_64-apple-darwin18.7.0-static-gmp.tar.gz
-YICES2_URL_LINUX=https://yices.csl.sri.com/releases/$YICES2_VERSION/yices-$YICES2_VERSION-x86_64-pc-linux-gnu-static-gmp.tar.gz
+dir_name=yices2
+commit=master
+git_url=https://github.com/SRI-CSL/yices2.git
 
-mkdir -p $BUILD_DIR/yices2
-cd $BUILD_DIR/yices2
+git_clone $dir_name $git_url $commit
+cd $BUILD_DIR/$dir_name
+./autoconf
+./configure
+$make -j$J static-bin
 
 if [ $ARCH == "darwin" ]
 then
-    wget_retry $YICES2_URL_DARWIN -O yices2.tar.gz
-    tar xvf yices2.tar.gz
-    cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
+    YICES2_BINDIR=./build/x86_64-apple-darwin*-release/static_bin
 elif [ ${ARCH:0:7} = "windows" ]
 then
-    wget_retry $YICES2_URL_WIN -O yices2.zip
-    unzip yices2.zip
-    cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
+    YICES2_BINDIR=./build/x86_64-pc-mingw32-release/static_bin
 else
-    wget_retry $YICES2_URL_LINUX -O yices2.tar.gz
-    tar xvf yices2.tar.gz
-    cp -R yices-*/bin/* $PACKAGE_DIR/$NAME/bin/
+    YICES2_BINDIR=./build/x86_64-pc-linux-gnu-release/static_bin
 fi
+
+cp $YICES2_BINDIR/yices$EXE $PACKAGE_DIR/$NAME/bin/yices$EXE
+cp $YICES2_BINDIR/yices_sat$EXE $PACKAGE_DIR/$NAME/bin/yices-sat$EXE
+cp $YICES2_BINDIR/yices_smt$EXE $PACKAGE_DIR/$NAME/bin/yices-smt$EXE
+cp $YICES2_BINDIR/yices_smt2$EXE $PACKAGE_DIR/$NAME/bin/yices-smt2$EXE
 
 strip_binaries bin/{yices,yices-sat,yices-smt,yices-smt2}$EXE
 
-clean_build yices2
+clean_build $dir_name
