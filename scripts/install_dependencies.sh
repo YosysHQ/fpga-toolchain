@@ -11,7 +11,8 @@ base_packages="build-essential bison flex libreadline-dev \
 cross_x64="libboost-dev libboost-filesystem-dev libboost-thread-dev \
            libboost-program-options-dev libboost-python-dev libboost-iostreams-dev \
            libboost-system-dev libboost-chrono-dev libboost-date-time-dev \
-           libboost-atomic-dev libboost-regex-dev libpython3-dev libeigen3-dev"
+           libboost-atomic-dev libboost-regex-dev libpython3-dev libeigen3-dev \
+           libgmp-dev"
 for b in $cross_x64; do
     cross_arm64="$cross_arm64 $b:arm64"
     cross_armhf="$cross_armhf $b:armhf"

@@ -10,7 +10,7 @@ git_clone $dir_name $git_url $commit
 cd $BUILD_DIR/$dir_name
 autoconf
 ./configure
-$make -j$J static-bin
+$MAKE -j$J static-bin
 
 if [ $ARCH == "darwin" ]
 then
