@@ -30,7 +30,7 @@ variables:
 - name: COMPILE_AVY
   value: "0" # deliberately disabled
 - name: BUNDLE_YICES2
-  value: "1" # deliberately disabled
+  value: "0" # deliberately disabled
 - name: COMPILE_ICESTORM
   value: "0"
 - name: COMPILE_NEXTPNR_ICE40

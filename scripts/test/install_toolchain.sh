@@ -15,7 +15,7 @@ then
 elif [ $ARCH = "darwin" ]
 then
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
-    brew install python@3.8 gnu-sed
+    brew install python@3.8 gnu-sed SRI-CSL/sri-csl/yices2
     export PIP=pip3
     export PYTHON=python3
     export SED=gsed
