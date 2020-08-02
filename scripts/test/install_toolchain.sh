@@ -22,6 +22,8 @@ then
 else
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
 
+    rm fpga-toolchain/bin/yices*
+
     # install python 3.6 on ubuntu 16.04 for nmigen
     # TODO: test on non-debian distros
     sudo apt-get update
