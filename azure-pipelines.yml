@@ -18,33 +18,33 @@ variables:
 - name: CLEAN_AFTER_BUILD
   value: "1"
 - name: COMPILE_DFU_UTIL
-  value: "0"
+  value: "1"
 - name: COMPILE_YOSYS
   value: "1"
 - name: COMPILE_SBY
-  value: "1" # deliberately disabled
+  value: "1"
 - name: COMPILE_Z3
-  value: "1" # deliberately disabled
+  value: "1"
 - name: COMPILE_BOOLECTOR
-  value: "1" # deliberately disabled
+  value: "1"
 - name: COMPILE_AVY
   value: "0" # deliberately disabled
-- name: BUNDLE_YICES2
-  value: "1" # deliberately disabled
+- name: COMPILE_YICES2
+  value: "1"
 - name: COMPILE_ICESTORM
-  value: "0"
+  value: "1"
 - name: COMPILE_NEXTPNR_ICE40
-  value: "0"
+  value: "1"
 - name: COMPILE_NEXTPNR_ECP5
-  value: "0"
+  value: "1"
 - name: COMPILE_ECPPROG
-  value: "0"
+  value: "1"
 - name: COMPILE_OPENFPGALOADER
-  value: "0"
+  value: "1"
 - name: COMPILE_IVERILOG
   value: "0" # deliberately disabled
 - name: COMPILE_GHDL
-  value: "0"
+  value: "1"
 - name: BUNDLE_PYTHON
   value: "1"
 - name: BUNDLE_MAKE
@@ -52,19 +52,19 @@ variables:
 - name: CREATE_PACKAGE
   value: "1"
 - name: TEST_BINARIES_EXECUTE
-  value: "0"
+  value: "1"
 - name: TEST_ICE40_BLINKY
-  value: "0"
+  value: "1"
 - name: TEST_ECP5_BLINKY
-  value: "0"
+  value: "1"
 - name: TEST_NMIGEN
-  value: "0"
+  value: "1"
 - name: TEST_GHDL_YOSYS
-  value: "0"
+  value: "1"
 - name: TEST_NEXTPNR_PYTHON
-  value: "0"
+  value: "1"
 - name: TEST_SBY
-  value: "1" # deliberately disabled
+  value: "1"
 
 stages:
 - stage: build_bba
@@ -132,7 +132,7 @@ stages:
       matrix:
         osx:
           ARCH: darwin
-          vm_image: macOS-10.15
+          vm_image: macOS-10.14
     pool:
       vmImage: '$(vm_image)'
 
