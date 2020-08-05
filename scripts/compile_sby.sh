@@ -3,8 +3,8 @@
 set -e
 
 dir_name=symbiyosys
-commit=async
-git_url=https://github.com/edbordin/SymbiYosys.git
+commit=master
+git_url=https://github.com/YosysHQ/SymbiYosys.git
 
 git_clone $dir_name $git_url $commit
 
