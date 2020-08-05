@@ -132,7 +132,7 @@ stages:
       matrix:
         osx:
           ARCH: darwin
-          vm_image: macOS-10.14
+          vm_image: macOS-10.15
     pool:
       vmImage: '$(vm_image)'
 
@@ -224,7 +224,7 @@ stages:
           vm_image: vs2017-win2016
         darwin:
           ARCH: darwin
-          vm_image: macOS-10.15
+          vm_image: macOS-10.14
     pool:
       vmImage: '$(vm_image)'
     steps:
