@@ -3,7 +3,7 @@
 set -e
 
 dir_name=z3
-commit=master
+commit=z3-4.8.8
 git_url=https://github.com/Z3Prover/z3.git
 
 git_clone $dir_name $git_url $commit
