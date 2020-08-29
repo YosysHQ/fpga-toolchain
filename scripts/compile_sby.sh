@@ -15,6 +15,13 @@ if [ ${ARCH:0:7} = "windows" ]
 then
     # override the shebang telling the exe launcher where to find python
     $MAKE install PREFIX=$PACKAGE_DIR/$NAME PYTHON="./bin/python3-private.exe"
+
+elif [ $ARCH == "darwin" ]; then
+    # put GNU sed in path temporarily
+    OLDPATH=$PATH
+    export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+    $MAKE install PREFIX=$PACKAGE_DIR/$NAME
+    export PATH=$OLDPATH
 else
     $MAKE install PREFIX=$PACKAGE_DIR/$NAME
 fi
