@@ -22,15 +22,15 @@ variables:
 - name: COMPILE_YOSYS
   value: "1"
 - name: COMPILE_SBY
-  value: "0" # deliberately disabled
+  value: "1"
 - name: COMPILE_Z3
-  value: "0" # deliberately disabled
+  value: "1"
 - name: COMPILE_BOOLECTOR
-  value: "0" # deliberately disabled
+  value: "1"
 - name: COMPILE_AVY
   value: "0" # deliberately disabled
-- name: BUNDLE_YICES2
-  value: "0" # deliberately disabled
+- name: COMPILE_YICES2
+  value: "1"
 - name: COMPILE_ICESTORM
   value: "1"
 - name: COMPILE_NEXTPNR_ICE40
@@ -64,7 +64,7 @@ variables:
 - name: TEST_NEXTPNR_PYTHON
   value: "1"
 - name: TEST_SBY
-  value: "0" # deliberately disabled
+  value: "1"
 
 stages:
 - stage: build_bba
@@ -241,8 +241,8 @@ stages:
         # project: '4615f283-ee51-4dbc-992b-cdd560f6506b'
         # pipeline: '1'
         # runVersion: 'specific'
-        # runId: '222' # this is buildId in the URL
-    - bash: ./scripts/test/run_tests.sh $(ARCH)
+        # runId: '349' # this is buildId in the URL
+    - bash: export VERSION=$(RELEASE_TAG) && ./scripts/test/run_tests.sh $(ARCH)
       displayName: Run tests
       name: run_tests
 

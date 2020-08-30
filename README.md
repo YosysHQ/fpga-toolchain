@@ -11,6 +11,10 @@ Currently included:
  * [Yosys](https://github.com/YosysHQ/yosys): RTL synthesis with extensive Verilog 2005 support
  * [GHDL Yosys Plugin](https://github.com/ghdl/ghdl-yosys-plugin): experimental VHDL synthesis, built in to Yosys for your convenience!
  * [GHDL](https://github.com/ghdl/ghdl): CLI tool supporting the Yosys plugin
+ * [SymbiYosys](https://github.com/YosysHQ/SymbiYosys): Yosys-based formal hardware verification
+ * [Boolector](http://fmv.jku.at/boolector/): Engine for SymbiYosys
+ * [Yices2](http://yices.csl.sri.com/): Engine for SymbiYosys
+ * [Z3](https://github.com/Z3Prover/z3/wiki): Engine for SymbiYosys
  * [Project Trellis](https://github.com/SymbiFlow/prjtrellis): Tools for working with Lattice ECP5 bitstreams
  * [Project IceStorm](https://github.com/cliffordwolf/icestorm): Tools for working with Lattice ICE40 bitstreams
  * [nextpnr](https://github.com/YosysHQ/nextpnr): Timing-driven place and route for both ICE40 and ECP5 architectures
@@ -19,6 +23,7 @@ Currently included:
  * [openFPGALoader](https://github.com/trabucayre/openFPGALoader): Universal utility for programming FPGA
 
 <!-- * [Icarus Verilog](https://github.com/steveicarus/iverilog): Verilog simulation tool -->
+<!--* [Avy](https://arieg.bitbucket.io/avy/): Engine for SymbiYosys (only included on Linux for now) -->
 
 These tools are under active development (as are these build scripts), so
 please be prepared for things to break from time to time. In most cases you should be able

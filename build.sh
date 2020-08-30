@@ -25,7 +25,7 @@ COMPILE_Z3="${COMPILE_Z3:-1}"
 COMPILE_BOOLECTOR="${COMPILE_BOOLECTOR:-1}"
 COMPILE_AVY="${COMPILE_AVY:-1}"
 BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
-BUNDLE_YICES2="${BUNDLE_YICES2:-1}"
+COMPILE_YICES2="${COMPILE_YICES2:-1}"
 BUNDLE_MAKE="${BUNDLE_MAKE:-1}"
 CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 
@@ -34,11 +34,6 @@ CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 if [ $BUNDLE_PYTHON == "1" ]; then
   print ">> Bundle Python"
   . $WORK_DIR/scripts/bundle_python.sh
-fi
-
-if [ $BUNDLE_YICES2 == "1" ]; then
-  print ">> Bundle Yices2"
-  . $WORK_DIR/scripts/bundle_yices2.sh
 fi
 
 if [ $BUNDLE_MAKE == "1" ]; then
@@ -69,6 +64,11 @@ fi
 if [ $COMPILE_SBY == "1" ]; then
   print ">> Compile SymbiYosys"
   . $WORK_DIR/scripts/compile_sby.sh
+fi
+
+if [ $COMPILE_YICES2 == "1" ]; then
+  print ">> Compile Yices2"
+  . $WORK_DIR/scripts/compile_yices2.sh
 fi
 
 if [ $COMPILE_Z3 == "1" ]; then

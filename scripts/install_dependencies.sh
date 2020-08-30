@@ -11,7 +11,8 @@ base_packages="build-essential bison flex libreadline-dev \
 cross_x64="libboost-dev libboost-filesystem-dev libboost-thread-dev \
            libboost-program-options-dev libboost-python-dev libboost-iostreams-dev \
            libboost-system-dev libboost-chrono-dev libboost-date-time-dev \
-           libboost-atomic-dev libboost-regex-dev libpython3-dev libeigen3-dev"
+           libboost-atomic-dev libboost-regex-dev libpython3-dev libeigen3-dev \
+           libgmp-dev"
 for b in $cross_x64; do
     cross_arm64="$cross_arm64 $b:arm64"
     cross_armhf="$cross_armhf $b:armhf"
@@ -82,7 +83,7 @@ fi
 if [ $ARCH == "windows_amd64" ]; then
     pacman --noconfirm --needed -S git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake \
     mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip mingw-w64-x86_64-libftdi bison flex \
-    mingw-w64-x86_64-gcc-ada p7zip
+    mingw-w64-x86_64-gcc-ada p7zip mingw-w64-x86_64-jsoncpp
 
     x86_64-w64-mingw32-gcc --version
     x86_64-w64-mingw32-g++ --version

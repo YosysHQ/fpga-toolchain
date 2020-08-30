@@ -6,16 +6,21 @@ set -e
 tools_to_check=(dfu-prefix dfu-suffix dfu-util ecpbram ecpmulti ecppack ecppll \
     ecpprog ecpunpack ghdl icebram icemulti icepack icepll iceprog icetime \
     nextpnr-ecp5 nextpnr-ice40 yosys yosys-abc yosys-config yosys-filterlib \
-    yosys-smtbmc openFPGALoader)
-    # sby yices yices-sat yices-smt yices-smt2 z3 boolector
-    # btorsim btoruntrace btormc btorimc
+    yosys-smtbmc openFPGALoader \
+    sby yices yices-sat yices-smt yices-smt2 z3 boolector \
+    btorsim btoruntrace btormc btorimc)
 
 if [ ${ARCH:0:7} = "windows" ]
 then
     tools_to_check+=(make)
-# else
-    # tools_to_check+=(btormbt)
+else
+    tools_to_check+=(btormbt)
 fi
+
+# if [ ${ARCH:0:5} = "linux" ]
+# then
+#     tools_to_check+=(avy)
+# fi
 
 for i in "${tools_to_check[@]}";
 do
