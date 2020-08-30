@@ -16,7 +16,7 @@ then
     # use make rather than mingw32-make here because the sed tool expects unix paths
     # PYTHON overrides the shebang telling the sby.exe launcher where to find python
     make install PREFIX=$PACKAGE_DIR/$NAME PYTHON="./bin/python3-private.exe"
-
+    test_bin $PACKAGE_DIR/$NAME/bin/sby.exe
 elif [ $ARCH == "darwin" ]; then
     # put GNU sed in path temporarily
     OLDPATH=$PATH
