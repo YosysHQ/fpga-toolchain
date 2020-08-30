@@ -13,8 +13,9 @@ cd $BUILD_DIR/$dir_name
 # -- Compile it
 if [ ${ARCH:0:7} = "windows" ]
 then
-    # override the shebang telling the exe launcher where to find python
-    $MAKE install PREFIX=$PACKAGE_DIR/$NAME PYTHON="./bin/python3-private.exe"
+    # use make rather than mingw32-make here because the sed tool expects unix paths
+    # PYTHON overrides the shebang telling the sby.exe launcher where to find python
+    make install PREFIX=$PACKAGE_DIR/$NAME PYTHON="./bin/python3-private.exe"
 
 elif [ $ARCH == "darwin" ]; then
     # put GNU sed in path temporarily
