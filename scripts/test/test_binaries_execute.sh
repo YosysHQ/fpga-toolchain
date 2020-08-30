@@ -17,10 +17,10 @@ else
     tools_to_check+=(btormbt)
 fi
 
-if [ ${ARCH:0:5} = "linux" ]
-then
-    tools_to_check+=(avy)
-fi
+# if [ ${ARCH:0:5} = "linux" ]
+# then
+#     tools_to_check+=(avy)
+# fi
 
 for i in "${tools_to_check[@]}";
 do
