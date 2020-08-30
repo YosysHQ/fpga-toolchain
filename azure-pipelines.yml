@@ -28,7 +28,7 @@ variables:
 - name: COMPILE_BOOLECTOR
   value: "1"
 - name: COMPILE_AVY
-  value: "1"
+  value: "0"
 - name: COMPILE_YICES2
   value: "1"
 - name: COMPILE_ICESTORM
