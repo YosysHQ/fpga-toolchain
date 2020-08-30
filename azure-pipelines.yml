@@ -18,7 +18,7 @@ variables:
 - name: CLEAN_AFTER_BUILD
   value: "1"
 - name: COMPILE_DFU_UTIL
-  value: "0"
+  value: "1"
 - name: COMPILE_YOSYS
   value: "1"
 - name: COMPILE_SBY
@@ -28,7 +28,7 @@ variables:
 - name: COMPILE_BOOLECTOR
   value: "1"
 - name: COMPILE_AVY
-  value: "0"
+  value: "0" # deliberately disabled
 - name: COMPILE_YICES2
   value: "1"
 - name: COMPILE_ICESTORM
