@@ -5,7 +5,7 @@ The goal of this project is to make it as easy as possible to get up and running
 To achieve these goals, some compromises have been made:
  * Static linking is used in almost all cases - removing dependencies on external shared libraries means this package should be all you need to run the tools. The major downside of this approach is that some tools are not designed to be built statically, which can make it harder or near-impossible to include them.
  * The goal is not to rely on any absolute install prefixes - tools must be able to find any files they need at runtime by using relative paths wherever possible. This also enables multiple versions of the tools to be installed without conflicting.
- * The package is provided as a simple compressed archive - no package managers are used. This makes installation simple, but the downside is that **before accepting a contributions adding a new tool, the community will need to consider how much larger it makes the overall package**.
+ * The package is provided as a simple compressed archive - no package managers are used. This makes installation simple, but the downside is that **before accepting a contribution adding a new tool, we need to consider how much larger it makes the overall package**.
 
 # Development
 
