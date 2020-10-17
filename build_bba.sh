@@ -8,8 +8,8 @@ set -e
 # -- Toolchain name
 export NAME=ecp5-bba
 
-# -- Debug flags
-INSTALL_DEPS=1
+# Enable to install deps automatically (warning, will run the package manager)
+INSTALL_DEPS="${INSTALL_DEPS:-1}"
 
 export VERSION=nightly
 . scripts/_common.sh linux_x86_64

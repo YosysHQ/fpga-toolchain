@@ -54,7 +54,7 @@ If you see errors about missing libraries (`.so`/`.dll`/`.dylib`) please report 
 If you would like to use the experimental GHDL Yosys plugin for VHDL on Linux or MacOS, you will
 need to set the `GHDL_PREFIX` environment variable. e.g. `export GHDL_PREFIX=<install_dir>/fpga-toolchain/lib/ghdl`. On Windows this is not necessary.
 
-If you are using an existing Makefile set up for ghdl-yosys-plugin and see `ERROR: This version of yosys is built without plugin support.` you probably need to remove `-m ghdl` from your yosys parameters. This is because the plugin is typically loaded from a separate file but it is provided built into yosys in this package.
+If you are using an existing Makefile set up for ghdl-yosys-plugin and see `ERROR: This version of yosys is built without plugin support` you probably need to remove `-m ghdl` from your yosys parameters. This is because the plugin is typically loaded from a separate file but it is provided built into yosys in this package.
 
 ## Getting Help
 
@@ -75,6 +75,10 @@ which was built on the original work by [FPGAWars](https://github.com/FPGAwars):
  * [Juan González (Obijuan)](https://github.com/Obijuan)
  * [Carlos Venegas](https://github.com/cavearr)
  * [Miodrag Milanovic](https://github.com/mmicko)
+
+## Contributing
+
+Contributions are welcome, see [DEVELOPMENT.md](DEVELOPMENT.md) for guidelines and technical details.
 
 ## License
 
