@@ -35,13 +35,26 @@ Builds run at 0400 UTC daily from the master branch of each project.
 
 1. Download an archive matching your OS from [the releases page](https://github.com/open-tool-forge/fpga-toolchain/releases).
 2. Extract the archive to a location of your choice
-3. Add the `bin` folder to your `PATH`.
-4. (optional, not needed on Windows) If you would like to use the experimental GHDL Yosys plugin for VHDL, you will
-need to set the `GHDL_PREFIX` environment variable. e.g. `export GHDL_PREFIX=<install_dir>/fpga-toolchain/lib/ghdl`
+3. Add the `bin` folder to your `PATH`:
+
+```
+MacOS and Linux: export PATH="<extracted_location>/fpga-toolchain/bin:$PATH"
+Windows Powershell: $ENV:PATH = "<extracted_location>\fpga-toolchain\bin;" + $ENV:PATH
+Windows cmd.exe: PATH=<extracted_location>\fpga-toolchain\bin;%PATH%
+```
 
 Windows users that prefer to use WSL can download `fpga-toolchain-linux*` to build under WSL and then use the native tools from `fpga-toolchain-progtools-windows*` to program their boards (since USB devices are not currently accessible in the WSL environment).
 
+These builds should work for macOS 10.10 or newer - please report a bug if you have issues!
+
 If you see errors about missing libraries (`.so`/`.dll`/`.dylib`) please report them in an issue here.
+
+## Using GHDL
+
+If you would like to use the experimental GHDL Yosys plugin for VHDL on Linux or MacOS, you will
+need to set the `GHDL_PREFIX` environment variable. e.g. `export GHDL_PREFIX=<install_dir>/fpga-toolchain/lib/ghdl`. On Windows this is not necessary.
+
+If you are using an existing Makefile set up for ghdl-yosys-plugin and see `ERROR: This version of yosys is built without plugin support.` you probably need to remove `-m ghdl` from your yosys parameters. This is because the plugin is typically loaded from a separate file but it is provided built into yosys in this package.
 
 ## Getting Help
 
@@ -62,31 +75,6 @@ which was built on the original work by [FPGAWars](https://github.com/FPGAwars):
  * [Juan González (Obijuan)](https://github.com/Obijuan)
  * [Carlos Venegas](https://github.com/cavearr)
  * [Miodrag Milanovic](https://github.com/mmicko)
-
-## Development
-
-Build:
-
-```
-bash build.sh linux_x86_64
-```
-
-Clean:
-
-```
-bash clean.sh linux_x86_64
-```
-
-Target architectures:
-* linux_x86_64
-* windows_amd64
-* darwin
-
-Final packages will be deployed in the **\_packages/build_ARCH/** directories.
-
-NOTE: *libftdi1.a* and *libusb-1.0.a* files have been generated for Linux using the [Tools-system scripts](https://github.com/FPGAwars/tools-system) to allow static linking without a dependency on libudev (which is part of systemd and doesn't make for very portable binaries).
-
-
 
 ## License
 

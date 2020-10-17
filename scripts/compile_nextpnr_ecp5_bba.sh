@@ -3,12 +3,12 @@
 
 set -e -x
 
-nextpnr_dir=nextpnr-ecp5
+nextpnr_dir=nextpnr-ecp5-bba
 nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
 nextpnr_commit=master
 nextpnr_commit=$(git ls-remote ${nextpnr_uri} ${nextpnr_commit} | cut -f 1)
 
-prjtrellis_dir=prjtrellis
+prjtrellis_dir=prjtrellis-bba
 prjtrellis_uri=https://github.com/YosysHQ/prjtrellis.git
 # Every time you update this, regenerate the chipdb files!
 prjtrellis_commit=master

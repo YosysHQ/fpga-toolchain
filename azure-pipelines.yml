@@ -79,7 +79,7 @@ stages:
     - bash: ./build_bba.sh
       displayName: Build ECP5 chipdb (*.bba)
       name: build_bba
-    - publish: _packages/build_linux_x86_64/ecp5-bba-linux_x86_64-nightly.tar.gz
+    - publish: _packages/build_linux_x86_64/ecp5-bba-noarch-nightly.tar.gz
       artifact: ecp5-bba
 
 - stage: build_toolchain
@@ -108,7 +108,7 @@ stages:
       inputs:
         source: current
         artifact: ecp5-bba
-        path: '$(Build.Repository.LocalPath)'
+        path: '$(Build.Repository.LocalPath)/_packages/build_linux_x86_64'
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
@@ -142,7 +142,7 @@ stages:
       inputs:
         source: current
         artifact: ecp5-bba
-        path: '$(Build.Repository.LocalPath)'
+        path: '$(Build.Repository.LocalPath)/_packages/build_linux_x86_64'
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable
@@ -173,7 +173,7 @@ stages:
       inputs:
         source: current
         artifact: ecp5-bba
-        path: '$(Build.Repository.LocalPath)'
+        path: '$(Build.Repository.LocalPath)/_packages/build_linux_x86_64'
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
         # create pipeline variable

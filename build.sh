@@ -8,15 +8,29 @@ set -e
 # -- Toolchain name
 export NAME=fpga-toolchain
 
-# -- Debug flags
+# Use the following variables to enable and disable parts of the build
+# If you place a .env file in the root of the repo
+# then _common.sh will source it - you can use this to
+# locally override these variables without accidentally committing
+# changes.
+
+# Note that these variables are also overridden from their defaults
+# in azure-pipelines.yml
+
+# Enable to install deps automatically (warning, will run the package manager)
 INSTALL_DEPS="${INSTALL_DEPS:-1}"
+
+# Enable to delete intermediate files as we go
+# (keeps disk space usage lower in CI runs)
 CLEAN_AFTER_BUILD="${CLEAN_AFTER_BUILD:-1}"
+
+# Enable each individual tool
 COMPILE_DFU_UTIL="${COMPILE_DFU_UTIL:-1}"
 COMPILE_YOSYS="${COMPILE_YOSYS:-1}"
 COMPILE_SBY="${COMPILE_SBY:-1}"
 COMPILE_ICESTORM="${COMPILE_ICESTORM:-1}"
 COMPILE_NEXTPNR_ICE40="${COMPILE_NEXTPNR_ICE40:-1}"
-COMPILE_NEXTPNR_ECP5="${COMPILE_NEXTPNR_ECP5:-1}"
+COMPILE_NEXTPNR_ECP5="${COMPILE_NEXTPNR_ECP5:-0}"
 COMPILE_ECPPROG="${COMPILE_ECPPROG:-1}"
 COMPILE_OPENFPGALOADER="${COMPILE_OPENFPGALOADER:-1}"
 COMPILE_IVERILOG="${COMPILE_IVERILOG:-0}"
@@ -24,9 +38,21 @@ COMPILE_GHDL="${COMPILE_GHDL:-1}"
 COMPILE_Z3="${COMPILE_Z3:-1}"
 COMPILE_BOOLECTOR="${COMPILE_BOOLECTOR:-1}"
 COMPILE_AVY="${COMPILE_AVY:-0}" # deliberately disabled - does not yet work
-BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
 COMPILE_YICES2="${COMPILE_YICES2:-1}"
+
+# Required for nextpnr's embedded interpreter to work
+# also required for symbiyosys on windows.
+# May be disabled during dev to speed things up
+BUNDLE_PYTHON="${BUNDLE_PYTHON:-1}"
+
+# Only affects windows builds - a make.exe is
+# included for convenience
+# (existing Makefiles using unix utils generally need
+# to be adjusted to work with this)
 BUNDLE_MAKE="${BUNDLE_MAKE:-1}"
+
+# Enable to compress the resulting build into a package.
+# May be disabled during dev to speed things up.
 CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 
 . scripts/_common.sh $1
