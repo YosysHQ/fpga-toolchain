@@ -14,6 +14,8 @@ INSTALL_DEPS="${INSTALL_DEPS:-1}"
 export VERSION=nightly
 . scripts/_common.sh linux_x86_64
 
+build_setup
+
 print ">> Compile nextpnr-ecp5-bba"
 . $WORK_DIR/scripts/compile_nextpnr_ecp5_bba.sh
 

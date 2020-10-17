@@ -57,6 +57,8 @@ CREATE_PACKAGE="${CREATE_PACKAGE:-1}"
 
 . scripts/_common.sh $1
 
+build_setup
+
 if [ $BUNDLE_PYTHON == "1" ]; then
   print ">> Bundle Python"
   . $WORK_DIR/scripts/bundle_python.sh

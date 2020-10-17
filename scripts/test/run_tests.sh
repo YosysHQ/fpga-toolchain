@@ -17,6 +17,9 @@ TEST_NEXTPNR_PYTHON="${TEST_NEXTPNR_PYTHON:-1}"
 TEST_SBY="${TEST_SBY:-1}"
 
 . scripts/_common.sh $1
+
+build_setup
+
 . $WORK_DIR/scripts/test/install_toolchain.sh
 
 if [ $TEST_BINARIES_EXECUTE == "1" ]; then
