@@ -35,7 +35,7 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 cd $BUILD_DIR
 mkdir -p chipdb
 cd chipdb
-tar -xvf $WORK_DIR/ecp5-bba-linux_x86_64-nightly.tar.gz
+tar -xvf $PACKAGES_DIR/build_linux_x86_64/ecp5-bba-noarch-nightly.tar.gz
 
 # -- Compile it
 if [ $ARCH = "darwin" ]
