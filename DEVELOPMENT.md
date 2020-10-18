@@ -48,12 +48,15 @@ Build:
 ```
 bash build.sh <arch>
 ```
+*Note: the build will automatically check the number of cores on your system and run parallel jobs.*
 
 Clean:
 
 ```
 bash clean.sh <arch>
 ```
+
+*Note: various parts of the scripts currently assume a clean working directory so it is best to run a clean before starting a new build.*
 
 Current architectures:
 * linux_x86_64
@@ -86,7 +89,7 @@ If you are building in the same working folder, you can then simply run:
 
 `COMPILE_NEXTPNR_ECP5=1 ./build.sh <arch>`
 
-If you are building the bba files in a separate working folder, you will need to copy the bba package into `./_packages/build_linux_x86_64/ecp5-bba-noarch-nightly.tar.gz` before running `build.sh` (this is how the CI build works)
+If you are building the bba files in a separate working folder, you will need to `mkdir -p ./_packages/build_linux_x86_64/` and then copy the bba package into `./_packages/build_linux_x86_64/ecp5-bba-noarch-nightly.tar.gz` before running `build.sh` (this is how the CI build works)
 
 Some other info that may be useful if trying to build nextpnr on a new platform:
 
@@ -94,7 +97,7 @@ Some other info that may be useful if trying to build nextpnr on a new platform:
  * The binary output from bbasm works for any architecture provided that the correct endianness was set. This is worth paying attention to if e.g. cross-building for a big-endian platform on an x86 host
  * The BBA files cannot be generated without a version of libtrellis built with python bindings enabled (they are used by a python script).
  * Nextpnr-ecp5 links against libtrellis but does not need the python bindings.
- * Nextpnr is linked against a static libpython.a to enable an embedded python interpreter that may be used to set up clock constraints, manually place elements, etc. This embedded interpreter needs the modules in the `lib/python3.<x>` to function. It is far from perfect - many modules that have been copied over are likely to fail to load since they have dependencies on shared libraries from the build host that we have not bundled.
+ * Nextpnr is linked against a static libpython.a to enable an embedded python interpreter that may be used to set up clock constraints, manually place elements, etc. This embedded interpreter needs the modules in `lib/python3.<x>` to function. It is far from perfect - many modules that have been copied over are likely to fail to load since they have dependencies on shared libraries from the build host that we have not bundled.
  * Normally nextpnr's CMakeLists.txt will handle the bba generation transparently during the build. The reason for pre-generating BBA files on a linux host was historically because the Windows builds were built with MSVC. Using MSVC enabled linking the official Windows CPython builds as the embedded python interpreter, but building libtrellis with python bindings enabled was difficult under MSVC. Since then, the embedded python interpreter has been changed to a MinGW built version of python. The BBA generation has remained the same because:
 
    1. It was easier not to change things. Getting libtrellis to build with python bindings on all platforms should be possible in theory but might require a little more work.
