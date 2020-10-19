@@ -26,26 +26,11 @@ export PACKAGES_DIR=$WORK_DIR/_packages
 # --  Folder for storing the source code from github
 export UPSTREAM_DIR=$WORK_DIR/_upstream
 
-# -- Create the build directory
-mkdir -p $BUILDS_DIR
-# -- Create the packages directory
-mkdir -p $PACKAGES_DIR
-# -- Create the upstream directory and enter into it
-mkdir -p $UPSTREAM_DIR
-
 # -- Directory for compiling the tools
 export BUILD_DIR=$BUILDS_DIR/build_$ARCH
 
 # -- Directory for installation the target files
 export PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
-
-# -- Create the build dir
-mkdir -p $BUILD_DIR
-
-# -- Create the package folders
-mkdir -p $PACKAGE_DIR/$NAME/{bin,lib,share}
-mkdir -p $PACKAGE_DIR/${NAME}_symbols/{bin,lib}
-mkdir -p $PACKAGE_DIR/${NAME}-progtools/bin
 
 # -- Test script function
 function test_bin {
@@ -167,6 +152,32 @@ function wget_retry {
     done
 }
 
+# -- Initial setup for the build tree
+function build_setup {
+    # -- Create the build directory
+    mkdir -p $BUILDS_DIR
+    # -- Create the packages directory
+    mkdir -p $PACKAGES_DIR
+    # -- Create the upstream directory
+    mkdir -p $UPSTREAM_DIR
+
+    # -- Create the build dir
+    mkdir -p $BUILD_DIR
+
+    # -- Create the package folders
+    mkdir -p $PACKAGE_DIR/$NAME/{bin,lib,share}
+    mkdir -p $PACKAGE_DIR/${NAME}_symbols/{bin,lib}
+    mkdir -p $PACKAGE_DIR/${NAME}-progtools/bin
+
+    if [ $INSTALL_DEPS == "1" ]; then
+      print ">> Install dependencies"
+      . $WORK_DIR/scripts/install_dependencies.sh
+    fi
+
+    print ">> Set build flags"
+    . $WORK_DIR/scripts/build_setup.sh
+}
+
 # -- Check ARCH
 if [[ $# > 1 ]]; then
   echo ""
@@ -190,11 +201,3 @@ fi
 
 echo ""
 echo ">>> ARCHITECTURE \"$ARCH\""
-
-if [ $INSTALL_DEPS == "1" ]; then
-  print ">> Install dependencies"
-  . $WORK_DIR/scripts/install_dependencies.sh
-fi
-
-print ">> Set build flags"
-. $WORK_DIR/scripts/build_setup.sh
