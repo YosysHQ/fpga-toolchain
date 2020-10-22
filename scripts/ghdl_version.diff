@@ -1,0 +1,10 @@
+--- a/src/version.in
++++ b/src/version.in
+@@ -1,5 +1,6 @@
+ package Version is
+    Ghdl_Ver : constant String := "@VER@";
+    Ghdl_Release : constant String :=
+-      "(tarball) [Dunoon edition]";
++      "(tarball) [Dunoon edition]" &
++      " @BUILDER@";
+ end Version;

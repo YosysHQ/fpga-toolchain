@@ -12,6 +12,10 @@ cd $BUILD_DIR/$dir_name
 
 # remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
 patch -p1 < $WORK_DIR/scripts/libghdl_static.diff
+patch -p1 < $WORK_DIR/scripts/ghdl_version.diff
+
+export GHDL_DESC="$(git -C $UPSTREAM_DIR/$dir_name describe --dirty 2> /dev/null)"
+sed -i -e "s/@BUILDER@/open-tool-forge.$VERSION/" src/version.in
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
