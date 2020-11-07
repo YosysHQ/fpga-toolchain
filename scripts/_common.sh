@@ -61,7 +61,7 @@ function git_clone {
     git -C $dir_name checkout $git_commit
     [[ ! -z "$update_submodules" ]] && git -C $dir_name submodule init
     [[ ! -z "$update_submodules" ]] && git -C $dir_name submodule update
-    git -C $dir_name log -1
+    git -C $dir_name --no-pager log -1
 
     # -- Copy the upstream sources into the build directory
     rsync -a $dir_name $BUILD_DIR --exclude .git
