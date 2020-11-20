@@ -133,7 +133,7 @@ then
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
-        -DPYTHON_LIBRARY=$BUILDROOT_SYSROOT/usr/lib/python3.8/config-3.8-arm-linux-gnueabihf/libpython$EMBEDDED_PY_VER.a \
+        -DPYTHON_LIBRARY=$BUILDROOT_SYSROOT/usr/lib/python3.8/config-3.8-$PYARCH/libpython$EMBEDDED_PY_VER.a \
         -DSTATIC_BUILD=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         .

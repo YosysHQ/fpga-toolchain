@@ -14,6 +14,8 @@ echo nproc=$J
 
 export SED=sed
 export TARGET_PREFIX=""
+export COMPILE_GHDL=0 # TODO
+
 
 if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
@@ -40,6 +42,7 @@ if [ $ARCH == "linux_armv7l" ]; then
     export BUILDROOT_SDK_PATH="/tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot"
     export BUILDROOT_SYSROOT="$BUILDROOT_SDK_PATH/arm-buildroot-linux-gnueabihf/sysroot"
     export EMBEDDED_PY_VER=3.8
+    export PYARCH=arm-linux-gnueabihf
     export PATH="$BUILDROOT_SDK_PATH/bin:$PATH"
 
     export COMPILE_GHDL=0 # TODO
@@ -55,6 +58,7 @@ if [ $ARCH == "linux_aarch64" ]; then
     export BUILDROOT_SDK_PATH="/tmp/aarch64-buildroot-linux-gnu_sdk-buildroot"
     export BUILDROOT_SYSROOT="$BUILDROOT_SDK_PATH/aarch64-buildroot-linux-gnu/sysroot"
     export EMBEDDED_PY_VER=3.8
+    export PYARCH=aarch64-linux-gnu
     export PATH="$BUILDROOT_SDK_PATH/bin:$PATH"
 
     export COMPILE_GHDL=0 # TODO
