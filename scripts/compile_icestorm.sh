@@ -28,6 +28,17 @@ elif [ ${ARCH:0:7} = "windows" ]
 then
   sed -i "s/-ggdb //;" Makefile
   $MAKE -j$J CC="$CC" STATIC=1
+elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+then
+  sed -i "s/-ggdb //;" config.mk
+  sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" iceprog/Makefile
+  make -j$J CC="$CC" \
+            SUBDIRS="iceprog" \
+            LDFLAGS="-static -pthread -L$WORK_DIR/build-data/lib/$ARCH " \
+            LDUSBSTATIC="-lusb-1.0"\
+            CFLAGS="-MD -O0 -Wall -std=c99 -I$WORK_DIR/build-data/include/libftdi1 -I$WORK_DIR/build-data/include/libusb-1.0 --sysroot=$BUILDROOT_SYSROOT"
+  make -j$J CXX="$CXX" CXXFLAGS="-MD -MP -O2  -Wall -std=c++11 --sysroot=$BUILDROOT_SYSROOT" STATIC=1 \
+            SUBDIRS="icebox icepack icemulti icepll icetime icebram"
 else
   sed -i "s/-ggdb //;" config.mk
   sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" iceprog/Makefile

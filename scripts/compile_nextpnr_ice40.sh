@@ -43,6 +43,18 @@ elif [ ${ARCH:0:7} == "windows" ]; then
       .
 
     $MAKE -j$J CXX="$CXX" VERBOSE=1
+
+elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
+      cmake \
+        -DCMAKE_TOOLCHAIN_FILE=$WORK_DIR/scripts/toolchain_${ARCH}.cmake \
+        -DARCH=ice40 \
+        -DBUILD_HEAP=ON \
+        -DBUILD_GUI=OFF \
+        -DSTATIC_BUILD=ON \
+        -DICEBOX_ROOT=$PACKAGE_DIR/$NAME/share/icebox \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    make -j$J CXX="$CXX"
 else
     cmake \
         -DARCH=ice40 \

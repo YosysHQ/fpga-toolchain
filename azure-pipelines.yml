@@ -95,6 +95,14 @@ stages:
           ARCH: linux_x86_64
           vm_image: ubuntu-16.04
           container_image: ubuntu:20.04
+        linux_armv7l:
+          ARCH: linux_armv7l
+          vm_image: ubuntu-16.04
+          container_image: ubuntu:20.04
+        linux_aarch64:
+          ARCH: linux_aarch64
+          vm_image: ubuntu-16.04
+          container_image: ubuntu:20.04
     pool:
       vmImage: '$(vm_image)'
 

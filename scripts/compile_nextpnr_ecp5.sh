@@ -100,6 +100,37 @@ then
 
     mingw32-make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm" VERBOSE=1
     cd ..
+elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
+cd $BUILD_DIR/$prjtrellis_dir/libtrellis
+
+    # The second run builds the static libraries we'll use in the final release
+    cmake \
+        -DCMAKE_TOOLCHAIN_FILE=$WORK_DIR/scripts/toolchain_${ARCH}.cmake \
+        -DBUILD_SHARED=OFF \
+        -DSTATIC_BUILD=ON \
+        -DBUILD_PYTHON=OFF \
+        -DBoost_USE_STATIC_LIBS=ON \
+        -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
+        -DCURRENT_GIT_VERSION=$prjtrellis_commit \
+        -DCMAKE_FIND_LIBRARY_SUFFIXES=".a" \
+        .
+    make -j$J CXX="$CXX"
+    make install
+
+    cd $BUILD_DIR/$nextpnr_dir
+    cmake \
+        -DCMAKE_TOOLCHAIN_FILE=$WORK_DIR/scripts/toolchain_armv7l.cmake \
+        -DARCH=ecp5 \
+        -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
+        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
+        -DECP5_CHIPDB=$BUILD_DIR/chipdb/ecp5-bba/bba \
+        -DBUILD_HEAP=ON \
+        -DBUILD_GUI=OFF \
+        -DBUILD_PYTHON=ON \
+        -DSTATIC_BUILD=ON \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm"
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 

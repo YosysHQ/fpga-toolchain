@@ -13,6 +13,7 @@ fi
 echo nproc=$J
 
 export SED=sed
+export TARGET_PREFIX=""
 
 if [ $ARCH == "linux_x86_64" ]; then
     export CC="gcc"
@@ -29,17 +30,28 @@ if [ $ARCH == "linux_i686" ]; then
 fi
 
 if [ $ARCH == "linux_armv7l" ]; then
-    export CC="arm-linux-gnueabihf-gcc"
-    export CXX="arm-linux-gnueabihf-g++"
-    export HOST_FLAGS="--host=arm-linux-gnueabihf"
+    export TARGET_PREFIX="arm-buildroot-linux-gnueabihf-"
+    export CC="${TARGET_PREFIX}gcc"
+    export CXX="${TARGET_PREFIX}g++"
+    export GNATMAKE="${TARGET_PREFIX}gnatmake"
+    export HOST_FLAGS="--host=arm-buildroot-linux-gnueabihf"
     export ABC_ARCHFLAGS="-DLIN -DSIZEOF_VOID_P=4 -DSIZEOF_LONG=4 -DSIZEOF_INT=4"
+
+    export BUILDROOT_SDK_PATH="/tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot"
+    export PATH="$BUILDROOT_SDK_PATH/bin:$PATH"
+    export BUILDROOT_SYSROOT="$BUILDROOT_SDK_PATH/arm-buildroot-linux-gnueabihf/sysroot"
 fi
 
 if [ $ARCH == "linux_aarch64" ]; then
-    export CC="aarch64-linux-gnu-gcc"
-    export CXX="aarch64-linux-gnu-g++"
-    export HOST_FLAGS="--host=aarch64-linux-gnu"
+    export TARGET_PREFIX="aarch64-buildroot-linux-gnu-"
+    export CC="aarch64-buildroot-linux-gnu-gcc"
+    export CXX="aarch64-buildroot-linux-gnu-g++"
+    export GNATMAKE="${TARGET_PREFIX}gnatmake"
+    export HOST_FLAGS="--host=aarch64-buildroot-linux-gnu"
     export ABC_ARCHFLAGS="-DLIN64 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -DSIZEOF_INT=4"
+    export BUILDROOT_SDK_PATH="/tmp/aarch64-buildroot-linux-gnu_sdk-buildroot"
+    export BUILDROOT_SYSROOT="$BUILDROOT_SDK_PATH/aarch64-buildroot-linux-gnu/sysroot"
+    export PATH="$BUILDROOT_SDK_PATH/bin:$PATH"
 fi
 
 if [ $ARCH == "windows_x86" ]; then

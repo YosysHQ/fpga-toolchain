@@ -34,50 +34,25 @@ if [ $ARCH == "linux_i686" ]; then
 fi
 
 if [ $ARCH == "linux_armv7l" ]; then
-    # TODO(edbordin): do we need gcc-7 specifically still?
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_armhf \
-                            gcc-arm-linux-gnueabihf \
-                            g++-arm-linux-gnueabihf \
-                            binfmt-support \
-                            gcc-7-arm-linux-gnueabihf \
-                            g++-7-arm-linux-gnueabihf \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
                             qemu-user-static
-    arm-linux-gnueabihf-gcc --version
-    arm-linux-gnueabihf-g++ --version
+    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.1/buildroot_${ARCH}.tar.gz
+    tar xvf buildroot_${ARCH}.tar.gz -C /tmp
+    /tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot/relocate-sdk.sh
+
+    /tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot/bin/arm-buildroot-linux-gnueabihf-gcc --version
+    /tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot/bin/arm-buildroot-linux-gnueabihf-g++ --version
 fi
 
 if [ $ARCH == "linux_aarch64" ]; then
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages $cross_arm64 \
-                            gcc-aarch64-linux-gnu \
-                            g++-aarch64-linux-gnu  \
-                            binfmt-support qemu-user-static
-
-    aarch64-linux-gnu-gcc --version
-    aarch64-linux-gnu-g++ --version
-fi
-
-if [ $ARCH == "windows_x86" ]; then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
-                            mingw-w64 mingw-w64-tools mingw-w64-i686-dev \
-                            zip
+                            qemu-user-static
+    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.1/buildroot_${ARCH}.tar.gz
+    tar xvf buildroot_${ARCH}.tar.gz -C /tmp
+    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot_sdk-buildroot/relocate-sdk.sh
 
-#   this was used to cross-compile nextpnr-ecp5 for Windows but we can't build native python libs
-#   for Windows with MinGW (CPython on Windows is built with MSVC) and the built python libs are run as part
-#   of the build process
-# 
-#   sudo apt-get install -y build-essential bison flex libreadline-dev \
-#                           gawk tcl-dev libffi-dev git mercurial graphviz \
-#                           xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
-#                           gcc-5-mingw-w64 gc++-5-mingw-w64 wine libeigen3-dev qtbase5-dev libpython3.5-dev zip
-#                           #mingw-w64 mingw-w64-tools
-#   sudo apt-get autoremove -y
-#   ln -s /usr/include/x86_64-linux-gnu/zconf.h /usr/include
-#   sudo update-alternatives \
-#     --install /usr/bin/i686-w64-mingw32-gcc i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-5 60 \
-#     --slave /usr/bin/i686-w64-mingw32-g++ i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-5
-
-    i686-w64-mingw32-gcc --version
-    i686-w64-mingw32-g++ --version
+    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot_sdk-buildroot/bin/aarch64-buildroot-linux-gnu_sdk-buildroot-gcc --version
+    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot_sdk-buildroot/bin/aarch64-buildroot-linux-gnu_sdk-buildroot-g++ --version
 fi
 
 if [ $ARCH == "windows_amd64" ]; then

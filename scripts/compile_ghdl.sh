@@ -25,7 +25,7 @@ if [ $ARCH == "darwin" ]; then
 
     export PATH="$OLD_PATH"
 else
-    ./configure --prefix=$PACKAGE_DIR/$NAME
+    ./configure --prefix=$PACKAGE_DIR/$NAME --with-llvm-config
     $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz"
     $MAKE install
 fi

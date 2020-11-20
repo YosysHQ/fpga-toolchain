@@ -23,6 +23,10 @@ elif [ ${ARCH:0:7} = "windows" ]
 then
     ./configure USB_LIBS="-static -lpthread -lusb-1.0"
     $MAKE
+elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+then
+    ./configure $HOST_FLAGS USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"
+    $MAKE SUBDIRS=src
 else
     ./configure USB_CFLAGS="-I$WORK_DIR/build-data/include/libusb-1.0" USB_LIBS="-static $WORK_DIR/build-data/lib/$ARCH/libusb-1.0.a -lpthread"
     $MAKE

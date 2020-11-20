@@ -24,6 +24,15 @@ then
   sed -i "s/-ggdb //;" Makefile
   $MAKE -j$J CC="$CC" \
               LDFLAGS="-static -pthread" 
+elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+then
+  sed -i "s/-ggdb //;" Makefile
+  sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" Makefile
+  $MAKE -j$J CC="$CC" \
+            LDFLAGS="-static -pthread -L$WORK_DIR/build-data/lib/$ARCH " \
+            LDUSBSTATIC="-lusb-1.0"\
+            PREFIX="$BUILDROOT_SYSROOT/usr" \
+            CFLAGS="-MD -O0 -Wall -std=c99 -I$WORK_DIR/build-data/include/libftdi1 -I$WORK_DIR/build-data/include/libusb-1.0 --sysroot=$BUILDROOT_SYSROOT"
 else
   sed -i "s/-ggdb //;" Makefile
   sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" Makefile

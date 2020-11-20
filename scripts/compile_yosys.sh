@@ -77,9 +77,10 @@ else
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
     sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
-    # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
-    # sed -i "s/CXX = gcc$/CXX = $CC/;" Makefile
-    # sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
+    sed -i "s/LD = gcc/LD = $CC/g" Makefile
+    sed -i "s/CC = gcc/CC = $CC/g" Makefile
+    sed -i "s/CXX = gcc/CXX = $CC/g" Makefile
+    sed -i "s/LDFLAGS += -rdynamic/LDFLAGS +=/;" Makefile
     $MAKE -j$J GIT_REV="${GIT_REV}" PRETTY=0 \
                 LDLIBS="-static -lstdc++ -lm $GHDL_LDLIBS -ldl" \
                 ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \

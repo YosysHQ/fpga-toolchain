@@ -15,7 +15,7 @@ export VERSION="${VERSION:-nightly-$(date +%Y%m%d | tr -d '\n')}"
 # -- Target architectures
 export ARCH=$1
 # TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
-TARGET_ARCHS="linux_x86_64 windows_amd64 darwin"
+TARGET_ARCHS="linux_x86_64 linux_aarch64 windows_amd64 darwin linux_armv7l linux_aarch64"
 
 # -- Store current dir
 export WORK_DIR=$PWD
@@ -130,8 +130,8 @@ function strip_binaries() {
             strip $src_file
         else
             local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.debug
-            objcopy --only-keep-debug "${src_file}" "${dst_file}"
-            strip $src_file --strip-debug --strip-unneeded
+            ${TARGET_PREFIX}objcopy --only-keep-debug "${src_file}" "${dst_file}"
+            ${TARGET_PREFIX}strip $src_file --strip-debug --strip-unneeded
         fi
     done
 }
