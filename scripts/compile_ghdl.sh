@@ -25,8 +25,8 @@ if [ $ARCH == "darwin" ]; then
 
     export PATH="$OLD_PATH"
 else
-    ./configure --prefix=$PACKAGE_DIR/$NAME --with-llvm-config
-    $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz"
+    CFLAGS="--sysroot=$BUILDROOT_SYSROOT" ./configure --prefix=$PACKAGE_DIR/$NAME --with-llvm-config="llvm-config --link-static --libfiles" LDFLAGS="-static" --enable-libghdl --enable-synth
+    CFLAGS="--sysroot=$BUILDROOT_SYSROOT" $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz $(llvm-config --link-static --libfiles)"
     $MAKE install
 fi
 

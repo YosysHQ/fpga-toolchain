@@ -100,8 +100,9 @@ then
 
     mingw32-make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm" VERBOSE=1
     cd ..
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
-cd $BUILD_DIR/$prjtrellis_dir/libtrellis
+elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+then
+    cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 
     # The second run builds the static libraries we'll use in the final release
     cmake \
@@ -117,20 +118,28 @@ cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     make -j$J CXX="$CXX"
     make install
 
+    cd $BUILD_DIR/$nextpnr_dir/bba
+    CC=gcc CXX=g++ cmake .
+    CC=gcc CXX=g++ make
+
     cd $BUILD_DIR/$nextpnr_dir
     cmake \
-        -DCMAKE_TOOLCHAIN_FILE=$WORK_DIR/scripts/toolchain_armv7l.cmake \
+        -DCMAKE_TOOLCHAIN_FILE=$WORK_DIR/scripts/toolchain_${ARCH}.cmake \
         -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
+        -DBBA_IMPORT=$BUILD_DIR/$nextpnr_dir/bba/bba-export.cmake \
         -DECP5_CHIPDB=$BUILD_DIR/chipdb/ecp5-bba/bba \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
+        -DPYTHON_LIBRARY=$BUILDROOT_SYSROOT/usr/lib/python3.8/config-3.8-arm-linux-gnueabihf/libpython$EMBEDDED_PY_VER.a \
         -DSTATIC_BUILD=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm"
+
+    # TODO aarch64 python lib path
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 
@@ -171,11 +180,6 @@ do
     test_bin $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
     cp $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
 done
-
-# Do a test run of the new binary
-$PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --help
-echo 'print("hello from python!")' > hello.py
-$PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --run hello.py
 
 strip_binaries bin/{ecpmulti,ecppack,ecppll,ecpunpack,ecpbram,nextpnr-ecp5}$EXE
 

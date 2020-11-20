@@ -36,7 +36,7 @@ fi
 if [ $ARCH == "linux_armv7l" ]; then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
                             qemu-user-static
-    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.1/buildroot_${ARCH}.tar.gz
+    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.2/buildroot_${ARCH}.tar.gz
     tar xvf buildroot_${ARCH}.tar.gz -C /tmp
     /tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot/relocate-sdk.sh
 
@@ -47,7 +47,7 @@ fi
 if [ $ARCH == "linux_aarch64" ]; then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
                             qemu-user-static
-    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.1/buildroot_${ARCH}.tar.gz
+    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.2/buildroot_${ARCH}.tar.gz
     tar xvf buildroot_${ARCH}.tar.gz -C /tmp
     /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot_sdk-buildroot/relocate-sdk.sh
 
