@@ -26,7 +26,7 @@ if [ $ARCH == "darwin" ]; then
     -DBUILD_GUI=OFF \
     -DBUILD_HEAP=ON \
     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-    -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME/share/icebox \
+    -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
     -DSTATIC_BUILD=ON \
     .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
@@ -38,7 +38,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
       -DBUILD_GUI=OFF \
       -DBUILD_PYTHON=ON \
       -DSTATIC_BUILD=ON \
-      -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME/share/icebox \
+      -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
       -DBoost_USE_STATIC_LIBS=ON \
       .
 
@@ -59,7 +59,7 @@ elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
         -DBUILD_PYTHON=ON \
         -DPYTHON_LIBRARY=$BUILDROOT_SYSROOT/usr/lib/python3.8/config-3.8-arm-linux-gnueabihf/libpython$EMBEDDED_PY_VER.a \
         -DSTATIC_BUILD=ON \
-        -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME/share/icebox \
+        -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX"

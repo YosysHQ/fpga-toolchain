@@ -51,8 +51,8 @@ if [ $ARCH == "linux_aarch64" ]; then
     tar xvf buildroot_${ARCH}.tar.gz -C /tmp
     /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot/relocate-sdk.sh
 
-    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot/bin/aarch64-buildroot-linux-gnu_sdk-buildroot-gcc --version
-    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot/bin/aarch64-buildroot-linux-gnu_sdk-buildroot-g++ --version
+    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot/bin/aarch64-buildroot-linux-gnu-gcc --version
+    /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot/bin/aarch64-buildroot-linux-gnu-g++ --version
 fi
 
 if [ $ARCH == "windows_amd64" ]; then
