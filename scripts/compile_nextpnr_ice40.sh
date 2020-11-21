@@ -69,7 +69,7 @@ else
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DSTATIC_BUILD=ON \
-        -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME/share/icebox \
+        -DICESTORM_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX"
