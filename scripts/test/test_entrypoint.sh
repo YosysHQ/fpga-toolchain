@@ -14,7 +14,8 @@ then
 
     # QUS allows us to easily run an arm container (uses QEMU behind the scenes)
     sudo docker run --rm --privileged aptman/qus -s -- -p $DOCKER_ARCH
-    docker run --env VERSION -v `pwd`:/fpga-toolchain $DOCKER_ARCH/ubuntu:16.04 /fpga-toolchain/scripts/test/run_tests.sh $ARCH
+    docker run --env VERSION -v `pwd`:/fpga-toolchain -w /fpga-toolchain \
+        $DOCKER_ARCH/ubuntu:16.04 /fpga-toolchain/scripts/test/run_tests.sh $ARCH
 else
     ./scripts/test/run_tests.sh $ARCH
 fi
