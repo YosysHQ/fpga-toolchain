@@ -14,10 +14,14 @@ then
         DOCKER_IMAGE="aarch64/ubuntu:16.04"
     fi
 
+    # boolector seems to run out of stack with the default size of 8192 KiB
+    STACK_ULIMIT=134217728 # 128 MiB
+
     # QUS allows us to easily run an arm container (uses QEMU behind the scenes)
     sudo docker run --rm --privileged aptman/qus -s -- -p $QUS_ARCH
     docker run --env VERSION $(awk 'BEGIN{for(v in ENVIRON) if (v ~ /TEST_/) { print "--env "v }}') \
         -v `pwd`:/fpga-toolchain -w /fpga-toolchain \
+        $STACK_ULIMIT --ulimit stack=$STACK_ULIMIT:$STACK_ULIMIT \
         $DOCKER_IMAGE /fpga-toolchain/scripts/test/run_tests.sh $ARCH
 else
     ./scripts/test/run_tests.sh $ARCH
