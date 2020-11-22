@@ -15,7 +15,7 @@ export VERSION="${VERSION:-nightly-$(date +%Y%m%d | tr -d '\n')}"
 # -- Target architectures
 export ARCH=$1
 # TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 windows_x86 windows_amd64 darwin"
-TARGET_ARCHS="linux_x86_64 linux_aarch64 windows_amd64 darwin linux_armv7l linux_aarch64"
+TARGET_ARCHS="linux_x86_64 linux_aarch64 windows_amd64 darwin linux_armv6 linux_armv7l linux_aarch64"
 
 # -- Store current dir
 export WORK_DIR=$PWD

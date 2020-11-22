@@ -73,7 +73,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
 
     test_bin yosys-smtbmc$EXE
 else
-    if [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
+    if [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
         # yosys uses this to derive a header include path
         # (defaults to /usr/local which is very wrong for a cross build)
         YOSYS_PREFIX="PREFIX=$BUILDROOT_SYSROOT"

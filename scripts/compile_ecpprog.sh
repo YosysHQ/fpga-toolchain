@@ -24,7 +24,7 @@ then
   sed -i "s/-ggdb //;" Makefile
   $MAKE -j$J CC="$CC" \
               LDFLAGS="-static -pthread" 
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+elif [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
 then
   sed -i "s/-ggdb //;" Makefile
   sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" Makefile

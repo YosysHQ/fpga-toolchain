@@ -33,10 +33,12 @@ if [ $ARCH == "linux_i686" ]; then
     g++ --version
 fi
 
-if [ $ARCH == "linux_armv7l" ]; then
+BUILDROOT_ARM_VER=0.0.4
+
+if [ $ARCH == "linux_armv6" ] || [ $ARCH == "linux_armv7l" ]; then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
-                            libboost-dev libboost-filesystem-dev libboost-system-dev libboost-program-options-dev qemu-user-static
-    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.3/buildroot_${ARCH}.tar.gz
+                            libboost-dev libboost-filesystem-dev libboost-system-dev libboost-program-options-dev
+    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/$BUILDROOT_ARM_VER/buildroot_${ARCH}.tar.gz
     tar xvf buildroot_${ARCH}.tar.gz -C /tmp
     /tmp/arm-buildroot-linux-gnueabihf_sdk-buildroot/relocate-sdk.sh
 
@@ -46,8 +48,8 @@ fi
 
 if [ $ARCH == "linux_aarch64" ]; then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y $base_packages \
-                            libboost-dev libboost-filesystem-dev libboost-system-dev libboost-program-options-dev qemu-user-static
-    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/0.0.3/buildroot_${ARCH}.tar.gz
+                            libboost-dev libboost-filesystem-dev libboost-system-dev libboost-program-options-dev
+    wget_retry --progress=dot https://github.com/open-tool-forge/buildroot-arm/releases/download/$BUILDROOT_ARM_VER/buildroot_${ARCH}.tar.gz
     tar xvf buildroot_${ARCH}.tar.gz -C /tmp
     /tmp/aarch64-buildroot-linux-gnu_sdk-buildroot/relocate-sdk.sh
 

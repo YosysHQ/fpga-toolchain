@@ -4,9 +4,12 @@ set -e
 
 export ARCH=$1
 
-if [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+if [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
 then
-    if [ ${ARCH} == "linux_armv7l" ]; then
+    if [ ${ARCH} == "linux_armv6" ]; then
+        QUS_ARCH="arm"
+        DOCKER_IMAGE="arm32v6/alpine"
+    elif [ ${ARCH} == "linux_armv7l" ]; then
         QUS_ARCH="arm"
         DOCKER_IMAGE="arm32v7/ubuntu:16.04"
     else

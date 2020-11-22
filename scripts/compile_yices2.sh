@@ -26,7 +26,7 @@ then
     echo 'echo "cygwin"' > autoconf/os
     MAKE=/usr/bin/make OPTION=mingw64 /usr/bin/make -j$J static-bin
     YICES2_BINDIR=./build/x86_64-pc-mingw64-release/static_bin
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+elif [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
 then
     # This is not very precise - the test for libgmp being "usable" gives up for cross builds so
     # this overrides that behaviour. TODO: use a proper patch file

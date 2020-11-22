@@ -25,6 +25,14 @@ then
     export PIP=pip3
     export PYTHON=python3
     export SED=gsed
+elif [ ${ARCH} == "linux_armv6" ]
+then
+    tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
+
+    apk add python3 py3-pip py3-wheel py3-setuptools git make sed
+    export PIP="pip3"
+    export PYTHON=python3
+    export SED=sed
 else
     tar -xvf fpga-toolchain-$ARCH-$VERSION.tar.gz
 

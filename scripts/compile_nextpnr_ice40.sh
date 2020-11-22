@@ -44,7 +44,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
 
     $MAKE -j$J CXX="$CXX" VERBOSE=1
 
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
+elif [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
     pushd bba
     CC=gcc CXX=g++ cmake .
     CC=gcc CXX=g++ make

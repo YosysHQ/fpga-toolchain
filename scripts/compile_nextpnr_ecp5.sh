@@ -100,7 +100,7 @@ then
 
     mingw32-make -j$J CXX="$CXX" LIBS="-static -lstdc++ -lm" VERBOSE=1
     cd ..
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+elif [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
 then
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 

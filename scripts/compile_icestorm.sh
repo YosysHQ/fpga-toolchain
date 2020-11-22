@@ -28,7 +28,7 @@ elif [ ${ARCH:0:7} = "windows" ]
 then
   sed -i "s/-ggdb //;" Makefile
   $MAKE -j$J CC="$CC" STATIC=1
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
+elif [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
 then
   sed -i "s/-ggdb //;" config.mk
   sed -i "s/\$^ \$(LDLIBS)/\$^ \$(LDLIBS) \$(LDUSBSTATIC)/g" iceprog/Makefile

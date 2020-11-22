@@ -31,7 +31,7 @@ if [ $ARCH == "linux_i686" ]; then
     sudo ln -s /usr/include/asm-generic /usr/include/asm
 fi
 
-if [ $ARCH == "linux_armv7l" ]; then
+if [ $ARCH == "linux_armv6" ] || [ $ARCH == "linux_armv7l" ]; then
     export TARGET_PREFIX="arm-buildroot-linux-gnueabihf-"
     export CC="${TARGET_PREFIX}gcc"
     export CXX="${TARGET_PREFIX}g++"

@@ -24,7 +24,7 @@ elif [ $ARCH == "windows_amd64" ]; then
         rm -rf $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER/test
         cp /mingw64/bin/{libgcc_s_seh-1.dll,libstdc++-6.dll,libwinpthread-1.dll,libpython$EMBEDDED_PY_VER.dll} $PACKAGE_DIR/$NAME/bin
         cp /mingw64/bin/python$EMBEDDED_PY_VER.exe $PACKAGE_DIR/$NAME/bin/python3-private.exe
-elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
+elif [ ${ARCH} == "linux_armv6" ] || [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
     cp -L -R $BUILDROOT_SYSROOT/usr/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
 elif [ $ARCH == "darwin" ]; then
