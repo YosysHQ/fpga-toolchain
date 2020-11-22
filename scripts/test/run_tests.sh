@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# -- Test ICE40 design with yosys and nextpnr-ice40
 
 set -e
 
