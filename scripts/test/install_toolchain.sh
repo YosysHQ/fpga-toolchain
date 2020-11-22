@@ -9,7 +9,7 @@ cd $WORK_DIR
 
 if [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
     apt-get update
-    apt-get install -y --no-install-recommends sudo git
+    apt-get install -y --no-install-recommends sudo git make
 fi
 
 if [ ${ARCH:0:7} = "windows" ]
