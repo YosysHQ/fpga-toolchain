@@ -8,7 +8,7 @@ if [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]
 then
     if [ ${ARCH} == "linux_armv7l" ]; then
         DOCKER_ARCH="arm"
-    elif
+    else
         DOCKER_ARCH="aarch64"
     fi
 
