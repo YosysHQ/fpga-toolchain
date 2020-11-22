@@ -73,6 +73,13 @@ elif [ ${ARCH:0:7} == "windows" ]; then
 
     test_bin yosys-smtbmc$EXE
 else
+    if [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
+        # yosys uses this to derive a header include path
+        # (defaults to /usr/local which is very wrong for a cross build)
+        YOSYS_PREFIX="PREFIX=$BUILDROOT_SYSROOT"
+    else
+        YOSYS_PREFIX=""
+    fi
     $MAKE config-gcc
     echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
@@ -84,6 +91,7 @@ else
     $MAKE -j$J GIT_REV="${GIT_REV}" PRETTY=0 \
                 LDLIBS="-static -lstdc++ -lm $GHDL_LDLIBS -ldl" \
                 ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
+                $YOSYS_PREFIX \
                 ABCMKARGS="CC=\"$CC\" CXX=\"$CXX\" LIBS=\"-static -lm -ldl -pthread\" \
                            OPTFLAGS=\"-O\" \
                            ARCHFLAGS=\"$ABC_ARCHFLAGS -Wno-unused-but-set-variable\" \
