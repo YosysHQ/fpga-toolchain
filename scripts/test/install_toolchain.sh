@@ -7,10 +7,9 @@ set -e
 
 cd $WORK_DIR
 
-SUDO="sudo"
 if [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
-    # already root in these containers and sudo is not installed
-    SUDO=""
+    apt-get update
+    apt-get install -y --no-install-recommends sudo git
 fi
 
 if [ ${ARCH:0:7} = "windows" ]
@@ -31,10 +30,10 @@ else
 
     # install python 3.6 on ubuntu 16.04 for nmigen
     # TODO: test on non-debian distros
-    $SUDO apt-get update
-    $SUDO apt-get install -y --no-install-recommends software-properties-common
-    $SUDO add-apt-repository -y -u ppa:deadsnakes/ppa
-    $SUDO apt-get install -y --no-install-recommends python3.6 python3-pip
+    sudo apt-get update
+    sudo apt-get install -y --no-install-recommends software-properties-common
+    sudo add-apt-repository -y -u ppa:deadsnakes/ppa
+    sudo apt-get install -y --no-install-recommends python3.6 python3-pip
 
     export PIP="python3.6 -m pip"
     export PYTHON=python3.6
