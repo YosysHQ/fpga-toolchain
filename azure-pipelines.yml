@@ -60,7 +60,7 @@ variables:
 - name: TEST_NMIGEN
   value: "1"
 - name: TEST_GHDL_YOSYS
-  value: "1"
+  value: "0"
 - name: TEST_NEXTPNR_PYTHON
   value: "1"
 - name: TEST_SBY

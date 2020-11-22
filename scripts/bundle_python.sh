@@ -26,8 +26,8 @@ elif [ $ARCH == "windows_amd64" ]; then
         cp /mingw64/bin/python$EMBEDDED_PY_VER.exe $PACKAGE_DIR/$NAME/bin/python3-private.exe
 elif [ ${ARCH} == "linux_armv7l" ] || [ ${ARCH} == "linux_aarch64" ]; then
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
-    cp -L -R $BUILDROOT_SYSROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
+    cp -L -R $BUILDROOT_SYSROOT/usr/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
 elif [ $ARCH == "darwin" ]; then
     mkdir -p $PACKAGE_DIR/$NAME/lib/python$EMBEDDED_PY_VER
-    cp -L -R $BUILDROOT_SYSROOT/usr/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
+    cp -L -R $CONDA_ROOT/lib/python$EMBEDDED_PY_VER $PACKAGE_DIR/$NAME/lib
 fi
