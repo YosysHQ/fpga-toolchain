@@ -244,7 +244,7 @@ stages:
     steps:
     - bash: |
         # RELEASE_TAG=nightly-$(date +'%Y%m%d')
-        RELEASE_TAG=nightly-20201121
+        RELEASE_TAG=nightly-20201122
         # create pipeline variable
         echo "##vso[task.setvariable variable=RELEASE_TAG]$RELEASE_TAG"
     - task: DownloadPipelineArtifact@2
@@ -256,7 +256,7 @@ stages:
         project: '4615f283-ee51-4dbc-992b-cdd560f6506b'
         pipeline: '1'
         runVersion: 'specific'
-        runId: '537' # this is buildId in the URL
+        runId: '539' # this is buildId in the URL
     - bash: export VERSION=$(RELEASE_TAG) && ./scripts/test/test_entrypoint.sh $(ARCH)
       displayName: Run tests
       name: run_tests
