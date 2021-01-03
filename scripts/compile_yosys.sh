@@ -30,7 +30,7 @@ then
     mkdir -p frontends/ghdl
     cp -R ../$dir_name_gyp/src/* frontends/ghdl
     MAKEFILE_CONF_GHDL=$'ENABLE_GHDL := 1\n'
-    MAKEFILE_CONF_GHDL+="GHDL_DIR := $PACKAGE_DIR/$NAME"
+    MAKEFILE_CONF_GHDL+="GHDL_PREFIX := $PACKAGE_DIR/$NAME"
 
     if [ $ARCH == "darwin" ]; then
         GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)"
