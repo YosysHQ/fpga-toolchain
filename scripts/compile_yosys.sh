@@ -26,21 +26,19 @@ if [ $COMPILE_GHDL == "1" ]
 then
     patch < $WORK_DIR/scripts/yosys_ghdl.diff
 
-    mkdir -p frontends/ghdl
-    cp -R ../$dir_name_gyp/src/* frontends/ghdl
+    #if [ ${ARCH:0:7} == "windows" ]; then
+    #    sed -i -e 's@.*\(/mingw.*\)@\1@' $PACKAGE_DIR/$NAME/lib/libghdl.link
+    #fi
 
-    if [ $ARCH == "darwin" ]; then
-        GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)"
-    elif [ ${ARCH:0:7} == "windows" ]; then
-        GHDL_LDLIBS="$(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $(cat $PACKAGE_DIR/$NAME/lib/libghdl.link | tr -s '\n' ' ' | tr -s '\\' '/' )"
-    else
-        GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)"
-    fi
+    GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(cat $PACKAGE_DIR/$NAME/lib/libghdl.link)"
 fi
 
 _ghdl_conf() {
     if [ $COMPILE_GHDL == "1" ]
     then
+        mkdir -p frontends/ghdl
+        cp -R ../$dir_name_gyp/src/* frontends/ghdl
+
         echo 'ENABLE_GHDL := 1' >> Makefile.conf
         echo "GHDL_PREFIX := $PACKAGE_DIR/$NAME" >> Makefile.conf
     fi
