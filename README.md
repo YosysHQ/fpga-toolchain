@@ -1,6 +1,5 @@
 # FPGA-Toolchain
-
-[![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/open-tool-forge.fpga-toolchain?branchName=main)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build/latest?definitionId=1&branchName=main)
+[![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/YosysHQ.fpga-toolchain?branchName=main)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build/latest?definitionId=4&branchName=main)
 [![Discord](https://img.shields.io/discord/613131135903596547?logo=discord)](https://discord.gg/s9sMfyx)
 
 ## Introduction
