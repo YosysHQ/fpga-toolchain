@@ -11,7 +11,7 @@ git_clone $dir_name $git_url $commit
 cd $BUILD_DIR/$dir_name
 
 # remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
-$SED -i 's/\s+pragma Linker_Options ("-lz");//;' ./src/grt/grt-zlib.ads
+$SED -i 's/^[ \t]*pragma Linker_Options ("-lz");//;' ./src/grt/grt-zlib.ads
 # customise the version string for ghdl
 patch -p1 < $WORK_DIR/scripts/ghdl_version.diff
 
