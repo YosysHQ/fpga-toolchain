@@ -265,7 +265,7 @@ stages:
       patterns: '**/fpga-toolchain*.*'
     - task: GitHubRelease@0
       inputs:
-        gitHubConnection: open-tool-forge-release
+        gitHubConnection: yosyshq-release
         repositoryName: '$(Build.Repository.Name)'
         action: 'create'
         target: '$(Build.SourceVersion)'
