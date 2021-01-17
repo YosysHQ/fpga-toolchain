@@ -32,7 +32,7 @@ Builds run at 0400 UTC daily from the master branch of each project.
 
 ## Installation
 
-1. Download an archive matching your OS from [the releases page](https://github.com/open-tool-forge/fpga-toolchain/releases).
+1. Download an archive matching your OS from [the releases page](https://github.com/YosysHQ/fpga-toolchain/releases).
 2. Extract the archive to a location of your choice
 3. Add the `bin` folder to your `PATH`:
 
@@ -59,7 +59,7 @@ If you are using an existing Makefile set up for ghdl-yosys-plugin and see `ERRO
 
 If you run into issues with these tools, please consider reporting an issue to the authors of the tools - we are just compiling them here! If you think your issue relates to *the way we have compiled them* then it is more appropriate to open a GitHub issue here.
 
-If you aren't sure where to report your issue or don't feel it fits on GitHub, you can also try sending a message in the `#open-tool-forge` channel on [1BitSquared's Discord server](https://discord.gg/s9sMfyx) or [1BitSquared's Forum](https://forum.1bitsquared.com/c/projects/open-tool-forge/16).
+If you aren't sure where to report your issue or don't feel it fits on GitHub, you can also try sending a message in the `#yosyshq` channel on [1BitSquared's Discord server](https://discord.gg/s9sMfyx).
 
 ## Related Projects
 
