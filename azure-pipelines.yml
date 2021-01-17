@@ -256,6 +256,8 @@ stages:
     timeoutInMinutes: 0
     pool:
       vmImage: ubuntu-18.04
+    variables:
+      "System.Debug": true
     steps:
     - bash: |
         RELEASE_TAG=nightly-$(date +'%Y%m%d')
