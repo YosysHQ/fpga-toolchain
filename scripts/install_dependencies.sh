@@ -85,6 +85,9 @@ if [ $ARCH == "windows_amd64" ]; then
     mingw-w64-x86_64-boost mingw-w64-x86_64-eigen3 rsync unzip zip mingw-w64-x86_64-libftdi bison flex \
     mingw-w64-x86_64-gcc-ada p7zip mingw-w64-x86_64-jsoncpp
 
+    wget https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-binutils-2.36-1-any.pkg.tar.zst
+    pacman --noconfirm -U mingw-w64-x86_64-binutils-2.36-1-any.pkg.tar.zst
+
     x86_64-w64-mingw32-gcc --version
     x86_64-w64-mingw32-g++ --version
 fi
