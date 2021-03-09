@@ -14,7 +14,7 @@ prjtrellis_uri=https://github.com/YosysHQ/prjtrellis.git
 prjtrellis_commit=master
 prjtrellis_commit=$(git ls-remote ${prjtrellis_uri} ${prjtrellis_commit} | cut -f 1)
 
-git_clone $nextpnr_dir $nextpnr_uri $nextpnr_commit
+git_clone $nextpnr_dir $nextpnr_uri $nextpnr_commit 1 # enable submodule update
 git_clone $prjtrellis_dir $prjtrellis_uri $prjtrellis_commit 1 # enable submodule update
 
 # NOTE: We build libtrellis with python DISABLED.

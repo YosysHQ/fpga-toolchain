@@ -7,7 +7,7 @@ dir_name=nextpnr-ice40
 commit=master
 git_url=https://github.com/YosysHQ/nextpnr.git
 
-git_clone $dir_name $git_url $commit
+git_clone $dir_name $git_url $commit 1 # enable submodule update
 
 cd $BUILD_DIR/$dir_name
 
