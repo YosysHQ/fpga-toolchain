@@ -24,6 +24,8 @@ INSTALL_DEPS="${INSTALL_DEPS:-1}"
 # (keeps disk space usage lower in CI runs)
 CLEAN_AFTER_BUILD="${CLEAN_AFTER_BUILD:-1}"
 
+STRIP_SYMBOLS="${STRIP_SYMBOLS:-1}"
+
 # Enable each individual tool
 COMPILE_DFU_UTIL="${COMPILE_DFU_UTIL:-1}"
 COMPILE_YOSYS="${COMPILE_YOSYS:-1}"
