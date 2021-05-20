@@ -5,6 +5,7 @@ set -e -x
 
 dir_name=yosys
 commit=master
+# commit=5eff0b73ae82ee490be3e732241eb22cb4bff952
 git_url=https://github.com/YosysHQ/yosys.git
 
 dir_name_gyp=ghdl_yosys_plugin
@@ -25,7 +26,7 @@ MAKEFILE_CONF_GHDL=
 GHDL_LDLIBS=
 if [ $COMPILE_GHDL == "1" ]
 then
-    patch < $WORK_DIR/scripts/yosys_ghdl.diff
+    patch < $WORK_DIR/patches/yosys/yosys_ghdl.patch
 
     mkdir -p frontends/ghdl
     cp -R ../$dir_name_gyp/src/* frontends/ghdl
@@ -67,7 +68,9 @@ elif [ ${ARCH:0:7} == "windows" ]; then
                          ARCHFLAGS=\"$ABC_ARCHFLAGS\" \
                          ABC_USE_NO_READLINE=1 \
                          ABC_USE_NO_PTHREADS=1 \
-                         ABC_USE_LIBSTDCXX=1" \
+                         ABC_USE_LIBSTDCXX=1 \
+                         OPTFLAGS=\"-ggdb -O0\" \
+                         ABC_MAKE_VERBOSE=1" \
               ENABLE_TCL=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0 ENABLE_ZLIB=0 ENABLE_ABC=1 \
               PYTHON="./bin/python3-private.exe" # override the shebang telling the exe launcher where to find python
 

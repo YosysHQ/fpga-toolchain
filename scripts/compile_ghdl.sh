@@ -13,7 +13,8 @@ cd $BUILD_DIR/$dir_name
 # remove unwanted -lz linker flag on Darwin (because it causes a dynamic link)
 $SED -i 's/^[ \t]*pragma Linker_Options ("-lz");//;' ./src/grt/grt-zlib.ads
 # customise the version string for ghdl
-patch -p1 < $WORK_DIR/scripts/ghdl_version.diff
+patch -p1 < $WORK_DIR/patches/ghdl/ghdl_version.patch
+patch -p1 < $WORK_DIR/patches/ghdl/ghdl_largs.patch
 
 export GHDL_DESC="$(git -C $UPSTREAM_DIR/$dir_name describe --dirty 2> /dev/null)"
 sed -i -e "s/@BUILDER@/open-tool-forge.$VERSION/" src/version.in

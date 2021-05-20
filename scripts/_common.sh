@@ -112,11 +112,15 @@ function strip_binaries() {
         then
             local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.dSYM
             dsymutil -o $dst_file $src_file
-            strip $src_file
+            if [ $STRIP_SYMBOLS == "1" ]; then
+                strip $src_file
+            fi
         else
             local dst_file=$PACKAGE_DIR/${NAME}_symbols/$path.debug
             objcopy --only-keep-debug "${src_file}" "${dst_file}"
-            strip $src_file --strip-debug --strip-unneeded
+            if [ $STRIP_SYMBOLS == "1" ]; then
+                strip $src_file --strip-debug --strip-unneeded
+            fi
         fi
     done
 }
