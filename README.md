@@ -2,6 +2,13 @@
 [![Build Status](https://dev.azure.com/open-tool-forge/fpga-toolchain/_apis/build/status/YosysHQ.fpga-toolchain?branchName=main)](https://dev.azure.com/open-tool-forge/fpga-toolchain/_build/latest?definitionId=4&branchName=main)
 [![Discord](https://img.shields.io/discord/613131135903596547?logo=discord)](https://discord.gg/s9sMfyx)
 
+## !!This Project is No Longer Maintained!!
+There will not be any new features or improvements to this package. New builds are still being automatically generated for now (Linux/OS X only) but it is likely at some point something will break and the builds will stop.
+
+**I recommend taking a look at [oss-cad-suite-build](https://github.com/YosysHQ/oss-cad-suite-build) for a similar package which is actively maintained by YosysHQ**.
+
+A more detailed list of various alternative packagings of these tools with various advantages and disadvantages can be found [here](https://github.com/hdl/packages).
+
 ## Introduction
 Multi-platform nightly builds of open source FPGA tools.
 
