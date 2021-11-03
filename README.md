@@ -3,7 +3,7 @@
 [![Discord](https://img.shields.io/discord/613131135903596547?logo=discord)](https://discord.gg/s9sMfyx)
 
 ## !!This Project is No Longer Maintained!!
-There will not be any new features or improvements to this package. New builds are still being automatically generated for now (Linux/OS X only) but it is likely at some point something will break and the builds will stop.
+Builds have stopped running, past releases will remain archived here for anyone that was depending on them in their workflow.
 
 **I recommend taking a look at [oss-cad-suite-build](https://github.com/YosysHQ/oss-cad-suite-build) for a similar package which is actively maintained by YosysHQ**.
 
