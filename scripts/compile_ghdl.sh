@@ -24,16 +24,17 @@ if [ $ARCH == "darwin" ]; then
     OLD_PATH=$PATH
     export PATH="$GNAT_ROOT/bin:$PATH"
 
-    ./configure --prefix=$PACKAGE_DIR/$NAME
-
+    ./configure --prefix=/opt/fpga-toolchain
     $MAKE -j$J GNAT_LARGS="-static-libgcc $ZLIB_ROOT/lib/libz.a"
-    $MAKE install
+    $MAKE DESTDIR=$PACKAGE_DIR/$NAME-prefix install
+    cp -r $PACKAGE_DIR/$NAME-prefix/opt/fpga-toolchain/* $PACKAGE_DIR/$NAME
 
     export PATH="$OLD_PATH"
 else
-    ./configure --prefix=$PACKAGE_DIR/$NAME
+    ./configure --prefix=/opt/fpga-toolchain
     $MAKE -j$J GNAT_BARGS="-bargs -E -static" GNAT_LARGS="-static -lz"
-    $MAKE install
+    $MAKE DESTDIR=$PACKAGE_DIR/$NAME-prefix install
+    cp -r $PACKAGE_DIR/$NAME-prefix/opt/fpga-toolchain/* $PACKAGE_DIR/$NAME
 fi
 
 test_bin $PACKAGE_DIR/$NAME/bin/ghdl$exe
