@@ -22,32 +22,35 @@ fi
 
 cd $BUILD_DIR/$dir_name
 
-MAKEFILE_CONF_GHDL=
 GHDL_LDLIBS=
 if [ $COMPILE_GHDL == "1" ]
 then
     patch < $WORK_DIR/patches/yosys/yosys_ghdl.patch
 
-    mkdir -p frontends/ghdl
-    cp -R ../$dir_name_gyp/src/* frontends/ghdl
-    MAKEFILE_CONF_GHDL=$'ENABLE_GHDL := 1\n'
-    MAKEFILE_CONF_GHDL+="GHDL_PREFIX := $PACKAGE_DIR/$NAME"
+    #if [ ${ARCH:0:7} == "windows" ]; then
+    #    sed -i -e 's@.*\(/mingw.*\)@\1@' $PACKAGE_DIR/$NAME/lib/libghdl.link
+    #fi
 
-    if [ $ARCH == "darwin" ]; then
-        GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)"
-    elif [ ${ARCH:0:7} == "windows" ]; then
-        GHDL_LDLIBS="$(cygpath -m -a $PACKAGE_DIR/$NAME/lib/libghdl.a) $(cat $PACKAGE_DIR/$NAME/lib/libghdl.link | tr -s '\n' ' ' | tr -s '\\' '/' )"
-    else
-        GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(tr -s '\n' ' ' < $PACKAGE_DIR/$NAME/lib/libghdl.link)"
-    fi
+    GHDL_LDLIBS="$PACKAGE_DIR/$NAME/lib/libghdl.a $(cat $PACKAGE_DIR/$NAME/lib/libghdl.link)"
 fi
+
+_ghdl_conf() {
+    if [ $COMPILE_GHDL == "1" ]
+    then
+        mkdir -p frontends/ghdl
+        cp -R ../$dir_name_gyp/src/* frontends/ghdl
+
+        echo 'ENABLE_GHDL := 1' >> Makefile.conf
+        echo "GHDL_PREFIX := $PACKAGE_DIR/$NAME" >> Makefile.conf
+    fi
+}
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
     OLDPATH=$PATH
     export PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH"
     $MAKE config-clang
-    echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
+    _ghdl_conf
     gsed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     sed -i "" "s/-Wall -Wextra -ggdb/-w/;" Makefile
     CXXFLAGS="-std=c++11 $CXXFLAGS" make \
@@ -60,7 +63,7 @@ if [ $ARCH == "darwin" ]; then
     export PATH=$OLDPATH
 elif [ ${ARCH:0:7} == "windows" ]; then
     $MAKE config-msys2-64
-    echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
+    _ghdl_conf
     sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     $MAKE -j$J GIT_REV="${GIT_REV}" PRETTY=0 \
               LDLIBS="-static -lstdc++ -lm $GHDL_LDLIBS" \
@@ -77,7 +80,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
     test_bin yosys-smtbmc$EXE
 else
     $MAKE config-gcc
-    echo "$MAKEFILE_CONF_GHDL" >> Makefile.conf
+    _ghdl_conf
     sed -i "s/-Wall -Wextra -ggdb/-w/;" Makefile
     sed -r -i 's/^(YOSYS_VER := [0-9]+\.[0-9]+\+[0-9]+).*$/\1 \(open-tool-forge build\)/;' Makefile
     # sed -i "s/LD = gcc$/LD = $CC/;" Makefile
